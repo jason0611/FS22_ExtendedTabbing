@@ -1,11 +1,7 @@
+-- TabNext Warning for LS 19
 --
--- FillLevel Warning for LS 19
---
--- # Author:  	LSM/Sachsenfarmer/Jason0611
--- # date: 		25.11.19/17.01.21
--- # Version: 2.0.0.2
--- 
---
+-- Author: Martin Eller
+-- Version: 0.0.0.1
 
 tabNext = {}
 tabNext.MOD_NAME = g_currentModName
@@ -20,7 +16,7 @@ function tabNext.registerEventListeners(vehicleType)
 --	SpecializationUtil.registerEventListener(vehicleType, "onLoad", tabNext)
 --	SpecializationUtil.registerEventListener(vehicleType, "onPostLoad", tabNext)
 --	SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", tabNext)
---    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", tabNext)
+    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", tabNext)
 --    SpecializationUtil.registerEventListener(vehicleType, "onReadStream", tabNext)
 --    SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", tabNext)
 --    SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", tabNext)
@@ -74,14 +70,13 @@ function tabNext:saveToXMLFile(xmlFile, key)
 end
 
 function tabNext:onRegisterActionEvents(isActiveForInput)
---	if self.isClient then
---		tabNext.actionEvents = {} 
---		if self:getIsActiveForInput(true) then 
---			local actionEventId;
---			_, actionEventId = self:addActionEvent(tabNext.actionEvents, 'FLW_TOGGLESOUND', self, tabNext.TOGGLE_SOUND, false, true, false, true, nil)
---			_, actionEventId = self:addActionEvent(tabNext.actionEvents, 'FLW_TOGGLEMODE', self, tabNext.TOGGLE_MODE, false, true, false, true, nil)
---		end		
---	end
+	if self.isClient then
+		tabNext.actionEvents = {} 
+		if self:getIsActiveForInput(true) then 
+			local actionEventId;
+			_, actionEventId = self:addActionEvent(tabNext.actionEvents, 'TBN_TABNEXT', self, tabNext.tabToNextVehicle, false, true, false, true, nil)
+		end		
+	end
 end
 
 function tabNext:onReadStream(streamId, connection)
@@ -114,6 +109,30 @@ function tabNext:onWriteUpdateStream(streamId, connection, dirtyMask)
 --	end
 end
 	
+function tabNext:tabToNextVehicle()
+	if self:getIsEntered() then
+		local firstRun = true
+		local nextVehicle, nextDistance
+		for _, vehicle in pairs (g_currentMission.interactiveVehicles) do
+		
+			if vehicle.isEnterable and vehicle.getIsTabbable ~= nil and vehicle:getIsTabbable() and vehicle ~= self then
+			
+				local distance = calcDistanceFrom(self.rootNode, vehicle.rootNode)
+				if firstRun or distance < nextDistance then
+					nextVehicle = vehicle
+					nextDistance = distance
+					firstrun = false
+				end
+		end
+		
+		if firstrun then return
+		
+		local farmId = g_currentMission.player.farmId
+		local playerStyle = g_currentMission.controlledVehicle:getCurrentPlayerStyle()
+		nextVehicle:enterVehicle(true, playerStyle, farmId)
+	end
+end
+
 function tabNext:onUpdate(dt)	
 	if self:getIsActive() and self:getIsEntered() then
 	end
