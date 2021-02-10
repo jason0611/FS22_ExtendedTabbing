@@ -114,22 +114,28 @@ function tabNext:tabToNextVehicle()
 		local firstRun = true
 		local nextVehicle, nextDistance
 		for _, vehicle in pairs (g_currentMission.interactiveVehicles) do
-		
-			if vehicle.isEnterable and vehicle.getIsTabbable ~= nil and vehicle:getIsTabbable() and vehicle ~= self then
-			
+			print(vehicle.name)
+			if vehicle.getIsEnterable ~= nil and vehicle:getIsEnterable() and vehicle:getIsTabbable() and vehicle ~= self then
 				local distance = calcDistanceFrom(self.rootNode, vehicle.rootNode)
+				print(distance)
 				if firstRun or distance < nextDistance then
+					print(firstRun)
 					nextVehicle = vehicle
 					nextDistance = distance
-					firstrun = false
+					firstRun = false
 				end
+			end
 		end
 		
-		if firstrun then return
+		if firstRun then return end
 		
+		print("tabNext: "..nextVehicle.name)
 		local farmId = g_currentMission.player.farmId
-		local playerStyle = g_currentMission.controlledVehicle:getCurrentPlayerStyle()
-		nextVehicle:enterVehicle(true, playerStyle, farmId)
+		local playerStyle = self:getCurrentPlayerStyle() --g_currentMission.controlledVehicle:getCurrentPlayerStyle()
+		self:leaveVehicle()
+		self=nextVehicle
+		self:enterVehicle(true, playerStyle, farmId)
+--		nextVehicle:enterVehicle(true, playerStyle, farmId)
 	end
 end
 

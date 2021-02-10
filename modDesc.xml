@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="53">
+
+   <author>Jason06</author>
+   	
+	<version>0.0.0.1</version>
+
+    <title>
+		<en>Tab into next Vehicle</en>
+		<de>Tab ins nächstgelegene Fahrzeug</de>
+    </title>
+	
+    <description>
+		<en>
+		<![CDATA[TabNextVehicle]]>
+		</en>	
+		<de>
+		<![CDATA[Tab ins nächstgelegene Fahrzeug]]>
+		</de>
+ 	</description>	
+    <multiplayer supported="true"/>
+	<iconFilename>icon.dds</iconFilename>
+	
+	<extraSourceFiles>
+        <sourceFile filename="register.lua" />
+    </extraSourceFiles>
+	
+	
+	<actions>
+		<action name="TBN_TABNEXT" category="VEHICLE" ignoreComboMask="false" />
+	</actions>
+
+	<inputBinding>	
+		<actionBinding action="TBN_TABNEXT">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
+	</inputBinding>
+
+	<l10n>
+        <text name="input_TBN_TABNEXT">
+            <de>TABNEXT: Wechsel ins nächstgelegene Fahrzeug</de>
+            <en>TABNEXT: Tab into nearest vehicle</en>
+        </text>
+	</l10n>
+	
+</modDesc>
