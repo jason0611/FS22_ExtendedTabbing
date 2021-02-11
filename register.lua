@@ -2,7 +2,7 @@
 -- register
 --
 -- Martin Eller 
--- Version 0.0.0.1
+-- Version 0.0.0.2
 --
 
 if g_specializationManager:getSpecializationByName("tabNext") == nil then

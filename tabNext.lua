@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.0.0.1
+-- Version: 0.0.0.2
 
 tabNext = {}
 tabNext.MOD_NAME = g_currentModName
@@ -111,31 +111,26 @@ end
 	
 function tabNext:tabToNextVehicle()
 	if self:getIsEntered() then
-		local firstRun = true
+		local nextVehicleExists = false
 		local nextVehicle, nextDistance
 		for _, vehicle in pairs (g_currentMission.interactiveVehicles) do
 			print(vehicle.name)
 			if vehicle.getIsEnterable ~= nil and vehicle:getIsEnterable() and vehicle:getIsTabbable() and vehicle ~= self then
 				local distance = calcDistanceFrom(self.rootNode, vehicle.rootNode)
 				print(distance)
-				if firstRun or distance < nextDistance then
-					print(firstRun)
+				if not nextVehicleExists or distance < nextDistance then
+					print(nextVehicleExists)
 					nextVehicle = vehicle
 					nextDistance = distance
-					firstRun = false
+					nextVehicleExists = true
 				end
 			end
 		end
 		
-		if firstRun then return end
+		if not nextVehicleExists then return end
 		
 		print("tabNext: "..nextVehicle.name)
-		local farmId = g_currentMission.player.farmId
-		local playerStyle = self:getCurrentPlayerStyle() --g_currentMission.controlledVehicle:getCurrentPlayerStyle()
-		self:leaveVehicle()
-		self=nextVehicle
-		self:enterVehicle(true, playerStyle, farmId)
---		nextVehicle:enterVehicle(true, playerStyle, farmId)
+		g_currentMission:requestToEnterVehicle(nextVehicle)
 	end
 end
 
