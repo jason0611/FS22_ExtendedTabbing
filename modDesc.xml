@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.0.1.0</version>
+	<version>0.0.1.1</version>
 
     <title>
 		<en>Tab into next Vehicle</en>
@@ -19,10 +19,10 @@
 		</de>
  	</description>	
     <multiplayer supported="true"/>
-	<iconFilename>icon.dds</iconFilename>
+	<iconFilename>tabNext.dds</iconFilename>
 	
 	<extraSourceFiles>
-        <sourceFile filename="register.lua" />
+        <sourceFile filename="tabNext_register.lua" />
     </extraSourceFiles>
 	
 	
@@ -38,8 +38,8 @@
 
 	<l10n>
         <text name="input_TBN_TABNEXT">
-            <de>TABNEXT: Wechsel ins nächstgelegene Fahrzeug</de>
-            <en>TABNEXT: Tab into nearest vehicle</en>
+            <de>Wechsel ins nächstgelegene Fahrzeug</de>
+            <en>Tab into nearest vehicle</en>
         </text>
 	</l10n>
 	
