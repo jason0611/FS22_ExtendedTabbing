@@ -3,11 +3,11 @@
 
    <author>Jason06</author>
    	
-	<version>0.0.1.1</version>
+	<version>0.0.1.2</version>
 
     <title>
-		<en>Tab into next Vehicle</en>
-		<de>Tab ins nächstgelegene Fahrzeug</de>
+		<en>Extended Tabbing</en>
+		<de>Erweitertes Tabbing</de>
     </title>
 	
     <description>
@@ -19,27 +19,36 @@
 		</de>
  	</description>	
     <multiplayer supported="true"/>
-	<iconFilename>tabNext.dds</iconFilename>
+	<iconFilename>icon.dds</iconFilename>
 	
 	<extraSourceFiles>
-        <sourceFile filename="tabNext_register.lua" />
+        <sourceFile filename="extendedTabbing_register.lua" />
     </extraSourceFiles>
 	
 	
 	<actions>
-		<action name="TBN_TABNEXT" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_TABEXEC" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_NEXT" category="VEHICLE" ignoreComboMask="false" />
 	</actions>
 
 	<inputBinding>	
-		<actionBinding action="TBN_TABNEXT">
+		<actionBinding action="XTB_TABEXEC">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
+		<actionBinding action="XTB_NEXT">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab KEY_n" neutralInput="0" index="1" />
+		</actionBinding>
+		
 	</inputBinding>
 
 	<l10n>
-        <text name="input_TBN_TABNEXT">
-            <de>Wechsel ins nächstgelegene Fahrzeug</de>
-            <en>Tab into nearest vehicle</en>
+        <text name="input_XTB_TABEXEC">
+            <de>Extended Tabbing: Wechsel ins nächstgelegene Fahrzeug</de>
+            <en>Extended Tabbing: Tab into nearest vehicle</en>
+        </text>
+		<text name="input_XTB_NEXT">
+            <de>Extended Tabbing: Zeige das nächste Fahrzeug</de>
+            <en>Extended Tabbing: Show next vehicle</en>
         </text>
 	</l10n>
 	
