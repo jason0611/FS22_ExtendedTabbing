@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.9.0.0</version>
+	<version>0.9.1.0</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -30,6 +30,9 @@
 	<actions>
 		<action name="XTB_TABEXEC" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_NEXT" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FAV1" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FAV2" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FAV3" category="VEHICLE" ignoreComboMask="false" />
 	</actions>
 
 	<inputBinding>	
@@ -37,7 +40,16 @@
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_NEXT">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab KEY_n" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_n" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FAV1">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_1" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FAV2">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_2" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FAV3">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_3" neutralInput="0" index="1" />
 		</actionBinding>
 		
 	</inputBinding>
@@ -50,6 +62,18 @@
 		<text name="input_XTB_NEXT">
             <de>Extended Tabbing: Zeige das nächste Fahrzeug</de>
             <en>Extended Tabbing: Show next vehicle</en>
+        </text>
+        <text name="input_XTB_FAV1">
+            <de>Extended Tabbing: Springe zu Slot 1</de>
+            <en>Extended Tabbing: Tab into Slot 1</en>
+        </text>
+        <text name="input_XTB_FAV2">
+            <de>Extended Tabbing: Springe zu Slot 2</de>
+            <en>Extended Tabbing: Tab into Slot 2</en>
+        </text>
+        <text name="input_XTB_FAV3">
+            <de>Extended Tabbing: Springe zu Slot 3</de>
+            <en>Extended Tabbing: Tab into Slot 3</en>
         </text>
 	</l10n>
 	

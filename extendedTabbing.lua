@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.0.0
+-- Version: 0.9.1.0
 
 extendedTabbing = {}
 
@@ -9,6 +9,7 @@ extendedTabbing.tabIndex = 1
 extendedTabbing.indexTable = {}
 extendedTabbing.vehicleTable = {}
 extendedTabbing.selectedVehicle = {}
+extendedTabbing.vehicleSlot = {}
 extendedTabbing.isActive = false
 
 function extendedTabbing:loadMap(name)
@@ -20,6 +21,9 @@ function extendedTabbing:registerActionEvents()
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, extendedTabbing.findNextVehicle, false, true, false, true, nil)	
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV1', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV2', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV3', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 end
 
 function extendedTabbing:getSortedTables(rootNode)
@@ -74,6 +78,22 @@ function extendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 end
 
 function extendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4, arg5)
+
+	local slot = nil
+	if actionName == "XTB_FAV1" then slot = 1; end
+	if actionName == "XTB_FAV2" then slot = 2; end
+	if actionName == "XTB_FAV3" then slot = 3; end
+	
+	if not extendedTabbing.isActive then
+	-- Slot-Key pressed to Tab into Vehicle
+		extendedTabbing.selectedVehicle = extendedTabbing.vehicleSlot[slot]
+	elseif slot ~= nil then
+	-- Slot-Key pressed to store vehicle into slot
+		extendedTabbing.vehicleSlot[slot] = extendedTabbing.selectedVehicle
+		--g_currentMission:showBlinkingWarning(g_i18n:getText("warning_motorNotStarted"), 2000)
+		g_currentMission:showBlinkingWarning("Gespeichert: Slot "..tostring(slot), 2000)
+		return
+	end
 	extendedTabbing.isActive = false
 	if extendedTabbing.selectedVehicle ~= nil then 
 		g_currentMission:requestToEnterVehicle(extendedTabbing.selectedVehicle)
@@ -85,7 +105,7 @@ function extendedTabbing:update(dt)
 	if extendedTabbing.isActive and extendedTabbing.selectedVehicle ~= nil then
 --		if g_gui:getIsGuiVisible() and not g_flightAndNoHUDKeysEnabled then
 			setTextAlignment(RenderText.ALIGN_CENTER)
-			renderText(0.5, 0.5, 0.03, "--> "..extendedTabbing.selectedVehicle:getName())
+			renderText(0.5, 0.7, 0.03, "--> "..extendedTabbing.selectedVehicle:getName())
 --		end
 	end
 end
