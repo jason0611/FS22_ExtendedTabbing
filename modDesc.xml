@@ -34,10 +34,10 @@
 
 	<inputBinding>	
 		<actionBinding action="XTB_TABEXEC">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_NEXT">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab KEY_n" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab KEY_n" neutralInput="0" index="1" />
 		</actionBinding>
 		
 	</inputBinding>
