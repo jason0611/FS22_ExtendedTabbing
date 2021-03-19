@@ -22,7 +22,8 @@
 	<iconFilename>icon.dds</iconFilename>
 	
 	<extraSourceFiles>
-        <sourceFile filename="extendedTabbing_register.lua" />
+        <!-- sourceFile filename="extendedTabbing_register.lua" / -->
+        <sourceFile filename="extendedTabbing.lua" />
     </extraSourceFiles>
 	
 	

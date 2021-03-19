@@ -11,29 +11,18 @@ extendedTabbing.vehicleTable = {}
 extendedTabbing.selectedVehicle = {}
 extendedTabbing.isActive = false
 
-function extendedTabbing.prerequisitesPresent(specializations)
-  return true
+function extendedTabbing:loadMap(name)
+	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, extendedTabbing.registerActionEvents);
 end
 
-function extendedTabbing.registerEventListeners(vehicleType)
-    SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", extendedTabbing)
-    SpecializationUtil.registerEventListener(vehicleType, "onUpdate", extendedTabbing)
+function extendedTabbing:registerActionEvents()
+	local actionEventId;
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, extendedTabbing.findNextVehicle, false, true, false, true, nil)	
 end
 
-function extendedTabbing:onRegisterActionEvents(isActiveForInput)
-	if self.isClient then
-		extendedTabbing.actionEvents = {} 
-		if self:getIsActiveForInput(true) then 
-			local actionEventId;
-			-- self:addActionEvent(self.actionEvents, InputAction[actionName], self, myObject.actionCallback, triggerKeyUp, triggerKeyDown, triggerAlways, isActive, nil);
-			_, actionEventId = self:addActionEvent(extendedTabbing.actionEvents, 'XTB_TABEXEC', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)
-			_, actionEventId = self:addActionEvent(extendedTabbing.actionEvents, 'XTB_TABEXEC', self, extendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
-			_, actionEventId = self:addActionEvent(extendedTabbing.actionEvents, 'XTB_NEXT', self, extendedTabbing.findNextVehicle, false, true, false, true, nil)
-		end		
-	end
-end
-
-function extendedTabbing:getSortedTable(rootNode)
+function extendedTabbing:getSortedTables(rootNode)
 	local indexTable, vehicleTable = {}, {}
 	
 	for _, vehicle in pairs (g_currentMission.interactiveVehicles) do
@@ -43,24 +32,33 @@ function extendedTabbing:getSortedTable(rootNode)
 			vehicleTable[distance] = vehicle
 		end
 	end
-				
+	-- sort the indices by distance
+	table.sort(indexTable)
+	
 	return indexTable, vehicleTable
 end
 
-function extendedTabbing:findNearestVehicle()
+function extendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, arg5)
 	extendedTabbing.isActive = true
-	local rootNode = self.rootNode
-	
-	extendedTabbing.indexTable, extendedTabbing.vehicleTable = extendedTabbing:getSortedTable(rootNode)
+	local rootNode
+
+	-- Find player's position first
+	if g_currentMission.player ~= nil then
+		rootNode = g_currentMission.player.rootNode
+	end
+
+	-- If in vehicle, replace position with vehicle's position
+	if g_currentMission.controlledVehicle ~= nil then
+		rootNode = g_currentMission.controlledVehicle.rootNode
+	end
+
+	extendedTabbing.indexTable, extendedTabbing.vehicleTable = extendedTabbing:getSortedTables(rootNode)
 	extendedTabbing.tabIndex = 1
-
-	local nearestVehicle = extendedTabbing.vehicleTable[extendedTabbing.indexTable[1]] 
-
-	extendedTabbing.selectedVehicle = nearestVehicle
-	return
+	
+	extendedTabbing.selectedVehicle = extendedTabbing.vehicleTable[extendedTabbing.indexTable[extendedTabbing.tabIndex]] 
 end
 
-function extendedTabbing:findNextVehicle(self)
+function extendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5)
 	if not extendedTabbing.isActive then 
 		return
 	end
@@ -73,22 +71,23 @@ function extendedTabbing:findNextVehicle(self)
 	
 	local nextVehicle = extendedTabbing.vehicleTable[extendedTabbing.indexTable[extendedTabbing.tabIndex]]
 	extendedTabbing.selectedVehicle = nextVehicle
-	return
 end
 
-function extendedTabbing:tabToSelectedVehicle(self)
+function extendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4, arg5)
 	extendedTabbing.isActive = false
 	if extendedTabbing.selectedVehicle ~= nil then 
 		g_currentMission:requestToEnterVehicle(extendedTabbing.selectedVehicle)
+		extendedTabbing.selectedVehicle = nil
 	end
 end	
             
-
-function extendedTabbing:onUpdate(dt)	
-	if self.getIsActive ~= nil and self:getIsActive() and self.getIsEntered ~= nil and self:getIsEntered() and extendedTabbing.isActive then
-		if not g_gui:getIsGuiVisible() and not g_flightAndNoHUDKeysEnabled then
+function extendedTabbing:update(dt)	
+	if extendedTabbing.isActive and extendedTabbing.selectedVehicle ~= nil then
+--		if g_gui:getIsGuiVisible() and not g_flightAndNoHUDKeysEnabled then
 			setTextAlignment(RenderText.ALIGN_CENTER)
 			renderText(0.5, 0.5, 0.03, "--> "..extendedTabbing.selectedVehicle:getName())
-		end
+--		end
 	end
 end
+
+addModEventListener(extendedTabbing);
