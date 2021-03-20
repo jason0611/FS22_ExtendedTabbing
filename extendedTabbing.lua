@@ -34,7 +34,10 @@ function extendedTabbing:loadMission()
 	
 	if savegameDir ~= nil then
 		local savegameFile = savegameDir.."/extendedTabbing.xml"
-		
+
+
+
+end
 
 function extendedTabbing:getSortedTables(rootNode)
 	local indexTable, vehicleTable = {}, {}
