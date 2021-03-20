@@ -26,16 +26,6 @@ function extendedTabbing:registerActionEvents()
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV3', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 end
 
-function extendedTabbing:loadMission()
-	if not g_currentMission:getIsServer() then return; end
-	
-	local savegameDir = g_currentMission.missionInfo.savegameDirectory
-	local player = g_currentMission.player.id
-	
-	if savegameDir ~= nil then
-		local savegameFile = savegameDir.."/extendedTabbing.xml"
-		
-
 function extendedTabbing:getSortedTables(rootNode)
 	local indexTable, vehicleTable = {}, {}
 	
