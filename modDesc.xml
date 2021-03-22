@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.9.1.0</version>
+	<version>0.9.2.0</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -28,7 +28,9 @@
 	
 	
 	<actions>
-		<action name="XTB_TABEXEC" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_EXECTAB" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FASTTAB" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_PREV" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_NEXT" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV1" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV2" category="VEHICLE" ignoreComboMask="false" />
@@ -36,8 +38,14 @@
 	</actions>
 
 	<inputBinding>	
-		<actionBinding action="XTB_TABEXEC">
+		<actionBinding action="XTB_EXECTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FASTTAB">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_lctrl KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_PREV">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_p" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_NEXT">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_n" neutralInput="0" index="1" />
@@ -55,9 +63,17 @@
 	</inputBinding>
 
 	<l10n>
-        <text name="input_XTB_TABEXEC">
-            <de>Extended Tabbing: Wechsel ins nächstgelegene Fahrzeug</de>
+        <text name="input_XTB_EXECTAB">
+            <de>Extended Tabbing: Aktivieren/Ausführen</de>
             <en>Extended Tabbing: Tab into nearest vehicle</en>
+        </text>
+        <text name="input_XTB_FASTTAB">
+            <de>Extended Tabbing: Schneller Wechsel ins nächstgelegene Fahrzeug</de>
+            <en>Extended Tabbing: Quick Tab into nearest vehicle</en>
+        </text>
+        <text name="input_XTB_PREV">
+            <de>Extended Tabbing: Zeige das vorhergehende Fahrzeug</de>
+            <en>Extended Tabbing: Show previous vehicle</en>
         </text>
 		<text name="input_XTB_NEXT">
             <de>Extended Tabbing: Zeige das nächste Fahrzeug</de>

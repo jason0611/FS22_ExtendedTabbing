@@ -18,45 +18,47 @@ end
 
 function extendedTabbing:registerActionEvents()
 	local actionEventId;
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TABEXEC', self, extendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FASTTAB', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FASTTAB', self, extendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_EXECTAB', self, extendedTabbing.findNearestVehicle, false, true, false, true, nil)	
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_PREV', self, extendedTabbing.findNextVehicle, false, true, false, true, nil)		
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, extendedTabbing.findNextVehicle, false, true, false, true, nil)	
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV1', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV2', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV3', self, extendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 end
 
-function extendedTabbing:loadMission()
-	if not g_currentMission:getIsServer() then return; end
-	
-	local savegameDir = g_currentMission.missionInfo.savegameDirectory
-	local player = g_currentMission.player.id
-	
-	if savegameDir ~= nil then
-		local savegameFile = savegameDir.."/extendedTabbing.xml"
-
-
-
-end
-
 function extendedTabbing:getSortedTables(rootNode)
 	local indexTable, vehicleTable = {}, {}
 	
 	for _, vehicle in pairs (g_currentMission.interactiveVehicles) do
-		if vehicle.getIsEnterable ~= nil and vehicle:getIsEnterable() and vehicle:getIsTabbable() and vehicle ~= self then
+		if vehicle.getIsEnterable ~= nil and vehicle:getIsEnterable() and vehicle:getIsTabbable() then
 			local distance = calcDistanceFrom(rootNode, vehicle.rootNode)
 			table.insert(indexTable, distance)
 			vehicleTable[distance] = vehicle
 		end
 	end
+	
+	local selfVehicle = g_currentMission.controlledVehicle
+	if selfVehicle ~= nil then
+		table.insert(indexTable, 0)
+		vehicleTable[0] = selfVehicle
+	end
+	
 	-- sort the indices by distance
 	table.sort(indexTable)
 	
-	return indexTable, vehicleTable
+	return indexTable, vehicleTable, selfVehicle ~= nil
 end
 
 function extendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, arg5)
+	if extendedTabbing.isActive == true and actionName == "XTB_EXECTAB" then
+		extendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4, arg5)
+		return
+	end
+	
 	extendedTabbing.isActive = true
+	
 	local rootNode
 
 	-- Find player's position first
@@ -69,8 +71,14 @@ function extendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 		rootNode = g_currentMission.controlledVehicle.rootNode
 	end
 
-	extendedTabbing.indexTable, extendedTabbing.vehicleTable = extendedTabbing:getSortedTables(rootNode)
-	extendedTabbing.tabIndex = 1
+	local insideVehicle
+	extendedTabbing.indexTable, extendedTabbing.vehicleTable, insideVehicle = extendedTabbing:getSortedTables(rootNode)
+	
+	if actionName == "XTB_FASTTAB" and insideVehicle then
+		extendedTabbing.tabIndex = 2
+	else
+		extendedTabbing.tabIndex = 1
+	end
 	
 	extendedTabbing.selectedVehicle = extendedTabbing.vehicleTable[extendedTabbing.indexTable[extendedTabbing.tabIndex]] 
 end
@@ -80,10 +88,17 @@ function extendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 		return
 	end
 	
-	extendedTabbing.tabIndex = extendedTabbing.tabIndex + 1
+	local iterator = 0
+	if actionName == "XTB_PREV" then iterator = -1; end
+	if actionName == "XTB_NEXT" then iterator =  1; end
+		
+ 	extendedTabbing.tabIndex = extendedTabbing.tabIndex + iterator
 	
-	if extendedTabbing.tabIndex > table.maxn(extendedTabbing.indexTable) then
+	local tabMax = table.maxn(extendedTabbing.indexTable)
+	if extendedTabbing.tabIndex > tabMax then
 		extendedTabbing.tabIndex = 1
+	elseif extendedTabbing.tabIndex < 1 then
+		extendedTabbing.tabIndex = tabMax
 	end
 	
 	local nextVehicle = extendedTabbing.vehicleTable[extendedTabbing.indexTable[extendedTabbing.tabIndex]]
