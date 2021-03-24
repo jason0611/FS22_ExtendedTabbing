@@ -11,6 +11,6 @@
  
  
  Offen:
- - Die Slotbelegung wird derzeit noch nicht gespeichert (in Arbeit: Branch "dedi-server") und muss bei jedem Neustart des Spiels neu festgelegt werden 
+ - Die Slotbelegung wird derzeit noch nicht gespeichert (in Arbeit: Branch "full_mp") und muss bei jedem Neustart des Spiels neu festgelegt werden 
  
  
