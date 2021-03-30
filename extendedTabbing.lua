@@ -243,7 +243,7 @@ function extendedTabbing:readStream(streamId, connection)
 -- 	debug printing
 	print("ExtendedTabbing :: readStream : starting")
 --	--
-	if connection.isServer() then
+	if connection.isServer then
 		extendedTabbing.dataBase = {}
 		local n = streamReadInt8(streamId)
 		for _ = 1, n do
