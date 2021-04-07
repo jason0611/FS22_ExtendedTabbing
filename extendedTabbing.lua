@@ -20,6 +20,8 @@ ExtendedTabbing.data.playerID = ""
 ExtendedTabbing.data.playerName = ""
 ExtendedTabbing.data.slot = {0, 0, 0}
 
+ExtendedTabbing.actionEvents = {}
+
 -- client player data (used for tranfer)
 ExtendedTabbing.clientData = {}
 ExtendedTabbing.clientData.playerID = ""
@@ -39,9 +41,9 @@ function ExtendedTabbing:registerActionEvents()
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_EXECTAB', self, ExtendedTabbing.findNearestVehicle, false, true, false, true, nil)	
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_PREV', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)		
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)	
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV1', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV2', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FAV3', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+	_, ExtendedTabbing.actionEvents[1] = g_inputBinding:registerActionEvent('XTB_FAV1', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+	_, ExtendedTabbing.actionEvents[2] = g_inputBinding:registerActionEvent('XTB_FAV2', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+	_, ExtendedTabbing.actionEvents[3] = g_inputBinding:registerActionEvent('XTB_FAV3', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
 end
 
 function ExtendedTabbing:loadMap(name)
@@ -460,7 +462,8 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 	-- Slot-Key pressed to store vehicle into slot
 		ExtendedTabbing.data.slot[slot] = ExtendedTabbing.selectedVehicle.id
 		--g_currentMission:showBlinkingWarning(g_i18n:getText("warning_motorNotStarted"), 2000)
-		g_currentMission:showBlinkingWarning("Gespeichert: Slot "..tostring(slot).."("..tostring(ExtendedTabbing.data.slot[slot])..")", 2000)
+		g_currentMission:showBlinkingWarning("Gespeichert: Slot "..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
+		g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], g_i18n:getText("input_XTB_FAV"..tostring(slot))..": "..ExtendedTabbing.selectedVehicle:getName())
 		ExtendedTabbing.needsUpdate = true
 		return
 	end
