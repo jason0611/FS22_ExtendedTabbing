@@ -48,7 +48,7 @@ function ExtendedTabbing:loadMap(name)
 	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	
 	-- debug printing
-	print("ExtendedTabbing :: loadMap : started")
+	--print("ExtendedTabbing :: loadMap : started")
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
@@ -96,8 +96,8 @@ function ExtendedTabbing:loadMap(name)
 					table.insert(ExtendedTabbing.dataBase, loadedEntry)
 					
 				-- Debug printing
-					print("ExtendedTabbing :: loadMap : Step "..tostring(i)..": Database state:")
-					print_r(ExtendedTabbing.dataBase)
+					--print("ExtendedTabbing :: loadMap : Step "..tostring(i)..": Database state:")
+					--print_r(ExtendedTabbing.dataBase)
 				end
 			-- 	Debug printing
 				print("ExtendedTabbing :: loadMap : Database loading finished")
@@ -116,7 +116,7 @@ function ExtendedTabbing:loadMap(name)
 	end
 	
 	-- debug printing
-	print("ExtendedTabbing :: loadMap : ended")
+	--print("ExtendedTabbing :: loadMap : ended")
 end
 
 -- Grundlegende Informationen speichern: Relevant für MP-Server und SP, nicht notwendig für MP-Client
@@ -124,8 +124,8 @@ end
 function ExtendedTabbing.saveDataBase(missionInfo)
 
 --	debug printing
-	print("ExtendedTabbing :: saveDataBase : starting : Database state:")
-	print_r(ExtendedTabbing.dataBase)
+	print("ExtendedTabbing :: saveDataBase : starting")
+	--print_r(ExtendedTabbing.dataBase)
 --	--
 	local dataBaseFile = missionInfo.savegameDirectory .. "/extendedtabbing.xml"
 	local xmlFile = createXMLFile("dataBase", dataBaseFile, "ExtendedTabbing")
@@ -174,7 +174,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		local loadEntry = {}
 		
 	-- 	debug printing
-		print("ExtendedTabbing :: loadPlayer : loadUserId for UserId: "..tostring(userId))
+		--print("ExtendedTabbing :: loadPlayer : loadUserId for UserId: "..tostring(userId))
 	--	--
 	
 		local user = g_currentMission.userManager:getUserByUserId(userId)
@@ -187,7 +187,8 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		loadEntry.slot = {0, 0, 0}
 
 	-- 	debug printing
-		print("ExtendedTabbing :: loadPlayer : PlayerID: "..tostring(loadEntry.playerID))
+		print("ExtendedTabbing :: loadPlayer : Player: "..tostring(loadEntry.playerName))
+		--print("ExtendedTabbing :: loadPlayer : PlayerID: "..tostring(loadEntry.playerID))
 	--	--
 
 	-- Individuelle Informationen für den jeweiligen Spieler aus der DB abrufen oder anlegen
@@ -205,8 +206,8 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			table.insert(ExtendedTabbing.dataBase, loadEntry); 
 	
 		--	debug printing
-			print("ExtendedTabbing :: loadPlayerData : added to dataBase:")
-			print_r(ExtendedTabbing.dataBase)
+			--print("ExtendedTabbing :: loadPlayerData : added to dataBase:")
+			--print_r(ExtendedTabbing.dataBase)
 		--	--
 		
 		end
@@ -218,9 +219,9 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		end
 		
 	--	debug printing
-		print("ExtendedTabbing :: loadPlayerData : loaded data:")
-		print_r(ExtendedTabbing.data)
-		print_r(ExtendedTabbing.clientData)
+		--print("ExtendedTabbing :: loadPlayerData : loaded data:")
+		--print_r(ExtendedTabbing.data)
+		--print_r(ExtendedTabbing.clientData)
 	--	--
 	end
 end
@@ -229,12 +230,12 @@ end
 -- Initiale Übertragung der DB vom Server zum Client (Server-Seite)
 function ExtendedTabbing:writeStream(streamId, connection)
 -- 	debug printing
-	print("ExtendedTabbing :: writeStream : starting")
+	--print("ExtendedTabbing :: writeStream : starting")
 --	--
 	if not connection.isServer then
 
 	-- 	Debug printing
-		print("ExtendedTabbing :: writeStream : writing data for "..ExtendedTabbing.clientData.playerName)
+		--print("ExtendedTabbing :: writeStream : writing data for "..ExtendedTabbing.clientData.playerName)
 	--	--
 
 		streamWriteString(streamId, ExtendedTabbing.clientData.playerID)
@@ -249,14 +250,14 @@ end
 -- Inittiale Übertragung der DB vom Server zum Client (Client-Seite)
 function ExtendedTabbing:readStream(streamId, connection)
 -- 	debug printing
-	print("ExtendedTabbing :: readStream : starting")
+	--print("ExtendedTabbing :: readStream : starting")
 --	--
 	if connection.isServer then
 		ExtendedTabbing.data.playerID = streamReadString(streamId)
 		ExtendedTabbing.data.playerName = streamReadString(streamId)
 		
 		-- 	Debug printing
-			print("ExtendedTabbing :: readStream : reading data for "..ExtendedTabbing.data.playerName)
+			--print("ExtendedTabbing :: readStream : reading data for "..ExtendedTabbing.data.playerName)
 		--	--
 		
 		for i = 1, 3 do
@@ -271,7 +272,7 @@ function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 		if ExtendedTabbing.needsUpdate then
 		
 		-- 	Debug printing
-			print("ExtendedTabbing :: writeUpdateStream : Starting")
+			--print("ExtendedTabbing :: writeUpdateStream : Starting")
 		--	--
 
 			streamWriteString(streamId, ExtendedTabbing.data.playerID)
@@ -280,7 +281,7 @@ function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 				streamWriteInt16(streamId, ExtendedTabbing.data.slot[i])
 			end
 		--	Debug printing
-			print("ExtendedTabbing :: writeUpdateStream : Data transmitted")
+			--print("ExtendedTabbing :: writeUpdateStream : Data transmitted")
 		--	--
 			ExtendedTabbing.needsUpdate = false
 		end
@@ -294,7 +295,7 @@ function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 			loadEntry.slot = {}
 		
 		-- 	Debug printing
-			print("ExtendedTabbing :: readUpdateStream : Starting")
+			--print("ExtendedTabbing :: readUpdateStream : Starting")
 		--	--
 
 			loadEntry.playerID = streamReadString(streamId)
@@ -303,7 +304,7 @@ function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 				loadEntry.slot[i] = streamReadInt16(streamId)
 			end
 		--	Debug printing
-			print("ExtendedTabbing :: readUpdateStream : Data transmitted")
+			--print("ExtendedTabbing :: readUpdateStream : Data transmitted")
 		--	--
 			ExtendedTabbing:updateDataBase(loadEntry)	
 		end
@@ -313,14 +314,14 @@ end
 -- Individuelle Informationen für den jeweiligen Spieler in die Datenbank schreiben: Nur für MP-Server und SP
 function ExtendedTabbing:updateDataBase(updateEntry)
 --	debug printing
-	print("ExtendedTabbing :: updateDataBase : updateEntry:")
-	print_r(updateEntry)
-	print("Local data:")
-	print_r(ExtendedTabbing.data)
-	print("Client data:")
-	print_r(ExtendedTabbing.clientData)
-	print("Old Database:")
-	print_r(ExtendedTabbing.dataBase)
+	--print("ExtendedTabbing :: updateDataBase : updateEntry:")
+	--print_r(updateEntry)
+	--print("Local data:")
+	--print_r(ExtendedTabbing.data)
+	--print("Client data:")
+	--print_r(ExtendedTabbing.clientData)
+	--print("Old Database:")
+	--print_r(ExtendedTabbing.dataBase)
 --	--
 
 	local playerAnz = table.maxn(ExtendedTabbing.dataBase)
@@ -339,9 +340,9 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 		end
 		dbDupFinder[dbEntry.playerID] = dup
 		
-		print("i = "..tostring(i)..": dbEntry:")
+		--print("i = "..tostring(i)..": dbEntry:")
 		--print_r(dbEntry)
-		print("DupFinder: "..tostring(dup))
+		--print("DupFinder: "..tostring(dup))
 		
 		if dbEntry.playerID == updateEntry.playerID then
 			dbEntry = updateEntry
@@ -350,8 +351,8 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 	end
 	ExtendedTabbing.dataBase = newDataBase
 	-- debug printing
-		print("New Database:")
-		print_r(ExtendedTabbing.dataBase)
+		--print("New Database:")
+		--print_r(ExtendedTabbing.dataBase)
 		--	--
 end
 
