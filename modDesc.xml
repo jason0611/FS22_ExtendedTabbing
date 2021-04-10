@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.9.3.1</version>
+	<version>0.9.4.0</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -30,6 +30,7 @@
 	<actions>
 		<action name="XTB_EXECTAB" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FASTTAB" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_TOGGLEHELP" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_PREV" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_NEXT" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV1" category="VEHICLE" ignoreComboMask="false" />
@@ -43,6 +44,9 @@
 		</actionBinding>
 		<actionBinding action="XTB_FASTTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_lctrl KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_TOGGLEHELP">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_PREV">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_p" neutralInput="0" index="1" />
@@ -71,6 +75,10 @@
             <de>Extended Tabbing: Schneller Wechsel ins nächstgelegene Fahrzeug</de>
             <en>Extended Tabbing: Quick Tab into nearest vehicle</en>
         </text>
+         <text name="input_XTB_TOGGLEHELP">
+            <de>Extended Tabbing: Tastenzuweisungen ein-/ausblenden</de>
+            <en>Extended Tabbing: Show/Hide slot allocations</en>
+        </text>
         <text name="input_XTB_PREV">
             <de>Extended Tabbing: Zeige das vorhergehende Fahrzeug</de>
             <en>Extended Tabbing: Show previous vehicle</en>
@@ -79,7 +87,7 @@
             <de>Extended Tabbing: Zeige das nächste Fahrzeug</de>
             <en>Extended Tabbing: Show next vehicle</en>
         </text>
-        <text name="input_XTB_FAV1">
+		<text name="input_XTB_FAV1">
             <de>Extended Tabbing: Springe zu Slot 1</de>
             <en>Extended Tabbing: Tab into Slot 1</en>
         </text>
