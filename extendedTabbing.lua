@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.0
+-- Version: 0.9.4.2
 -- Code review
 
 ExtendedTabbing = {}
@@ -257,6 +257,9 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 					ExtendedTabbing.vehiclesHaveChanged = true
 				elseif found then
 					ExtendedTabbing.actionEventText[i] = "FastTab "..tostring(i)..": "..loadEntry.slotName[i]
+					if ExtendedTabbing.actionEvents[i] ~= nil then
+						g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
+					end
 				end
 			end
 			ExtendedTabbing.data = loadEntry
@@ -425,6 +428,12 @@ end
 -- Hauptfunktionen --
 function ExtendedTabbing:toggleHelp()
 	ExtendedTabbing.showSlots = not ExtendedTabbing.showSlots
+	for slot=1,3 do
+		--_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
+		--g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
+   		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.showSlots)
+   		--g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
+	end
 end
 
 function ExtendedTabbing:getSortedTables(rootNode)
