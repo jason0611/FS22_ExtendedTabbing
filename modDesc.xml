@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.9.4.3</version>
+	<version>0.9.4.4</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -63,42 +63,7 @@
 		<actionBinding action="XTB_FAV3">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_3" neutralInput="0" index="1" />
 		</actionBinding>
-		
 	</inputBinding>
 
-	<l10n>
-        <text name="input_XTB_EXECTAB">
-            <de>Extended Tabbing: Aktivieren/Ausführen</de>
-            <en>Extended Tabbing: Tab into nearest vehicle</en>
-        </text>
-        <text name="input_XTB_FASTTAB">
-            <de>Extended Tabbing: Schneller Wechsel ins nächstgelegene Fahrzeug</de>
-            <en>Extended Tabbing: Quick Tab into nearest vehicle</en>
-        </text>
-         <text name="input_XTB_TOGGLEHELP">
-            <de>Extended Tabbing: Tastenzuweisungen ein-/ausblenden</de>
-            <en>Extended Tabbing: Show/Hide slot allocations</en>
-        </text>
-        <text name="input_XTB_PREV">
-            <de>Extended Tabbing: Zeige das vorhergehende Fahrzeug</de>
-            <en>Extended Tabbing: Show previous vehicle</en>
-        </text>
-		<text name="input_XTB_NEXT">
-            <de>Extended Tabbing: Zeige das nächste Fahrzeug</de>
-            <en>Extended Tabbing: Show next vehicle</en>
-        </text>
-		<text name="input_XTB_FAV1">
-            <de>Extended Tabbing: Springe zu Slot 1</de>
-            <en>Extended Tabbing: Tab into Slot 1</en>
-        </text>
-        <text name="input_XTB_FAV2">
-            <de>Extended Tabbing: Springe zu Slot 2</de>
-            <en>Extended Tabbing: Tab into Slot 2</en>
-        </text>
-        <text name="input_XTB_FAV3">
-            <de>Extended Tabbing: Springe zu Slot 3</de>
-            <en>Extended Tabbing: Tab into Slot 3</en>
-        </text>
-	</l10n>
-	
+	<l10n filenamePrefix="l10n/l10n" />
 </modDesc>

@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.3
+-- Version: 0.9.4.4
 -- Code review
 
 ExtendedTabbing = {}
@@ -19,9 +19,9 @@ ExtendedTabbing.vehiclesHaveChanged = false
 ExtendedTabbing.actionEvents = {}
 
 ExtendedTabbing.actionEventText = {}
-ExtendedTabbing.actionEventText[1] = g_i18n:getText("input_XTB_FAV1")
-ExtendedTabbing.actionEventText[2] = g_i18n:getText("input_XTB_FAV2")
-ExtendedTabbing.actionEventText[3] = g_i18n:getText("input_XTB_FAV3")
+ExtendedTabbing.actionEventText[1] = g_i18n:getText("l10n_XTB_FAV1_FREE")
+ExtendedTabbing.actionEventText[2] = g_i18n:getText("l10n_XTB_FAV2_FREE")
+ExtendedTabbing.actionEventText[3] = g_i18n:getText("l10n_XTB_FAV3_FREE")
 
 -- local player data
 ExtendedTabbing.data = {}
@@ -47,11 +47,25 @@ ExtendedTabbing.dataBase.slotName = {"", "", ""}
 function ExtendedTabbing:registerActionEvents()
 	local actionEventId
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FASTTAB', self, ExtendedTabbing.findNearestVehicle, false, true, false, true, nil)
+	g_inputBinding:setActionEventTextVisibility(actionEventId, false)
+	
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_FASTTAB', self, ExtendedTabbing.tabToSelectedVehicle, true, false, false, true, nil)
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_EXECTAB', self, ExtendedTabbing.findNearestVehicle, false, true, false, true, nil)	
+	g_inputBinding:setActionEventTextVisibility(actionEventId, false)
+	
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_EXECTAB', self, ExtendedTabbing.findNearestVehicle, false, true, false, true, nil)
+	g_inputBinding:setActionEventTextVisibility(actionEventId, false)	
+	
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_TOGGLEHELP', self, ExtendedTabbing.toggleHelp, false, true, false, true, nil)
-	_, actionEventId = g_inputBinding:registerActionEvent('XTB_PREV', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)		
+	g_inputBinding:setActionEventTextVisibility(actionEventId, true)
+	g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_NORMAL)	
+	
+	_, actionEventId = g_inputBinding:registerActionEvent('XTB_PREV', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)	
+	g_inputBinding:setActionEventTextVisibility(actionEventId, ExtendedTabbing.isActive)
+	g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_LOW)	
+	
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)	
+	g_inputBinding:setActionEventTextVisibility(actionEventId, ExtendedTabbing.isActive)
+	g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_LOW)
 	
 		
 	for slot=1,3 do
@@ -256,7 +270,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 					loadEntry.slot[i] = 0
 					ExtendedTabbing.vehiclesHaveChanged = true
 				elseif found then
-					ExtendedTabbing.actionEventText[i] = "FastTab "..tostring(i)..": "..loadEntry.slotName[i]
+					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..loadEntry.slotName[i]
 					if ExtendedTabbing.actionEvents[i] ~= nil then
 						g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
 					end
@@ -321,7 +335,7 @@ function ExtendedTabbing:readStream(streamId, connection)
 				ExtendedTabbing.data.slot[i] = 0
 				ExtendedTabbing.vehiclesHaveChanged = true
 			else
-				ExtendedTabbing.actionEventText[i] = "FastTab "..tostring(i)..": "..vehicleName
+				ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..vehicleName
 			end	
 		end
 	end
@@ -429,10 +443,7 @@ end
 function ExtendedTabbing:toggleHelp()
 	ExtendedTabbing.showSlots = not ExtendedTabbing.showSlots
 	for slot=1,3 do
-		--_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
-		--g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
    		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.showSlots)
-   		--g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
 	end
 end
 
@@ -544,8 +555,8 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 			ExtendedTabbing.data.slot[slot] = ExtendedTabbing.selectedVehicle.id
 			ExtendedTabbing.data.slotName[slot] = ExtendedTabbing.selectedVehicle:getName()
 			--g_currentMission:showBlinkingWarning(g_i18n:getText("warning_motorNotStarted"), 2000)
-			ExtendedTabbing.actionEventText[slot] = "FastTab "..tostring(slot)..": "..ExtendedTabbing.selectedVehicle:getName()
-			g_currentMission:showBlinkingWarning("Gespeichert: Slot "..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
+			ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.selectedVehicle:getName()
+			g_currentMission:showBlinkingWarning(g_i18n:getText("l10n_XTB_SAVED")..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
     		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.slot[slot] ~= nil)
     		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_NORMAL)
@@ -611,5 +622,8 @@ Player.writeUpdateStream = Utils.appendedFunction(Player.writeUpdateStream, Exte
 -- Include database-information while saving gamedata
 FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.saveToXMLFile, ExtendedTabbing.saveDataBase)
 
--- Update actionBindings in player mode
---Player.updateActionEvents = Util.appendedFunction(Player.updateActionEvents, ExtendedTabbing.updatePlayerActionEvents)
+-- make localizations available
+local i18nTable = getfenv(0).g_i18n
+for l18nId,l18nText in pairs(g_i18n.texts) do
+  i18nTable:setText(l18nId, l18nText)
+end
