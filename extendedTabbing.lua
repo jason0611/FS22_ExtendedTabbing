@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.2
+-- Version: 0.9.4.3
 -- Code review
 
 ExtendedTabbing = {}
@@ -321,7 +321,7 @@ function ExtendedTabbing:readStream(streamId, connection)
 				ExtendedTabbing.data.slot[i] = 0
 				ExtendedTabbing.vehiclesHaveChanged = true
 			else
-				ExtendedTabbing.actionEventText[i] = "FastTab "..tostring(i)..": "..loadEntry.slotName[i]
+				ExtendedTabbing.actionEventText[i] = "FastTab "..tostring(i)..": "..vehicleName
 			end	
 		end
 	end
