@@ -4,6 +4,8 @@
 -- Version: 0.9.4.4
 -- Code review
 
+source(g_currentModDirectory.."tools/gmsDebug.lua")
+
 ExtendedTabbing = {}
 
 -- general data
@@ -80,7 +82,7 @@ function ExtendedTabbing:loadMap(name)
 	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	
 	-- debug printing
-	--print("ExtendedTabbing :: loadMap : started")
+	dbgPrint("loadMap : started")
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
@@ -139,7 +141,7 @@ function ExtendedTabbing:loadMap(name)
 					table.insert(ExtendedTabbing.dataBase, loadedEntry)
 					
 				-- Debug printing
-					--print("ExtendedTabbing :: loadMap : Step "..tostring(i)..": Database state:")
+					--dbgPrint("loadMap : Step "..tostring(i)..": Database state:")
 					--print_r(ExtendedTabbing.dataBase)
 				end
 			-- 	Debug printing
