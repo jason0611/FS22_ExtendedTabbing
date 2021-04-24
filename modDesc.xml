@@ -3,7 +3,7 @@
 
    <author>Jason06</author>
    	
-	<version>0.9.4.4</version>
+	<version>0.9.4.5</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -40,7 +40,7 @@
 
 	<inputBinding>	
 		<actionBinding action="XTB_EXECTAB">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_tab" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_rctrl KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_FASTTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_lctrl KEY_tab" neutralInput="0" index="1" />

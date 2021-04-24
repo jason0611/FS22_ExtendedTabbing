@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.4
+-- Version: 0.9.4.5
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
