@@ -1,7 +1,7 @@
--- TabNext Warning for LS 19
+-- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.6
+-- Version: 0.9.5.0
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -82,7 +82,7 @@ end
 function ExtendedTabbing:loadMap(name)
 	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	
-	dbgPrint("loadMap : started")
+	dbgprint("loadMap : started")
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
@@ -131,7 +131,7 @@ function ExtendedTabbing:loadMap(name)
 					
 					pkey = pkey + 1
 					
-					dbgPrint("loadMap : Step "..tostring(pkey)..": Database state:")
+					dbgprint("loadMap : Step "..tostring(pkey)..": Database state:")
 					dbgprint_r(ExtendedTabbing.dataBase)
 				end
 				dbgprint("loadMap : Database loading finished")
