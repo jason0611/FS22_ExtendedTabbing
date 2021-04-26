@@ -44,11 +44,11 @@ end
 
 --
 
-function dbgPrint(text)
+function dbgprint(text)
 	GMSDebug:print(text)
 end
 
-function dbgPrint_r(table)
+function dbgprint_r(table)
 	GMSDebug:print_r(table)
 end
 
