@@ -3,14 +3,12 @@
 -- V0.9.1
 
 GMSDebug = {}
-GMSDebug.modName = "modName not set correctly"
-GMSDebug.modPath = "modPath not set correctly"
+GMSDebug.modName = "Unknown Mod"
 GMSDebug.state = false
 GMSDebud.consoleCommands = false
 
-function GMSDebug:init(modName, modPath, forceDbg)
+function GMSDebug:init(modName, forceDbg)
 	GMSDebug.modName = modName
-	GMSDebug.modPath = modPath
 	GMSDebug.state = (forceDbg == true)
 end
 
