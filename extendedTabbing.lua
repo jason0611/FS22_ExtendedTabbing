@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.5.0
+-- Version: 0.9.6.1
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -165,13 +165,18 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 		return false; 
 	end;
 	
+	local xmlPlayerID
+	local xmlPlayerName
+	local xmlSlot={}
+	local xmlSlotName={}
+	
 	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
 		if dbEntry.slot ~= nil then
 		--if dbEntry.slot ~= nil and (dbEntry.slot[1] ~= 0 or dbEntry.slot[2] ~= 0 or dbEntry.slot[3] ~= 0) then
-			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
-			xmlPlayerID  	= xmlPlayerKey .. "playerID"
-			xmlPlayerName 	= xmlPlayerKey .. "playerName"
+			local xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
+			local xmlPlayerID  	= xmlPlayerKey .. "playerID"
+			local xmlPlayerName = xmlPlayerKey .. "playerName"
 			setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
 			setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
 			for s=1,3 do
