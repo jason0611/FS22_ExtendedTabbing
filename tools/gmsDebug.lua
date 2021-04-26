@@ -1,6 +1,6 @@
 --
 -- Glowins Modschmiede: Debug-Tool
--- V0.9.2
+-- V0.9.3
 
 GMSDebug = {}
 GMSDebug.modName = "Unknown Mod"
@@ -33,7 +33,7 @@ end
 
 function GMSDebug:toggleDebug()
 	GMSDebug.state = not GMSDebug.modState
-	print("GMSDebug: New state is "..tostring(GMSDebug.state)
+	print("GMSDebug: New state is "..tostring(GMSDebug.state))
 end
 
 
