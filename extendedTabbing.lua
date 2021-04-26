@@ -1,7 +1,7 @@
 -- TabNext Warning for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.4.5
+-- Version: 0.9.4.6
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -68,7 +68,6 @@ function ExtendedTabbing:registerActionEvents()
 	_, actionEventId = g_inputBinding:registerActionEvent('XTB_NEXT', self, ExtendedTabbing.findNextVehicle, false, true, false, true, nil)	
 	g_inputBinding:setActionEventTextVisibility(actionEventId, ExtendedTabbing.isActive)
 	g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_LOW)
-	
 		
 	for slot=1,3 do
 		_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
@@ -81,7 +80,6 @@ end
 function ExtendedTabbing:loadMap(name)
 	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	
-	-- debug printing
 	dbgPrint("loadMap : started")
 	
 	-- Load Database if MP-Server or SP
@@ -101,52 +99,40 @@ function ExtendedTabbing:loadMap(name)
 
 				local xmlPlayerID
 				local xmlPlayerName
-				local xmlSlot1
-				local xmlSlot1Name
-				local xmlSlot2
-				local xmlSlot2Name
-				local xmlSlot3
-				local xmlSlot3Name
+				local xmlSlot={}
+				local xmlSlotName={}
 				
-				local i = 0
-
+				local pkey = 0
 				while (true) do
-					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)#", i)
+					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)#", pkey)
 					
 					xmlPlayerID  	= xmlPlayerKey .. "playerID"
 					xmlPlayerName 	= xmlPlayerKey .. "playerName"
-					xmlSlot1		= xmlPlayerKey .. "slot1"
-					xmlSlot2		= xmlPlayerKey .. "slot2"
-					xmlSlot3		= xmlPlayerKey .. "slot3"
-					xmlSlot1Name	= xmlPlayerKey .. "slot1name"
-					xmlSlot2Name	= xmlPlayerKey .. "slot2name"
-					xmlSlot3Name	= xmlPlayerKey .. "slot3name"
-
+					for s=1,3 do
+					    xmlSlot[s] = xmlPlayerKey .. "slot"..tostring(s)
+					    xmlSlotName[s] = xmlPlayerKey .. "slot"..tostring(s).."name"
+					end
+					
 					if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
 					
 					loadedEntry.playerID 	= getXMLString(xmlFile, xmlPlayerID)
 					loadedEntry.playerName 	= getXMLString(xmlFile, xmlPlayerName)
-					if hasXMLProperty(xmlFile, xmlSlot1) then loadedEntry.slot[1]	= getXMLInt(xmlFile, xmlSlot1); end
-					if hasXMLProperty(xmlFile, xmlSlot1Name) then loadedEntry.slotName[1]	= getXMLString(xmlFile, xmlSlot1Name); end
-					if hasXMLProperty(xmlFile, xmlSlot2) then loadedEntry.slot[2]	= getXMLInt(xmlFile, xmlSlot2); end
-					if hasXMLProperty(xmlFile, xmlSlot2Name) then loadedEntry.slotName[2]	= getXMLString(xmlFile, xmlSlot2Name); end
-					if hasXMLProperty(xmlFile, xmlSlot3) then loadedEntry.slot[3]	= getXMLInt(xmlFile, xmlSlot3); end
-					if hasXMLProperty(xmlFile, xmlSlot3Name) then loadedEntry.slotName[3]	= getXMLString(xmlFile, xmlSlot3Name); end
-					
-					i = i + 1
+					for s=1,3 do
+					    if hasXMLProperty(xmlFile, xmlSlot[s]) then loadedEntry.slot[s] = getXMLInt(xmlFile, xmlSlot[s]); end
+					    if hasXMLProperty(xmlFile, xmlSlotName[s]) then loadedEntry.slotName[s] = getXMLString(xmlFile, xmlSlotName[s]); end
+					end				
 					
 					if ExtendedTabbing.dataBase.PlayerID == "" then
 						ExtendedTabbing.dataBase = {}
 					end
 					table.insert(ExtendedTabbing.dataBase, loadedEntry)
 					
-				-- Debug printing
-					--dbgPrint("loadMap : Step "..tostring(i)..": Database state:")
-					--print_r(ExtendedTabbing.dataBase)
+					pkey = pkey + 1
+					
+					dbgPrint("loadMap : Step "..tostring(pkey)..": Database state:")
+					dbgprint_r(ExtendedTabbing.dataBase)
 				end
-			-- 	Debug printing
-				print("ExtendedTabbing :: loadMap : Database loading finished")
-			--	--
+				dbgprint("loadMap : Database loading finished")
 			else
 				print("ExtendedTabbing :: loadMap : No database to load, starting with empty one")
 				ExtendedTabbing.dataBase = {}
@@ -159,19 +145,16 @@ function ExtendedTabbing:loadMap(name)
 		print("ExtendedTabbing :: loadMap : Just client, no database needed")
 		ExtendedTabbing.dataBase = {}
 	end
-	
-	-- debug printing
-	--print("ExtendedTabbing :: loadMap : ended")
+	dbgprint("loadMap : ended")
 end
 
 -- Grundlegende Informationen speichern: Relevant für MP-Server und SP, nicht notwendig für MP-Client
 -- Ausführung bei jedem Speichervorgang
 function ExtendedTabbing.saveDataBase(missionInfo)
 
---	debug printing
-	print("ExtendedTabbing :: saveDataBase : starting")
-	--print_r(ExtendedTabbing.dataBase)
---	--
+	dbgprint("saveDataBase : starting")
+	dbgprint_r(ExtendedTabbing.dataBase)
+
 	local dataBaseFile = missionInfo.savegameDirectory .. "/extendedtabbing.xml"
 	local xmlFile = createXMLFile("dataBase", dataBaseFile, "ExtendedTabbing")
 	
@@ -180,42 +163,30 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 		return false; 
 	end;
 	
-	local i = 0
+	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
-		if dbEntry.slot ~= nil and (dbEntry.slot[1] ~= 0 or dbEntry.slot[2] ~= 0 or dbEntry.slot[3] ~= 0) then
-			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#", i)
+		if dbEntry.slot ~= nil then
+		--if dbEntry.slot ~= nil and (dbEntry.slot[1] ~= 0 or dbEntry.slot[2] ~= 0 or dbEntry.slot[3] ~= 0) then
+			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
 			xmlPlayerID  	= xmlPlayerKey .. "playerID"
 			xmlPlayerName 	= xmlPlayerKey .. "playerName"
-			xmlSlot1		= xmlPlayerKey .. "slot1"
-			xmlSlot2		= xmlPlayerKey .. "slot2"
-			xmlSlot3		= xmlPlayerKey .. "slot3"
-			xmlSlot1Name	= xmlPlayerKey .. "slot1name"
-			xmlSlot2Name	= xmlPlayerKey .. "slot2name"
-			xmlSlot3Name	= xmlPlayerKey .. "slot3name"
 			setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
 			setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
-			if dbEntry.slot[1] ~= nil then setXMLInt(xmlFile, xmlSlot1, dbEntry.slot[1]) end
-			if dbEntry.slotName[1] ~= nil then setXMLString(xmlFile, xmlSlot1Name, dbEntry.slotName[1]); end
-			if dbEntry.slot[2] ~= nil then setXMLInt(xmlFile, xmlSlot2, dbEntry.slot[2]) end
-			if dbEntry.slotName[2] ~= nil then setXMLString(xmlFile, xmlSlot2Name, dbEntry.slotName[2]); end
-			if dbEntry.slot[3] ~= nil then setXMLInt(xmlFile, xmlSlot3, dbEntry.slot[3]) end
-			if dbEntry.slotName[3] ~= nil then setXMLString(xmlFile, xmlSlot3Name, dbEntry.slotName[3]); end
-		-- 	Debug printing
+			for s=1,3 do
+				xmlSlot[s] = xmlPlayerKey.."slot"..tostring(s)
+				xmlSlotName[s] = xmlPlayerKey.."slot"..tostring(s).."name"
+				if dbEntry.slot[s] ~= nil then setXMLInt(xmlFile, xmlSlot[s], dbEntry.slot[s]); end
+				if dbEntry.slotName[s] ~= nil then setXMLString(xmlFile, xmlSlotName[s], dbEntry.slotName[s]); end
+			end
 			print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
-		--	--
 		else
-		--	Debug printing
 			print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
-		--	--
 		end
-		i = i + 1
+		pkey = pkey + 1
 	end
 	saveXMLFile(xmlFile)
 	delete(xmlFile)
---	debug printing
-	print("ExtendedTabbing :: saveDataBase : ending")
---	--
-	
+	dbgprint("saveDataBase : ending")
 end 
 
 function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection, isOwner)
@@ -224,9 +195,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		local localUser = (g_currentMission.player == nil) -- On first load, Player isn't initiated
 		local loadEntry = {}
 		
-	-- 	debug printing
-		--print("ExtendedTabbing :: loadPlayer : loadUserId for UserId: "..tostring(userId))
-	--	--
+		dbgprint("loadPlayer : loadUserId for UserId: "..tostring(userId))
 	
 		local user = g_currentMission.userManager:getUserByUserId(userId)
 		if user == nil then 
@@ -238,12 +207,10 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		loadEntry.slot = {0, 0, 0}
 		loadEntry.slotName = {}
 
-	-- 	debug printing
-		print("ExtendedTabbing :: loadPlayer : Player: "..tostring(loadEntry.playerName))
-		--print("ExtendedTabbing :: loadPlayer : PlayerID: "..tostring(loadEntry.playerID))
-	--	--
-
-	-- Individuelle Informationen für den jeweiligen Spieler aus der DB abrufen oder anlegen
+		dbgprint("loadPlayer : Player: "..tostring(loadEntry.playerName))
+		dbgprint("loadPlayer : PlayerID: "..tostring(loadEntry.playerID))
+	
+		-- Individuelle Informationen für den jeweiligen Spieler aus der DB abrufen oder anlegen
 		local found = false
 		for _, entry in pairs(ExtendedTabbing.dataBase) do
 			if entry.playerID == loadEntry.playerID then
@@ -257,12 +224,8 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		end
 		if not found then 
 			table.insert(ExtendedTabbing.dataBase, loadEntry); 
-	
-		--	debug printing
-			print("ExtendedTabbing :: loadPlayerData : added to dataBase:")
-			--print_r(ExtendedTabbing.dataBase)
-		--	--
-		
+			dbgprint("loadPlayerData : added to dataBase:")
+			dbgprint_r(ExtendedTabbing.dataBase)
 		end
 		
 		if localUser then
@@ -283,29 +246,21 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			ExtendedTabbing.clientData = loadEntry
 		end
 		
-	--	debug printing
-		--print("ExtendedTabbing :: loadPlayerData : loaded data:")
-		--print_r(ExtendedTabbing.data)
-		--print_r(ExtendedTabbing.clientData)
-	--	--
+		dbgprint("loadPlayerData : loaded data:")
+		dbgprint_r(ExtendedTabbing.data)
+		dbgprint_r(ExtendedTabbing.clientData)
 	end
 end
 
 
 -- Initiale Übertragung der DB vom Server zum Client (Server-Seite)
 function ExtendedTabbing:writeStream(streamId, connection)
--- 	debug printing
-	--print("ExtendedTabbing :: writeStream : starting")
---	--
+
+	dbgprint("writeStream : starting")
 	if not connection.isServer then
-
-	-- 	Debug printing
-		--print("ExtendedTabbing :: writeStream : writing data for "..ExtendedTabbing.clientData.playerName)
-	--	--
-
+		dbgprint("ExtendedTabbing :: writeStream : writing data for "..ExtendedTabbing.clientData.playerName)
 		streamWriteString(streamId, ExtendedTabbing.clientData.playerID)
 		streamWriteString(streamId, ExtendedTabbing.clientData.playerName)
-		
 		for i = 1, 3 do
 			streamWriteInt16(streamId, ExtendedTabbing.clientData.slot[i])
 			if ExtendedTabbing.clientData.slotName[i] == nil then
@@ -318,17 +273,11 @@ end
 
 -- Inittiale Übertragung der DB vom Server zum Client (Client-Seite)
 function ExtendedTabbing:readStream(streamId, connection)
--- 	debug printing
-	--print("ExtendedTabbing :: readStream : starting")
---	--
+	dbgprint("readStream : starting")
 	if connection.isServer then
 		ExtendedTabbing.data.playerID = streamReadString(streamId)
 		ExtendedTabbing.data.playerName = streamReadString(streamId)
-		
-		-- 	Debug printing
-			--print("ExtendedTabbing :: readStream : reading data for "..ExtendedTabbing.data.playerName)
-		--	--
-		
+		dbgprint("readStream : reading data for "..ExtendedTabbing.data.playerName)
 		for i = 1, 3 do
 			ExtendedTabbing.data.slot[i] = streamReadInt16(streamId)
 			local vehicleName = streamReadString(streamId)
@@ -343,15 +292,12 @@ function ExtendedTabbing:readStream(streamId, connection)
 	end
 end
 
+-- Laufende Übertragung vom Client zum Server (Client-Seite)
 function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 	if connection:getIsServer() then
 		streamWriteBool(streamId, ExtendedTabbing.needsUpdate)
 		if ExtendedTabbing.needsUpdate then
-		
-		-- 	Debug printing
-			--print("ExtendedTabbing :: writeUpdateStream : Starting")
-		--	--
-
+			dbgprint("writeUpdateStream : Starting")
 			streamWriteString(streamId, ExtendedTabbing.data.playerID)
 			streamWriteString(streamId, ExtendedTabbing.data.playerName)
 			for i = 1, 3 do
@@ -364,34 +310,28 @@ function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 				end
 				streamWriteString(streamId, vehicleName)
 			end
-		--	Debug printing
-			--print("ExtendedTabbing :: writeUpdateStream : Data transmitted")
-		--	--
 			ExtendedTabbing.needsUpdate = false
+			dbgprint("writeUpdateStream : Data transmitted")
 		end
 	end
 end
 
+-- Laufende Übertragung vom Client zum Server (Server-Seite)
 function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 	if not connection:getIsServer() then
 		if streamReadBool(streamId) then
 			local loadEntry = {}
 			loadEntry.slot = {}
 			loadEntry.slotName={}
-		
-		-- 	Debug printing
-			--print("ExtendedTabbing :: readUpdateStream : Starting")
-		--	--
 
+			dbgprint("readUpdateStream : Starting")
 			loadEntry.playerID = streamReadString(streamId)
 			loadEntry.playerName = streamReadString(streamId)
 			for i = 1, 3 do
 				loadEntry.slot[i] = streamReadInt16(streamId)
 				loadEntry.slotName[i] = streamReadString(streamId)
 			end
-		--	Debug printing
-			--print("ExtendedTabbing :: readUpdateStream : Data transmitted")
-		--	--
+			dbgprint("readUpdateStream : Data transmitted")
 			ExtendedTabbing:updateDataBase(loadEntry)	
 		end
 	end
@@ -399,24 +339,13 @@ end
 
 -- Individuelle Informationen für den jeweiligen Spieler in die Datenbank schreiben: Nur für MP-Server und SP
 function ExtendedTabbing:updateDataBase(updateEntry)
---	debug printing
-	--print("ExtendedTabbing :: updateDataBase : updateEntry:")
-	--print_r(updateEntry)
-	--print("Local data:")
-	--print_r(ExtendedTabbing.data)
-	--print("Client data:")
-	--print_r(ExtendedTabbing.clientData)
-	--print("Old Database:")
-	--print_r(ExtendedTabbing.dataBase)
---	--
-
 	local playerAnz = table.maxn(ExtendedTabbing.dataBase)
 	local dbEntry
 	local dbDupFinder = {}
 	local newDataBase = {}
 	for i = 1, playerAnz do
 		dbEntry = table.remove(ExtendedTabbing.dataBase)
-		
+
 		local dup = dbDupFinder[dbEntry.playerID]
 		if dup == nil then 
 			dup = false
@@ -424,24 +353,20 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 			dup = true
 		end
 		dbDupFinder[dbEntry.playerID] = dup
-		
-		--print("i = "..tostring(i)..": dbEntry:")
-		--print_r(dbEntry)
-		--print("DupFinder: "..tostring(dup))
-		
+
 		if dbEntry.playerID == updateEntry.playerID then
 			dbEntry = updateEntry
 		end
+		
 		if not dbDupFinder[dbEntry.playerID] then table.insert(newDataBase, dbEntry); end
 	end
 	ExtendedTabbing.dataBase = newDataBase
-	-- debug printing
-		--print("New Database:")
-		--print_r(ExtendedTabbing.dataBase)
-		--	--
 end
 
+---------------------
 -- Hauptfunktionen --
+---------------------
+
 function ExtendedTabbing:toggleHelp()
 	ExtendedTabbing.showSlots = not ExtendedTabbing.showSlots
 	for slot=1,3 do
@@ -526,8 +451,6 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	ExtendedTabbing.selectedVehicle = nextVehicle
 end
 
---[[ Denkanstoß: Realisierung mit Hilfe von g_currentMission.enterables effizienter? ]]-- 
-
 function ExtendedTabbing:getVehicleById(vehicleId)
 	for _, vehicle in pairs(g_currentMission.vehicles) do
 		if vehicle.id == vehicleId then
@@ -556,8 +479,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 		if ExtendedTabbing.selectedVehicle ~= nil then
 			ExtendedTabbing.data.slot[slot] = ExtendedTabbing.selectedVehicle.id
 			ExtendedTabbing.data.slotName[slot] = ExtendedTabbing.selectedVehicle:getName()
-			--g_currentMission:showBlinkingWarning(g_i18n:getText("warning_motorNotStarted"), 2000)
-			ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.selectedVehicle:getName()
+			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.selectedVehicle:getName()
 			g_currentMission:showBlinkingWarning(g_i18n:getText("l10n_XTB_SAVED")..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
     		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.slot[slot] ~= nil)
@@ -565,14 +487,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 			ExtendedTabbing.needsUpdate = true
 		end
 	end
-	
-	-- slot-key pressed: re-register actionEvent
-	if slot ~= 0 then
-		--Player:registerActionEvents()
-		--_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
-		--Player:updateActionEvents()
-	end
-	
+
 	-- tab-key pressed für fastTab or tab-key pressed to end extended tabbing mode
 	if not ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		g_currentMission:requestToEnterVehicle(ExtendedTabbing.selectedVehicle)
@@ -598,17 +513,12 @@ function ExtendedTabbing:updatePlayerActionEvents()
 	for slot=1,3 do
 		g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
     	g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.slot[slot] ~= nil)
-    	g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
-    	print("Update: "..ExtendedTabbing.actionEventText[slot])
+    	g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_NORMAL)
     end
-	-- _, ExtendedTabbing.actionEvents[1] = g_inputBinding:addActionEvent('XTB_FAV1', self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil, true)
 end
 
 -- Register mod to event management
 addModEventListener(ExtendedTabbing);
-
--- Load Database on start -- realized by "loadMap"
--- Mission00.load = Utils.appendedFunction(Mission00.load, ExtendedTabbing.loadDataBase)
 
 -- Get unique User-Id on joining
 Player.load = Utils.appendedFunction(Player.load, ExtendedTabbing.loadPlayer)
