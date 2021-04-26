@@ -12,8 +12,8 @@ function GMSDebug:init(modName, forceDbg)
 	GMSDebug.state = (forceDbg == true)
 end
 
-function GMSDebug:enableConsoleCommands()
-	GMSDebug.consoleCommands = true
+function GMSDebug:enableConsoleCommands(doit)
+	GMSDebug.consoleCommands = true and doit
 	addConsoleCommand("gmsDebug", "Glowins Mod Smithery: Toggle Debug settings", "toggleDebug", GMSDebug)
 	addConsoleCommand("gmsPrint", "Glowins Mod Smithery: Debug printing", "consolePrint", GMSDebug)
 end
