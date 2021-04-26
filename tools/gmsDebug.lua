@@ -5,7 +5,7 @@
 GMSDebug = {}
 GMSDebug.modName = "Unknown Mod"
 GMSDebug.state = false
-GMSDebud.consoleCommands = false
+GMSDebug.consoleCommands = false
 
 function GMSDebug:init(modName, forceDbg)
 	GMSDebug.modName = modName
