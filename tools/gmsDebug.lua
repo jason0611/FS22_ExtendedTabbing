@@ -1,13 +1,23 @@
 --
 -- Glowins Modschmiede: Debug-Tool
--- V0.9
+-- V0.9.1
 
 GMSDebug = {}
+GMSDebug.modName = "modName not set correctly"
+GMSDebug.modPath = "modPath not set correctly"
+GMSDebug.state = false
+GMSDebud.consoleCommands = false
 
 function GMSDebug:init(modName, modPath, forceDbg)
 	GMSDebug.modName = modName
 	GMSDebug.modPath = modPath
 	GMSDebug.state = (forceDbg == true)
+end
+
+function GMSDebug:enableConsoleCommands()
+	GMSDebug.consoleCommands = true
+	addConsoleCommand("gmsDebug", "Glowins Mod Smithery: Toggle Debug settings", "toggleDebug", GMSDebug)
+	addConsoleCommand("gmsPrint", "Glowins Mod Smithery: Debug printing", "consolePrint", GMSDebug)
 end
 
 function GMSDebug:print(text)
@@ -26,14 +36,13 @@ function GMSDebug:toggleDebug()
 	GMSDebug.state = not GMSDebug.modState
 	print("GMSDebug: New state is "..tostringGMSDebug.state)
 end
-addConsoleCommand("gmsDebug", "Glowins Mod Smithery: Toggle Debug settings", "toggleDebug", GMSDebug)
+
 
 function GMSDebug:consolePrint(object)
 	print(modName.." :: BEGIN of "..tostring(object).." =================")
 	print_r(object)
 	print(modName.." :: END of "..tostring(object).." =================")
 end
-addConsoleCommand("gmsPrint", "Glowins Mod Smithery: Debug printing", "consolePrint", GMSDebug)
 
 --
 
