@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.6.1
+-- Version: 0.9.6.2
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -140,8 +140,8 @@ function ExtendedTabbing:loadMap(name)
 				ExtendedTabbing.dataBase = {}
 			end
 		else
-			print("ExtendedTabbing :: loadMap : Error: savegameDir not found")
-			ExendedTabbing.dataBase = {}
+			print("ExtendedTabbing :: loadMap : Info: New savegame, starting with empty database")
+			ExtendedTabbing.dataBase = {}
 		end
 	else
 		print("ExtendedTabbing :: loadMap : Just client, no database needed")
