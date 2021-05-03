@@ -480,7 +480,7 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
 end
 
-local function ExtendedTabbing:getVehicleById(vehicleId)
+function ExtendedTabbing:getVehicleById(vehicleId)
 	for _, vehicle in pairs(g_currentMission.vehicles) do
 		if vehicle.id == vehicleId then
 			return vehicle
