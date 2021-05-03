@@ -127,9 +127,9 @@ function ExtendedTabbing:loadMap(name)
 					
 					if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
 					
-					loadedEntry.playerID 	= Util.getNoNil(getXMLString(xmlFile, xmlPlayerID), "")
-					loadedEntry.playerName 	= Util.getNoNil(getXMLString(xmlFile, xmlPlayerName), "")
-					loadedEntry.showSlots	= Util.getNoNil(getXMLBool(xmlFile, xmlShowSlots), true)
+					loadedEntry.playerID 	= Utils.getNoNil(getXMLString(xmlFile, xmlPlayerID), "")
+					loadedEntry.playerName 	= Utils.getNoNil(getXMLString(xmlFile, xmlPlayerName), "")
+					loadedEntry.showSlots	= Utils.getNoNil(getXMLBool(xmlFile, xmlShowSlots), true)
 					for s=1,3 do
 					    if hasXMLProperty(xmlFile, xmlSlot[s]) then loadedEntry.slot[s] = getXMLInt(xmlFile, xmlSlot[s]); end
 					    if hasXMLProperty(xmlFile, xmlSlotName[s]) then loadedEntry.slotName[s] = getXMLString(xmlFile, xmlSlotName[s]); end
