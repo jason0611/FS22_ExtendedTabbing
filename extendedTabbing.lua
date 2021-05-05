@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.7.0
+-- Version: 0.9.7.1
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -46,11 +46,6 @@ ExtendedTabbing.clientData.slotName = {"", "", ""}
 
 -- all player data (to use on mp-server)
 ExtendedTabbing.dataBase = {}
--- ExtendedTabbing.dataBase.playerID = ""
--- ExtendedTabbing.dataBase.playerName = ""
--- ExtendedTabbing.dataBase.showSlots = true
--- ExtendedTabbing.dataBase.slot = {0, 0, 0}
--- ExtendedTabbing.dataBase.slotName = {"", "", ""}
 
 function ExtendedTabbing:registerActionEvents()
 	local actionEventId
@@ -139,7 +134,7 @@ function ExtendedTabbing:loadMap(name)
 					end	
 					dbgprint("loadMap : loadedEntry #"..tostring(pkey))
 					dbgprint_r(loadedEntry)
-					ExtendedTabbing.dataBase = ExtendedTabbing:updateDataBase(ExtendedTabbing.dataBase, loadedEntry)
+					ExtendedTabbing:updateDataBase(loadedEntry)
 															
 					pkey = pkey + 1
 					
@@ -247,7 +242,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			end
 		end
 		if not found then 
-			ExtendedTabbing.dataBase = ExtendedTabbing:updateDataBase(ExtendedTabbing.dataBase, loadEntry)
+			ExtendedTabbing:updateDataBase(loadEntry)
 			dbgprint("loadPlayerData : added to dataBase:")
 			dbgprint_r(ExtendedTabbing.dataBase)
 		end
@@ -361,51 +356,31 @@ function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 				loadEntry.slotName[i] = streamReadString(streamId)
 			end
 			dbgprint("readUpdateStream : Data transmitted")
-			ExtendedTabbing.dataBase = ExtendedTabbing:updateDataBase(ExtendedTabbing.dataBase, loadEntry)	
+			ExtendedTabbing:updateDataBase(loadEntry)	
 		end
 	end
 end
 
 -- Individuelle Informationen für den jeweiligen Spieler in die Datenbank schreiben und Duplikate entfernen: Nur für MP-Server und SP relevant
-function ExtendedTabbing:updateDataBase(dataBase, updateEntry)
-	local dbDupFinder = {}
-	local newDataBase = {}
-	local dbEntry = {}
-	local dup
+function ExtendedTabbing:updateDataBase(updateEntry)
 	dbgprint("updateDataBase : given dataBase:")
 	dbgprint_r(dataBase)
-
-	if table.maxn(dataBase) == 0 then
-		table.insert(dataBase, updateEntry)
-		dbgprint("updateDataBase : empty database found, entry inserted:")
-		dbgprint_r(dataBase)
-		return dataBase
-	end
 	
-	for _, entry in pairs(dataBase) do
-		dbEntry = entry
-		dup = dbDupFinder[dbEntry.playerID]
-		if dup == nil then 
-			dup = 1
-			dbgprint("updateDataBase : no duplicate in database found")
-		elseif dup == 1 then
-			dup = 2
-			dbgprint("updateDataBase : duplicate in database found")
-		end
-		dbDupFinder[dbEntry.playerID] = dup
-		dbgprint("updateDataBase : dbDupFinder")
-		dbgprint_r(dbDupFinder)
-
-		dbgprint("updateDataBase : comparing "..dbEntry.playerID.." with "..updateEntry.playerID)
-		if dbEntry.playerID == updateEntry.playerID and dbDupFinder[dbEntry.playerID] ~= 2 then
-			table.insert(newDataBase, updateEntry)
-			dbgprint("updateDataBase : database entry replaced : "..dbEntry.playerID)
-		elseif dbDupFinder[dbEntry.playerID] ~= 2 then
-			table.insert(newDataBase, dbEntry)
-			dbgprint("updateDataBase : database entry inserted : "..dbEntry.playerID)
+	local dbSize = table.maxn(ExtendedTabbing.dataBase)
+	local found = false 
+	
+	for i = 1, dbSize do
+		if ExtendedTabbing.dataBase[i].playerID == updateEntry.playerID then
+			ExtendedTabbing.dataBase[i] = updateEntry
+			dbgprint("updateDataBase : database entry replaced : "..updateEntry.playerID)
+			found = true
+			break
 		end
 	end
-	return newDataBase
+	if not found then
+		table.insert(ExtendedTabbing.dataBase, updateEntry)
+		dbgprint("updateDataBase : database entry inserted : "..updateEntry.playerID)
+	end
 end
 
 ---------------------
@@ -552,7 +527,7 @@ function ExtendedTabbing:update(dt)
 	end
 	if ExtendedTabbing.needsDBUpdate then
 		if g_currentMission:getIsServer() then 
-			ExtendedTabbing.dataBase = ExtendedTabbing:updateDataBase(ExtendedTabbing.dataBase, ExtendedTabbing.data)
+			ExtendedTabbing:updateDataBase(ExtendedTabbing.data)
 		end
 		ExtendedTabbing.needsServerUpdate = true
 		ExtendedTabbing.needsDBUpdate = false
