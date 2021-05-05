@@ -5,7 +5,7 @@
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true)
+GMSDebug:init(g_currentModName)
 GMSDebug:enableConsoleCommands(true)
 
 ExtendedTabbing = {}
