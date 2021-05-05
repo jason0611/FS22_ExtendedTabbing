@@ -1,11 +1,11 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.6.3
+-- Version: 0.9.6.4
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName)
+GMSDebug:init(g_currentModName, true)
 GMSDebug:enableConsoleCommands(true)
 
 ExtendedTabbing = {}
@@ -19,7 +19,6 @@ ExtendedTabbing.selectedDistance = 0
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
 ExtendedTabbing.needsDBUpdate = false
---ExtendedTabbing.showSlots = true
 ExtendedTabbing.vehiclesHaveChanged = false
 
 ExtendedTabbing.actionEvents = {}
@@ -388,7 +387,6 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 		if not dbDupFinder[dbEntry.playerID] then table.insert(newDataBase, dbEntry); end
 	end
 	ExtendedTabbing.dataBase = newDataBase
-	ExtendedTabbing.needsServerUpdate = true
 end
 
 ---------------------
@@ -400,6 +398,7 @@ function ExtendedTabbing:toggleHelp()
 	for slot=1,3 do
    		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.showSlots)
 	end
+	ExtendedTabbing.
 end
 
 function ExtendedTabbing:getSortedTables(rootNode)
@@ -530,13 +529,14 @@ end
 function ExtendedTabbing:update(dt)	
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
-		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..tostring(ExtendedTabbing.selectedDistance).." m)")
+		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
 	end
 	if ExtendedTabbing.needsDBUpdate then
 		if g_currentMission:getIsServer() then 
 			ExtendedTabbing:updateDataBase(ExtendedTabbing.data)
-			ExtendedTabbing.needsDBUpdate = false
 		end
+		ExtendedTabbing.needsServerUpdate = true
+		ExtendedTabbing.needsDBUpdate = false
 	end
 end
 
