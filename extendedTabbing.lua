@@ -79,8 +79,6 @@ function ExtendedTabbing:registerActionEvents()
 end
 
 function ExtendedTabbing:loadMap(name)
-	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
-	
 	dbgprint("loadMap : started")
 	
 	-- Load Database if MP-Server or SP
@@ -134,7 +132,7 @@ function ExtendedTabbing:loadMap(name)
 					end	
 					dbgprint("loadMap : loadedEntry #"..tostring(pkey))
 					dbgprint_r(loadedEntry)
-					ExtendedTabbing:updateDataBase(loadedEntry)
+					ExtendedTabbing.updateDataBase(self, loadedEntry)
 															
 					pkey = pkey + 1
 					
@@ -154,6 +152,7 @@ function ExtendedTabbing:loadMap(name)
 		print("ExtendedTabbing :: loadMap : Just client, no database needed")
 		ExtendedTabbing.dataBase = {}
 	end
+	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	dbgprint("loadMap : ended")
 end
 
