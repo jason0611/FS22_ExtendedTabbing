@@ -398,7 +398,7 @@ function ExtendedTabbing:toggleHelp()
 	for slot=1,3 do
    		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.showSlots)
 	end
-	ExtendedTabbing.
+	ExtendedTabbing.needsDBUpdate = true
 end
 
 function ExtendedTabbing:getSortedTables(rootNode)
