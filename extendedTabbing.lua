@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.7.1
+-- Version: 0.9.7.2
 -- Code review
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -363,8 +363,6 @@ end
 
 -- Individuelle Informationen für den jeweiligen Spieler in die Datenbank schreiben und Duplikate entfernen: Nur für MP-Server und SP relevant
 function ExtendedTabbing:updateDataBase(updateEntry)
-	dbgprint("updateDataBase : given dataBase:")
-	dbgprint_r(dataBase)
 	
 	local dbSize = table.maxn(ExtendedTabbing.dataBase)
 	local found = false 
