@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.6.4
--- Code review
+-- Version: 0.9.7.3
+-- DataBase optimized
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName)
@@ -46,11 +46,6 @@ ExtendedTabbing.clientData.slotName = {"", "", ""}
 
 -- all player data (to use on mp-server)
 ExtendedTabbing.dataBase = {}
-ExtendedTabbing.dataBase.playerID = ""
-ExtendedTabbing.dataBase.playerName = ""
-ExtendedTabbing.dataBase.showSlots = true
-ExtendedTabbing.dataBase.slot = {0, 0, 0}
-ExtendedTabbing.dataBase.slotName = {"", "", ""}
 
 function ExtendedTabbing:registerActionEvents()
 	local actionEventId
@@ -84,8 +79,6 @@ function ExtendedTabbing:registerActionEvents()
 end
 
 function ExtendedTabbing:loadMap(name)
-	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
-	
 	dbgprint("loadMap : started")
 	
 	-- Load Database if MP-Server or SP
@@ -104,8 +97,6 @@ function ExtendedTabbing:loadMap(name)
 				loadedEntry.slot = {0, 0, 0}
 				loadedEntry.slotName = {}
 					
-				ExtendedTabbing.dataBase = {}	
-
 				local xmlPlayerID
 				local xmlPlayerName
 				local xmlShowSlots
@@ -126,21 +117,26 @@ function ExtendedTabbing:loadMap(name)
 					
 					if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
 					
-					loadedEntry.playerID 	= Utils.getNoNil(getXMLString(xmlFile, xmlPlayerID), "")
-					loadedEntry.playerName 	= Utils.getNoNil(getXMLString(xmlFile, xmlPlayerName), "")
-					loadedEntry.showSlots	= Utils.getNoNil(getXMLBool(xmlFile, xmlShowSlots), true)
+					loadedEntry.playerID 	= getXMLString(xmlFile, xmlPlayerID)
+					loadedEntry.playerName 	= getXMLString(xmlFile, xmlPlayerName)
+					
+					if hasXMLProperty(xmlFile, xmlShowSlots) then 
+						loadedEntry.showSlots = getXMLBool(xmlFile, xmlShowSlots)
+					else	
+						loadedEntry.showSlots = true
+					end
+					
 					for s=1,3 do
 					    if hasXMLProperty(xmlFile, xmlSlot[s]) then loadedEntry.slot[s] = getXMLInt(xmlFile, xmlSlot[s]); end
 					    if hasXMLProperty(xmlFile, xmlSlotName[s]) then loadedEntry.slotName[s] = getXMLString(xmlFile, xmlSlotName[s]); end
-					end				
-					
-					if ExtendedTabbing.dataBase.PlayerID == "" then
-						ExtendedTabbing.dataBase = {}
-					end
-					table.insert(ExtendedTabbing.dataBase, loadedEntry)
+					end	
+					dbgprint("loadMap : loadedEntry #"..tostring(pkey))
+					dbgprint_r(loadedEntry)
 					
 					pkey = pkey + 1
 					
+					ExtendedTabbing.dataBase[pkey] = loadedEntry
+															
 					dbgprint("loadMap : Step "..tostring(pkey)..": Database state:")
 					dbgprint_r(ExtendedTabbing.dataBase)
 				end
@@ -157,6 +153,7 @@ function ExtendedTabbing:loadMap(name)
 		print("ExtendedTabbing :: loadMap : Just client, no database needed")
 		ExtendedTabbing.dataBase = {}
 	end
+	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	dbgprint("loadMap : ended")
 end
 
@@ -245,7 +242,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			end
 		end
 		if not found then 
-			table.insert(ExtendedTabbing.dataBase, loadEntry); 
+			ExtendedTabbing:updateDataBase(loadEntry)
 			dbgprint("loadPlayerData : added to dataBase:")
 			dbgprint_r(ExtendedTabbing.dataBase)
 		end
@@ -270,6 +267,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		
 		dbgprint("loadPlayerData : loaded data:")
 		dbgprint_r(ExtendedTabbing.data)
+		dbgprint("loadPlayerData : loaded clientData:")
 		dbgprint_r(ExtendedTabbing.clientData)
 	end
 end
@@ -365,28 +363,22 @@ end
 
 -- Individuelle Informationen für den jeweiligen Spieler in die Datenbank schreiben und Duplikate entfernen: Nur für MP-Server und SP relevant
 function ExtendedTabbing:updateDataBase(updateEntry)
-	local playerAnz = table.maxn(ExtendedTabbing.dataBase)
-	local dbEntry
-	local dbDupFinder = {}
-	local newDataBase = {}
-	for i = 1, playerAnz do
-		dbEntry = table.remove(ExtendedTabbing.dataBase)
-
-		local dup = dbDupFinder[dbEntry.playerID]
-		if dup == nil then 
-			dup = false
-		else
-			dup = true
+	
+	local dbSize = table.maxn(ExtendedTabbing.dataBase)
+	local found = false 
+	
+	for i = 1, dbSize do
+		if ExtendedTabbing.dataBase[i].playerID == updateEntry.playerID then
+			ExtendedTabbing.dataBase[i] = updateEntry
+			dbgprint("updateDataBase : database entry replaced : "..updateEntry.playerID)
+			found = true
+			break
 		end
-		dbDupFinder[dbEntry.playerID] = dup
-
-		if dbEntry.playerID == updateEntry.playerID then
-			dbEntry = updateEntry
-		end
-		
-		if not dbDupFinder[dbEntry.playerID] then table.insert(newDataBase, dbEntry); end
 	end
-	ExtendedTabbing.dataBase = newDataBase
+	if not found then
+		table.insert(ExtendedTabbing.dataBase, updateEntry)
+		dbgprint("updateDataBase : database entry inserted : "..updateEntry.playerID)
+	end
 end
 
 ---------------------

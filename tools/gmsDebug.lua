@@ -21,7 +21,7 @@ end
 
 function GMSDebug:print(text)
 	if not GMSDebug.state then return; end
-	print(modName.." :: "..text)
+	print(GMSDebug.modName.." :: "..text)
 end
 
 function GMSDebug:print_r(table)
@@ -38,9 +38,9 @@ end
 
 
 function GMSDebug:consolePrint(object)
-	print(modName.." :: BEGIN of "..tostring(object).." =================")
+	print(GMSDebug.modName.." :: BEGIN of "..tostring(object).." =================")
 	print_r(object)
-	print(modName.." :: END of "..tostring(object).." =================")
+	print(GMSDebug.modName.." :: END of "..tostring(object).." =================")
 end
 
 --
