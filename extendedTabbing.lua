@@ -5,7 +5,7 @@
 -- DataBase optimized
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName)
+GMSDebug:init(g_currentModName, true)
 GMSDebug:enableConsoleCommands(true)
 
 ExtendedTabbing = {}
