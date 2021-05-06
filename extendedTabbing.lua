@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.7.2
--- Code review
+-- Version: 0.9.7.3
+-- DataBase optimized
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
@@ -132,10 +132,11 @@ function ExtendedTabbing:loadMap(name)
 					end	
 					dbgprint("loadMap : loadedEntry #"..tostring(pkey))
 					dbgprint_r(loadedEntry)
-					ExtendedTabbing.updateDataBase(self, loadedEntry)
-															
+					
 					pkey = pkey + 1
 					
+					ExtendedTabbing.dataBase[pkey] = loadedEntry
+															
 					dbgprint("loadMap : Step "..tostring(pkey)..": Database state:")
 					dbgprint_r(ExtendedTabbing.dataBase)
 				end
