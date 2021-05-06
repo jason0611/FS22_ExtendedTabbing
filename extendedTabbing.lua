@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.7.3
+-- Version: 0.9.7.4
 -- DataBase optimized
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -230,20 +230,24 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 	
 		-- Individuelle Informationen für den jeweiligen Spieler aus der DB abrufen oder anlegen
 		local found = false
-		for _, entry in pairs(ExtendedTabbing.dataBase) do
-			if entry.playerID == loadEntry.playerID then
-				found = true
-				loadEntry.showSlots = entry.showSlots
+		local n = 1
+		while true do
+			if ExtendedTabbing.dataBase[n] == nil then break; end
+			if ExtendedTabbing.dataBase[n].playerID == loadEntry.playerID then
+				loadEntry.showSlots = ExtendedTabbing.dataBase[n].showSlots
 				for i = 1, 3 do
-					loadEntry.slot[i] = entry.slot[i]
-					loadEntry.slotName[i] = entry.slotName[i]
+					loadEntry.slot[i] = ExtendedTabbing.dataBase[n].slot[i]
+					loadEntry.slotName[i] = ExtendedTabbing.dataBase[n].slotName[i]
 				end
+				found = true
+				dbgprint("loadPlayer : found in dataBase")
 				break
 			end
+			n = n +1
 		end
 		if not found then 
 			ExtendedTabbing:updateDataBase(loadEntry)
-			dbgprint("loadPlayerData : added to dataBase:")
+			dbgprint("loadPlayer : added to dataBase:")
 			dbgprint_r(ExtendedTabbing.dataBase)
 		end
 		
