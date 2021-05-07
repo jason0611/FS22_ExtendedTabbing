@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.7.3
--- DataBase optimized
+-- Version: 0.9.8.0
+-- DataBase loading now works correctly
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
@@ -80,6 +80,7 @@ end
 
 function ExtendedTabbing:loadMap(name)
 	dbgprint("loadMap : started")
+	ExtendedTabbing.dataBase = {}
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
@@ -95,7 +96,7 @@ function ExtendedTabbing:loadMap(name)
 				loadedEntry.playerName = ""
 				loadedEntry.showSlots = true
 				loadedEntry.slot = {0, 0, 0}
-				loadedEntry.slotName = {}
+				loadedEntry.slotName = {"", "", ""}
 					
 				local xmlPlayerID
 				local xmlPlayerName
@@ -130,28 +131,20 @@ function ExtendedTabbing:loadMap(name)
 					    if hasXMLProperty(xmlFile, xmlSlot[s]) then loadedEntry.slot[s] = getXMLInt(xmlFile, xmlSlot[s]); end
 					    if hasXMLProperty(xmlFile, xmlSlotName[s]) then loadedEntry.slotName[s] = getXMLString(xmlFile, xmlSlotName[s]); end
 					end	
-					dbgprint("loadMap : loadedEntry #"..tostring(pkey))
-					dbgprint_r(loadedEntry)
-					
-					pkey = pkey + 1
-					
-					ExtendedTabbing.dataBase[pkey] = loadedEntry
-															
+					ExtendedTabbing:updateDataBase(loadedEntry)
+					pkey = pkey + 1												
 					dbgprint("loadMap : Step "..tostring(pkey)..": Database state:")
 					dbgprint_r(ExtendedTabbing.dataBase)
 				end
 				dbgprint("loadMap : Database loading finished")
 			else
 				print("ExtendedTabbing :: loadMap : No database to load, starting with empty one")
-				ExtendedTabbing.dataBase = {}
 			end
 		else
 			print("ExtendedTabbing :: loadMap : Info: New savegame, starting with empty database")
-			ExtendedTabbing.dataBase = {}
 		end
 	else
 		print("ExtendedTabbing :: loadMap : Just client, no database needed")
-		ExtendedTabbing.dataBase = {}
 	end
 	FSBaseMission.registerActionEvents = Utils.appendedFunction(FSBaseMission.registerActionEvents, ExtendedTabbing.registerActionEvents);
 	dbgprint("loadMap : ended")
@@ -230,20 +223,24 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 	
 		-- Individuelle Informationen für den jeweiligen Spieler aus der DB abrufen oder anlegen
 		local found = false
-		for _, entry in pairs(ExtendedTabbing.dataBase) do
-			if entry.playerID == loadEntry.playerID then
-				found = true
-				loadEntry.showSlots = entry.showSlots
+		local n = 1
+		while true do
+			if ExtendedTabbing.dataBase[n] == nil then break; end
+			if ExtendedTabbing.dataBase[n].playerID == loadEntry.playerID then
+				loadEntry.showSlots = ExtendedTabbing.dataBase[n].showSlots
 				for i = 1, 3 do
-					loadEntry.slot[i] = entry.slot[i]
-					loadEntry.slotName[i] = entry.slotName[i]
+					loadEntry.slot[i] = ExtendedTabbing.dataBase[n].slot[i]
+					loadEntry.slotName[i] = ExtendedTabbing.dataBase[n].slotName[i]
 				end
+				found = true
+				dbgprint("loadPlayer : found in dataBase")
 				break
 			end
+			n = n +1
 		end
 		if not found then 
 			ExtendedTabbing:updateDataBase(loadEntry)
-			dbgprint("loadPlayerData : added to dataBase:")
+			dbgprint("loadPlayer : added to dataBase:")
 			dbgprint_r(ExtendedTabbing.dataBase)
 		end
 		
@@ -369,14 +366,34 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 	
 	for i = 1, dbSize do
 		if ExtendedTabbing.dataBase[i].playerID == updateEntry.playerID then
-			ExtendedTabbing.dataBase[i] = updateEntry
+			--ExtendedTabbing.dataBase[i] = {}
+			--ExtendedTabbing.dataBase[i].playerID = updateEntry.playerID
+			ExtendedTabbing.dataBase[i].playerName = updateEntry.playerName
+			ExtendedTabbing.dataBase[i].showSlots = updateEntry.showSlots
+			ExtendedTabbing.dataBase[i].slot = {0, 0, 0}
+			ExtendedTabbing.dataBase[i].slotName = {"", "", ""}
+			for slot=1,3 do
+				ExtendedTabbing.dataBase[i].slot[slot] = updateEntry.slot[slot]
+				ExtendedTabbing.dataBase[i].slotName[slot] = updateEntry.slotName[slot]
+			end
 			dbgprint("updateDataBase : database entry replaced : "..updateEntry.playerID)
 			found = true
 			break
 		end
 	end
 	if not found then
-		table.insert(ExtendedTabbing.dataBase, updateEntry)
+		local newPos = dbSize+1
+		--table.insert(ExtendedTabbing.dataBase, updateEntry)
+		ExtendedTabbing.dataBase[newPos] = {}
+		ExtendedTabbing.dataBase[newPos].playerID = updateEntry.playerID
+		ExtendedTabbing.dataBase[newPos].playerName = updateEntry.playerName
+		ExtendedTabbing.dataBase[newPos].showSlots = updateEntry.showSlots
+		ExtendedTabbing.dataBase[newPos].slot = {0, 0, 0}
+		ExtendedTabbing.dataBase[newPos].slotName = {"", "", ""}
+		for slot=1,3 do
+			ExtendedTabbing.dataBase[newPos].slot[slot] = updateEntry.slot[slot]
+			ExtendedTabbing.dataBase[newPos].slotName[slot] = updateEntry.slotName[slot]
+		end
 		dbgprint("updateDataBase : database entry inserted : "..updateEntry.playerID)
 	end
 end
