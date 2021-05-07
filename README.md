@@ -24,5 +24,9 @@ Features:
  - Drei Fahrzeuge können für den schnellen Direktzugriff gespeichert werden (3 Slots), anschließend kann direkt über eine eigene Taste hineingesprungen werden
  - Voller Multiplayer-Support
  
-
-
+ =====================
+ 
+ # ToDo:
+ - Hinweistext wenn gespeicherte Zuordnung gelöscht wurde, weil die Fahrzeugtabelle geändert wurde
+ - Zukünftig: Speichern in der vehicle.xml?
+ 
