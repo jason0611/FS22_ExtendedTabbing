@@ -18,9 +18,9 @@
 Features:
 - Shows the target before tab execution
 - Possibility to change target before tabbing, vehicles are sorted by distance
-- Tab key: Activate the function, choose your target by pressing 'p'-key (previous) or 'n'-key (next), press the tab-key again to enter target
-- Quick-Tab key: Instantly tab into nearest vehicle, change target while holding the key down
-- Save up to three vehicles for direct access
+- Tab key (Ctrl right + TAB): Activate the function, choose your target by pressing 'p'-key (previous) or 'n'-key (next), press the tab-key again to enter target
+- Quick-Tab key (Ctrl left + Alt left + TAB): Instantly tab into nearest vehicle, change target while holding the key down
+- Save up to three vehicles for direct access (Alt left + 1, Alt left + 2, Alt left + 3)
 - All key bindings can be changed
 - Full multiplayer support
 ]]>
@@ -32,9 +32,9 @@ Schnelles "tabben" in das jeweils nächstgelegene Fahrzeug oder in alternative Z
 Features:
 - Anzeige des "Tab"-Ziels vor Ausführung
 - Möglichkeit, das Ziel zu wechseln, die Reihenfolge entspricht der Entfernung von der aktuellen Position des Spielers
-- Aktivieren/Auslösen-Taste: Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'P' (vorhergehendes) oder 'N' (nächstes) geändert werden kann. Erneuter Tastendruck löst dann den Wechsel aus.
-- QuickTab-Taste: Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltener Taste kann auch hier das Ziel geändert werden
-- Bis zu drei Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden
+- Aktivieren/Auslösen-Taste (Strg rechts + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'P' (vorhergehendes) oder 'N' (nächstes) geändert werden kann. Erneuter Tastendruck löst dann den Wechsel aus.
+- QuickTab-Taste (Alt links + Strg links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltener Taste kann auch hier das Ziel geändert werden
+- Bis zu drei Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3)
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
 ]]>
