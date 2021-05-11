@@ -2,7 +2,7 @@
 <l10n>
 	<texts>
         <text name="input_XTB_EXECTAB" text="ExtTab: Aktivieren/Ausführen" />
-        <text name="input_XTB_FASTTAB" text="ExtTab: Springe ins nächstgelegene Fahrzeug" />
+        <text name="input_XTB_FASTTAB" text="ExtTab: QUICKTAB - Springe ins nächstgelegene Fahrzeug" />
         <text name="input_XTB_TOGGLEHELP" text="ExtTab: Tastenzuweisungen ein-/ausblenden" />
         <text name="input_XTB_PREV" text="ExtTab: Vorhergehende Fahrzeug" />
         <text name="input_XTB_NEXT" text="ExtTab: Nächstes Fahrzeug" />
