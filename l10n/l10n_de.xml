@@ -14,6 +14,14 @@
         <text name="l10n_XTB_FAV3_FREE" text="Springe zu Slot 3 (leer)" />
         <text name="l10n_XTB_FAV_SET" text="Springe zu " />
         <text name="l10n_XTB_SAVED" text="Gespeichert: Slot " />
+        <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Fahrzeugliste neu initialisiert" />
+		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="Die Liste der Fahrzeuge im Spiel hat sich geändert. Daher konnten nicht alle gespeicherten Zuweisungen wiederhergestellt werden.
+		
+		Folgende Zuweisungen sind vorhanden:
+		
+		Slot 1: %s
+		Slot 2: %s
+		Slot 3: %s" />
     </texts>
 </l10n>
         

@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.8.0
--- DataBase loading now works correctly
+-- Version: 0.9.8.2
+-- Information if vehicle list is reset
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
@@ -249,6 +249,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 				local vehicle = ExtendedTabbing:getVehicleById(loadEntry.slot[i])
 				if vehicle == nil or loadEntry.slotName[i] ~= vehicle:getName() then
 					loadEntry.slot[i] = 0
+					loadEntry.slotName[i] = ""
 					ExtendedTabbing.vehiclesHaveChanged = true
 				elseif found then
 					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..loadEntry.slotName[i]
@@ -299,13 +300,14 @@ function ExtendedTabbing:readStream(streamId, connection)
 		dbgprint("readStream : reading data for "..ExtendedTabbing.data.playerName)
 		for i = 1, 3 do
 			ExtendedTabbing.data.slot[i] = streamReadInt16(streamId)
-			local vehicleName = streamReadString(streamId)
+			ExtendedTabbing.data.slotName[i] = streamReadString(streamId)
 			local vehicle = ExtendedTabbing:getVehicleById(ExtendedTabbing.data.slot[i])
-			if vehicle == nil or vehicleName ~= vehicle:getName() then
+			if vehicle == nil or ExtendedTabbing.data.slotName[i] ~= vehicle:getName() then
 				ExtendedTabbing.data.slot[i] = 0
+				ExtendedTabbing.data.slotName[i] = ""
 				ExtendedTabbing.vehiclesHaveChanged = true
 			else
-				ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..vehicleName
+				ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.data.slotName[i]
 			end	
 		end
 	end
@@ -329,6 +331,7 @@ function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 					vehicleName = ExtendedTabbing:getVehicleById(ExtendedTabbing.data.slot[i]):getName()
 				end
 				streamWriteString(streamId, vehicleName)
+				ExtendedTabbing.data.slotName[i] = vehicleName
 			end
 			ExtendedTabbing.needsServerUpdate = false
 			dbgprint("writeUpdateStream : Data transmitted")
@@ -536,6 +539,18 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 end	
             
 function ExtendedTabbing:update(dt)	
+	if g_currentMission.hud ~= nil and ExtendedTabbing.vehiclesHaveChanged then
+		dbgprint("update : show info message")
+		local slot1 = ExtendedTabbing.data.slotName[1]
+		if slot1 == nil or slot1 == "" then slot1 = "---"; end
+		local slot2 = ExtendedTabbing.data.slotName[2]
+		if slot2 == nil or slot2 == "" then slot2 = "---"; end
+		local slot3 = ExtendedTabbing.data.slotName[3]
+		if slot3 == nil or slot3 == "" then slot3 = "---"; end
+		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot1, slot2, slot3), -1, nil, nil, nil)
+		ExtendedTabbing.vehiclesHaveChanged = false
+	end
+
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
 		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
@@ -549,13 +564,14 @@ function ExtendedTabbing:update(dt)
 	end
 end
 
-function ExtendedTabbing:updatePlayerActionEvents()
+--[[function ExtendedTabbing:updatePlayerActionEvents()
+	dbgprint("updatePlayerActionEvents : Executed")
 	for slot=1,3 do
 		g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
     	g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.showSlots)
     	g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_NORMAL)
     end
-end
+end --]]
 
 -- Register mod to event management
 addModEventListener(ExtendedTabbing);
