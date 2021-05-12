@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.8.3
--- Information if vehicle list is reset
+-- Version: 0.9.9.0 / RC0
+-- Information if vehicle list is reset, but not for server-user on dediserver
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
@@ -80,6 +80,11 @@ end
 
 function ExtendedTabbing:loadMap(name)
 	dbgprint("loadMap : started")
+	
+	dbgprint("loadMap : isServer: "..tostring(g_currentMission:getIsServer()))
+	dbgprint("loadMap : isClient: "..tostring(g_currentMission:getIsClient()))
+	dbgprint("loadMap : isDediServer: "..tostring(g_dedicatedServerInfo ~= nil))
+	
 	ExtendedTabbing.dataBase = {}
 	
 	-- Load Database if MP-Server or SP
@@ -539,7 +544,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 end	
             
 function ExtendedTabbing:update(dt)	
-	if g_currentMission.hud ~= nil and ExtendedTabbing.vehiclesHaveChanged then
+	if g_currentMission.hud ~= nil and ExtendedTabbing.vehiclesHaveChanged and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
 		local slot1 = ExtendedTabbing.data.slotName[1]
 		if slot1 == nil or slot1 == "" then slot1 = "---"; end
@@ -550,7 +555,6 @@ function ExtendedTabbing:update(dt)
 		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot1, slot2, slot3), -1, nil, nil, nil)
 		ExtendedTabbing.vehiclesHaveChanged = false
 	end
-
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
 		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
@@ -563,15 +567,6 @@ function ExtendedTabbing:update(dt)
 		ExtendedTabbing.needsDBUpdate = false
 	end
 end
-
---[[function ExtendedTabbing:updatePlayerActionEvents()
-	dbgprint("updatePlayerActionEvents : Executed")
-	for slot=1,3 do
-		g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
-    	g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data.showSlots)
-    	g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_NORMAL)
-    end
-end --]]
 
 -- Register mod to event management
 addModEventListener(ExtendedTabbing);
