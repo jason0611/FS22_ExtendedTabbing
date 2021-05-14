@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.9.2
+-- Version: 0.9.9.2 / RC2
 -- Segregation of clients' data
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
