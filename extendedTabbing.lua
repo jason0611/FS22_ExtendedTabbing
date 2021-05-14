@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.9.0 / RC0
+-- Version: 0.9.9.1 / RC1
 -- Information if vehicle list is reset, but not for server-user on dediserver
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -20,6 +20,7 @@ ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
 ExtendedTabbing.needsDBUpdate = false
 ExtendedTabbing.vehiclesHaveChanged = false
+ExtendedTabbing.selfID = 0
 
 ExtendedTabbing.actionEvents = {}
 
@@ -86,6 +87,9 @@ function ExtendedTabbing:loadMap(name)
 	dbgprint("loadMap : isDediServer: "..tostring(g_dedicatedServerInfo ~= nil))
 	
 	ExtendedTabbing.dataBase = {}
+	
+	ExtendedTabbing.selfID = g_currentMission.playerUserId
+	dbgprint("loadMap : playerUserId :"..tostring(ExtendedTabbing.selfID))
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
@@ -205,12 +209,13 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 end 
 
 function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection, isOwner)
+	ExtendedTabbing.selfID = self.userId
 	if g_currentMission:getIsServer() then 
-		local userId = self.userId
+		local userId = ExtendedTabbing.selfID
 		local localUser = (g_currentMission.player == nil) -- On first load, Player isn't initiated
 		local loadEntry = {}
 		
-		dbgprint("loadPlayer : loadUserId for UserId: "..tostring(userId))
+		dbgprint("loadPlayer : loadUserId for UserId: "..tostring(ExtendedTabbing.selfID))
 	
 		local user = g_currentMission.userManager:getUserByUserId(userId)
 		if user == nil then 
