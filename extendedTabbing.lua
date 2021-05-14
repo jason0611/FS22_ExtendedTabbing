@@ -89,7 +89,7 @@ function ExtendedTabbing:loadMap(name)
 	ExtendedTabbing.dataBase = {}
 	
 	ExtendedTabbing.selfID = g_currentMission.playerUserId
-	dbgprint("loadMap : playerUserId :"..tostring(ExtendedTabbing.selfID))
+	dbgprint("loadMap : selfID :"..tostring(ExtendedTabbing.selfID))
 	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
