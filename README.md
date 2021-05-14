@@ -26,7 +26,3 @@ Features:
  
  =====================
  
- # ToDo:
- - Hinweistext wenn gespeicherte Zuordnung gelöscht wurde, weil die Fahrzeugtabelle geändert wurde
- - Zukünftig: Speichern in der vehicle.xml?
- 
