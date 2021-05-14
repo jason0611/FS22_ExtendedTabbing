@@ -193,7 +193,7 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	
 	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
-		if dbEntry.slot ~= nil then
+		if dbEntry.slot ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
 			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
 			xmlPlayerID  	= xmlPlayerKey .. "playerID"
 			xmlPlayerName = xmlPlayerKey .. "playerName"
