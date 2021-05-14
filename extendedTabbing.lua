@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.9.0 / RC0
+-- Version: 0.9.9.1 / RC1
 -- Information if vehicle list is reset, but not for server-user on dediserver
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -179,7 +179,7 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	
 	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
-		if dbEntry.slot ~= nil then
+		if dbEntry.slot ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
 			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
 			xmlPlayerID  	= xmlPlayerKey .. "playerID"
 			xmlPlayerName = xmlPlayerKey .. "playerName"
