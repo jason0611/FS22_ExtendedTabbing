@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Martin Eller
--- Version: 0.9.9.2 / RC2
--- Segregation of clients' data
+-- Version: 0.9.9.4 / RC4
+-- Segregation of clients' data, memory optimization if player is leaving
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
@@ -278,9 +278,6 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 					end
 				end
 			end
-			--ExtendedTabbing.data = loadEntry
-		else
-			--ExtendedTabbing.clientData = loadEntry
 		end
 		ExtendedTabbing.data[userId] = loadEntry
 		
@@ -291,6 +288,21 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 	end
 end
 
+-- Speicherbereinigung, wenn Spieler das Spiel verlässt
+function ExtendedTabbing:deletePlayer()
+	if g_currentMission:getIsServer() then
+		if self.userId == nil then
+			dbgprint("deletePlayer : User ID is nil")
+		else
+			dbgprint("deletePlayer : Remove user "..tostring(self.userId))
+			ExtendedTabbing.data[self.userId] = nil
+			dbgprint("deletePlayer : data :")
+			dbgprint_r(ExtendedTabbing.data)
+		end
+	else
+		dbgprint("deletePlayer : leaving game")
+	end
+end
 
 -- Initiale Übertragung der DB vom Server zum Client (Server-Seite)
 function ExtendedTabbing:writeStream(streamId, connection)
@@ -613,6 +625,9 @@ addModEventListener(ExtendedTabbing);
 
 -- Get unique User-Id on joining
 Player.load = Utils.appendedFunction(Player.load, ExtendedTabbing.loadPlayer)
+
+-- Free space on leaving
+Player.delete = Utils.prependedFunction(Player.delete, ExtendedTabbing.deletePlayer)
 
 -- Transfer information from server to client on joining
 Player.readStream = Utils.appendedFunction(Player.readStream, ExtendedTabbing.readStream)
