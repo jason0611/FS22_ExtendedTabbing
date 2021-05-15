@@ -3,7 +3,7 @@
 
 <author>Jason06</author>
    	
-<version>0.9.9.4</version>
+<version>1.0.0.0</version>
 
     <title>
 		<en>Extended Tabbing</en>
@@ -23,6 +23,13 @@ Features:
 - Save up to three vehicles for direct access (Alt left + 1, Alt left + 2, Alt left + 3)
 - All key bindings can be changed
 - Full multiplayer support
+
+How it works:
+- Activate ExtendedTabbing with Ctrl right + Tab
+- Use N or P to choose a vehicle
+- If you like, save the selected vehicle with Alt-1, Alt-2 or Alt-3 for direct access
+- Press Ctrl right + Tab again to enter the selected vehicle
+- Fast-Tab: Press Ctrl left + Alt left to enter the nearest vehicle immediately. Alter the target with 'N' or 'P' before releasing te keys.
 ]]>
 		</en>	
 		<de>
@@ -37,6 +44,13 @@ Features:
 - Bis zu drei Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3)
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
+
+Funktionsweise:
+- Aktiviere ExtendedTabbing mit Strg rechts + Tab
+- Wähle mit N und P das gewünschte Fahrzeug
+- Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2 oder Alt-3 für den Schnellzugriff
+- Springe mit Strg rechts + Tab in das ausgewählte Fahrzeug
+- Fast-Tab: Drücke Strg links + Alt links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit N und P ein anderes Fahrzeug auszuwählen
 ]]>
 		</de>
  	</description>	
