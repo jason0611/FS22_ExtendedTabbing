@@ -6,9 +6,9 @@
         <text name="input_XTB_TOGGLEHELP" text="ExtTab: Show/Hide slot allocations" />
         <text name="input_XTB_PREV" text="ExtTab: Show previous vehicle" />
         <text name="input_XTB_NEXT" text="ExtTab: Show next vehicle" />
-        <text name="input_XTB_FAV1" text="ExtTab: Tab into Slot 1" />
-        <text name="input_XTB_FAV2" text="ExtTab: Tab into Slot 2" />
-        <text name="input_XTB_FAV3" text="ExtTab: Tab into Slot 3" />
+        <text name="input_XTB_FAV1" text="ExtTab: Tab/Save into Slot 1" />
+        <text name="input_XTB_FAV2" text="ExtTab: Tab/Save into Slot 2" />
+        <text name="input_XTB_FAV3" text="ExtTab: Tab/Save into Slot 3" />
         <text name="l10n_XTB_FAV1_FREE" text="Tab into Slot 1 (empty)" />
         <text name="l10n_XTB_FAV2_FREE" text="Tab into Slot 2 (empty)" />
         <text name="l10n_XTB_FAV3_FREE" text="Tab into Slot 3 (empty)" />
