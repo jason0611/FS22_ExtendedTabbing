@@ -29,7 +29,7 @@ How it works:
 - Use N or P to choose a vehicle
 - If you like, save the selected vehicle with Alt-1, Alt-2 or Alt-3 for direct access
 - Press Ctrl right + Tab again to enter the selected vehicle
-- Fast-Tab: Press Ctrl left + Alt left to enter the nearest vehicle immediately. Alter the target with 'N' or 'P' before releasing te keys.
+- QuickTab: Press Ctrl left + Alt left to enter the nearest vehicle immediately. Alter the target with 'N' or 'P' before releasing te keys.
 ]]>
 		</en>	
 		<de>
@@ -50,9 +50,30 @@ Funktionsweise:
 - Wähle mit N und P das gewünschte Fahrzeug
 - Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2 oder Alt-3 für den Schnellzugriff
 - Springe mit Strg rechts + Tab in das ausgewählte Fahrzeug
-- Fast-Tab: Drücke Strg links + Alt links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit N und P ein anderes Fahrzeug auszuwählen
+- QuickTab: Drücke Strg links + Alt links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit N und P ein anderes Fahrzeug auszuwählen
 ]]>
 		</de>
+		<fr>
+<![CDATA[>
+Accédez rapidement au véhicule le plus proche ou à d'autres destinations, triées par distance.
+
+Caractéristiques :
+- Affichage de la cible "tab" avant l'exécution.
+- Possibilité de changer de cible, l'ordre correspondant à la distance de la position actuelle du joueur
+- Touche d'activation/déclenchement (Ctrl droite + TAB) : active la fonction et affiche le véhicule sélectionné, qui peut être modifié avec 'P' (précédent) ou 'N' (suivant). Une nouvelle pression sur la touche déclenchera alors le changement.
+- Touche QuickTab (Alt gauche + Ctrl gauche + TAB) : passe immédiatement au véhicule le plus proche, si la touche est maintenue enfoncée, la destination peut également être modifiée ici.
+- Il est possible de mémoriser jusqu'à trois véhicules pour un accès direct rapide, puis d'y accéder directement en appuyant sur une touche (Alt gauche + 1, Alt gauche + 2, Alt gauche + 3).
+- Toutes les affectations de touches peuvent être modifiées
+- Support multijoueur complet
+
+Comment cela fonctionne :
+- Activez la fonction ExtendedTabbing avec Ctrl droite + Tab.
+- Sélectionnez le véhicule souhaité avec N et P
+- Sauvegarder le véhicule sélectionné avec Alt-1, Alt-2 ou Alt-3 pour un accès à DeepL si nécessaire.
+- Sauter au véhicule sélectionné avec Ctrl droite + Tab.
+- QuickTab : Appuyez sur Ctrl gauche + Alt gauche + Tab pour passer directement au véhicule le plus proche, maintenez les touches enfoncées pour sélectionner un autre véhicule avec N et P.
+]]>
+	</fr>
  	</description>	
     <multiplayer supported="true"/>
 	<iconFilename>icon.dds</iconFilename>

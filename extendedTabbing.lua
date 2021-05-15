@@ -1,12 +1,12 @@
 -- Extended Tabbing for LS 19
 --
--- Author: Martin Eller
--- Version: 0.9.9.4 / RC4
--- Segregation of clients' data, memory optimization if player is leaving
+-- Author: Jason06 / Glowins Mod-Schmiede
+-- Version: 1.0.0.0
+
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true)
-GMSDebug:enableConsoleCommands(true)
+GMSDebug:init(g_currentModName)
+GMSDebug:enableConsoleCommands()
 
 ExtendedTabbing = {}
 
@@ -31,23 +31,9 @@ ExtendedTabbing.actionEventText[3] = g_i18n:getText("l10n_XTB_FAV3_FREE")
 
 -- local player data
 ExtendedTabbing.data = {}
---[[
-ExtendedTabbing.data.playerID = ""
-ExtendedTabbing.data.playerName = ""
-ExtendedTabbing.data.showSlots = true
-ExtendedTabbing.data.slot = {0, 0, 0}
-ExtendedTabbing.data.slotName = {"", "", ""}
---]]
 
 -- client player data (used for tranfer)
 ExtendedTabbing.clientData = {}
---[[
-ExtendedTabbing.clientData.playerID = ""
-ExtendedTabbing.clientData.playerName = ""
-ExtendedTabbing.clientData.showSlots = true
-ExtendedTabbing.clientData.slot = {0, 0, 0}
-ExtendedTabbing.clientData.slotName = {"", "", ""}
---]]
 
 -- all player data (to use on mp-server)
 ExtendedTabbing.dataBase = {}
