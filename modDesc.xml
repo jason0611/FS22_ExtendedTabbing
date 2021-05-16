@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
-
-<author>Jason06</author>
-   	
-<version>1.0.0.0</version>
-
+	<author>Jason06</author>
+	<version>1.0.0.0</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
+		<fr>Tabbing avancé</fr>
     </title>
-	
     <description>
 		<en>
 <![CDATA[
@@ -77,13 +74,9 @@ Comment cela fonctionne :
  	</description>	
     <multiplayer supported="true"/>
 	<iconFilename>icon.dds</iconFilename>
-	
 	<extraSourceFiles>
-        <!-- sourceFile filename="extendedTabbing_register.lua" / -->
         <sourceFile filename="extendedTabbing.lua" />
     </extraSourceFiles>
-	
-	
 	<actions>
 		<action name="XTB_EXECTAB" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FASTTAB" category="VEHICLE" ignoreComboMask="false" />
@@ -94,7 +87,6 @@ Comment cela fonctionne :
 		<action name="XTB_FAV2" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV3" category="VEHICLE" ignoreComboMask="false" />
 	</actions>
-
 	<inputBinding>	
 		<actionBinding action="XTB_EXECTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_rctrl KEY_tab" neutralInput="0" index="1" />
@@ -121,6 +113,5 @@ Comment cela fonctionne :
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_3" neutralInput="0" index="1" />
 		</actionBinding>
 	</inputBinding>
-
 	<l10n filenamePrefix="l10n/l10n" />
 </modDesc>
