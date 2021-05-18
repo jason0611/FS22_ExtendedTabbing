@@ -1,6 +1,7 @@
 --
 -- Glowins Modschmiede: Debug-Tool
--- V1.0.1
+-- Author: Jason06 / Glowins Mod-Schmiede
+-- V1.1.0
 --
 
 GMSDebug = {}

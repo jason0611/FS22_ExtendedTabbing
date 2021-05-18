@@ -5,7 +5,7 @@
 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true)
+GMSDebug:init(g_currentModName)
 GMSDebug:enableConsoleCommands()
 
 ExtendedTabbing = {}
@@ -582,8 +582,6 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 end	
             
 function ExtendedTabbing:update(dt)
-	dbgprint(g_currentMission.isMissionStarted)
-	
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
 		local slot1 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[1]
