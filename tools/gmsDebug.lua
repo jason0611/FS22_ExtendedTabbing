@@ -22,7 +22,7 @@ end
 
 function GMSDebug:print(text)
 	if not GMSDebug.state then return; end
-	print(GMSDebug.modName.." :: "..text)
+	print(GMSDebug.modName.." :: "..tostring(text))
 end
 
 function GMSDebug:print_r(table)
