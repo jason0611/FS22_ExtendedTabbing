@@ -584,7 +584,7 @@ end
 function ExtendedTabbing:update(dt)
 	dbgprint(g_currentMission.isMissionStarted)
 	
-	if g_currentMission.hud ~= nil and ExtendedTabbing.vehiclesHaveChanged and g_dedicatedServerInfo == nil then
+	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
 		local slot1 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[1]
 		if slot1 == nil or slot1 == "" then slot1 = "---"; end
