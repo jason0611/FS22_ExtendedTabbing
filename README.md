@@ -1,4 +1,4 @@
-# FS19_ExtendedTabbing
+# FS19_ExtendedTabbing (https://farming-simulator.com/mod.php?mod_id=209247)
 Mod für FS19 to "tab" into next vehicles, sorted by distance
 
 Features:
@@ -12,7 +12,7 @@ Features:
 
 ======================
 
-# FS19_ExtendedTabbing
+# FS19_ExtendedTabbing (https://farming-simulator.com/mod.php?mod_id=209247)
  Mod für LS19 zum "tabben" in das jeweils nächstgelegene Fahrzeug
  
  Features:
