@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.0.0.0</version>
+	<version>1.0.0.1</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -27,6 +27,10 @@ How it works:
 - If you like, save the selected vehicle with Alt-1, Alt-2 or Alt-3 for direct access
 - Press Ctrl right + Tab again to enter the selected vehicle
 - QuickTab: Press Ctrl left + Alt left to enter the nearest vehicle immediately. Alter the target with 'N' or 'P' before releasing the keys.
+
+Changelog V1.0.1.0
+- Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
+- Standard-Tastenbelegung überarbeitet für Kompatibilität mit Windows
 ]]>
 		</en>	
 		<de>
@@ -36,18 +40,22 @@ Schnelles "tabben" in das jeweils nächstgelegene Fahrzeug oder in alternative Z
 Features:
 - Anzeige des "Tab"-Ziels vor Ausführung
 - Möglichkeit, das Ziel zu wechseln, die Reihenfolge entspricht der Entfernung von der aktuellen Position des Spielers
-- Aktivieren/Auslösen-Taste (Strg rechts + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'P' (vorhergehendes) oder 'N' (nächstes) geändert werden kann. Erneuter Tastendruck löst dann den Wechsel aus.
-- QuickTab-Taste (Alt links + Strg links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltener Taste kann auch hier das Ziel geändert werden
-- Bis zu drei Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3)
+- Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'P' (vorhergehendes) oder 'N' (nächstes) geändert werden kann. Erneuter Tastendruck löst dann den Wechsel aus.
+- QuickTab-Taste (Strg links + Shift links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltenen Tasten kann auch hier das Ziel geändert werden
+- Bis zu fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3, Alt links + 4, Alt links + 5)
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
 
 Funktionsweise:
-- Aktiviere ExtendedTabbing mit Strg rechts + Tab
-- Wähle mit N und P das gewünschte Fahrzeug
-- Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2 oder Alt-3 für den Schnellzugriff
-- Drücke erneut Strg rechts + Tab, um in das ausgewählte Fahrzeug zu springen
-- QuickTab: Drücke Strg links + Alt links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit N und P ein anderes Fahrzeug auszuwählen
+- Aktiviere ExtendedTabbing mit Strg links + Tab
+- Wähle mit Strg + Pfeil links oder Strg + Pfeil rechts das gewünschte Fahrzeug
+- Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2, Alt-3, Alt-4, oder Alt-5 für den Schnellzugriff
+- Drücke erneut Strg links + Tab, um in das ausgewählte Fahrzeug zu springen
+- QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit Strg + Pfeiltasten ein anderes Fahrzeug auszuwählen
+
+Changelog V1.0.1.0
+- Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
+- Standard-Tastenbelegung überarbeitet für Kompatibilität mit Windows
 ]]>
 		</de>
 		<fr>
@@ -86,22 +94,24 @@ Comment cela fonctionne :
 		<action name="XTB_FAV1" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV2" category="VEHICLE" ignoreComboMask="false" />
 		<action name="XTB_FAV3" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FAV4" category="VEHICLE" ignoreComboMask="false" />
+		<action name="XTB_FAV5" category="VEHICLE" ignoreComboMask="false" />
 	</actions>
 	<inputBinding>	
 		<actionBinding action="XTB_EXECTAB">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_rctrl KEY_tab" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_FASTTAB">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_lctrl KEY_tab" neutralInput="0" index="1" />
-		</actionBinding>
-		<actionBinding action="XTB_TOGGLEHELP">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
+		<actionBinding action="XTB_TOGGLEHELP">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_rctrl KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
 		<actionBinding action="XTB_PREV">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_p" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_left" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_NEXT">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_n" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_right" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_FAV1">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_1" neutralInput="0" index="1" />
@@ -111,6 +121,12 @@ Comment cela fonctionne :
 		</actionBinding>
 		<actionBinding action="XTB_FAV3">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_3" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FAV4">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_4" neutralInput="0" index="1" />
+		</actionBinding>
+		<actionBinding action="XTB_FAV5">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_5" neutralInput="0" index="1" />
 		</actionBinding>
 	</inputBinding>
 	<l10n filenamePrefix="l10n/l10n" />
