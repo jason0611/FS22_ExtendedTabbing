@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.0.0.2
+-- Version: 1.0.0.3
 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -237,6 +237,8 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 				for i = 1, 5 do
 					loadEntry.slot[i] = ExtendedTabbing.dataBase[n].slot[i]
 					loadEntry.slotName[i] = ExtendedTabbing.dataBase[n].slotName[i]
+					if loadEntry.slot[i] == nil then loadEntry.slot[i] = 0; end
+					if loadEntry.slotName[i] == nil then loadEntry.slotName[i] = ""; end
 				end
 				found = true
 				dbgprint("loadPlayer : found in dataBase")
