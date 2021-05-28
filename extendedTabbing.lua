@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.0.0.1
+-- Version: 1.0.0.2
 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -261,6 +261,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..loadEntry.slotName[i]
 					if ExtendedTabbing.actionEvents[i] ~= nil then
 						g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
+						g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[i], loadEntry.showSlots)
 					end
 				end
 			end
