@@ -9,9 +9,13 @@
         <text name="input_XTB_FAV1" text="ExtTab: Tab/Save into Slot 1" />
         <text name="input_XTB_FAV2" text="ExtTab: Tab/Save into Slot 2" />
         <text name="input_XTB_FAV3" text="ExtTab: Tab/Save into Slot 3" />
+        <text name="input_XTB_FAV4" text="ExtTab: Tab/Save into Slot 4" />
+        <text name="input_XTB_FAV5" text="ExtTab: Tab/Save into Slot 5" />
         <text name="l10n_XTB_FAV1_FREE" text="Tab into Slot 1 (empty)" />
         <text name="l10n_XTB_FAV2_FREE" text="Tab into Slot 2 (empty)" />
         <text name="l10n_XTB_FAV3_FREE" text="Tab into Slot 3 (empty)" />
+        <text name="l10n_XTB_FAV4_FREE" text="Tab into Slot 4 (empty)" />
+        <text name="l10n_XTB_FAV5_FREE" text="Tab into Slot 5 (empty)" />
         <text name="l10n_XTB_FAV_SET" text="Tab into " />
         <text name="l10n_XTB_SAVED" text="Saved: Slot " />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Vehicle list new initialized" />
@@ -21,6 +25,8 @@
 		
 		Slot 1: %s
 		Slot 2: %s
-		Slot 3: %s" />
+		Slot 3: %s
+		Slot 4: %s
+		Slot 5: %s" />
     </texts>
 </l10n>

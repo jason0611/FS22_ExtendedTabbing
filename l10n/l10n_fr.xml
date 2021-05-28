@@ -9,9 +9,13 @@
         <text name="input_XTB_FAV1" text="ExtTab: Sauter à l'emplacement 1" />
         <text name="input_XTB_FAV2" text="ExtTab: Sauter à l'emplacement 2" />
         <text name="input_XTB_FAV3" text="ExtTab: Sauter à l'emplacement 3" />
+        <text name="input_XTB_FAV4" text="ExtTab: Sauter à l'emplacement 4" />
+        <text name="input_XTB_FAV5" text="ExtTab: Sauter à l'emplacement 5" />
         <text name="l10n_XTB_FAV1_FREE" text="Sauter à l'emplacement 1 (vierge)" />
         <text name="l10n_XTB_FAV2_FREE" text="Sauter à l'emplacement 2 (vierge)" />
         <text name="l10n_XTB_FAV3_FREE" text="Sauter à l'emplacement 3 (vierge)" />
+        <text name="l10n_XTB_FAV4_FREE" text="Sauter à l'emplacement 4 (vierge)" />
+        <text name="l10n_XTB_FAV5_FREE" text="Sauter à l'emplacement 5 (vierge)" />
         <text name="l10n_XTB_FAV_SET" text="Sauter à " />
         <text name="l10n_XTB_SAVED" text="Sauvegardé : Slot " />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Liste des véhicules réinitialisée" />
@@ -21,7 +25,9 @@
 		
 		Emplacement 1 : %s
 		Emplacement 2 : %s
-		Emplacement 3 : %s" />
+		Emplacement 3 : %s
+		Emplacement 4 : %s
+		Emplacement 5 : %s" />
     </texts>
 </l10n>
         
