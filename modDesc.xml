@@ -31,6 +31,7 @@ How it works:
 Changelog V1.0.1.0
 - Vehicle-Slots increased from 3 to 5
 - Reworked the default key bindings to resolve issues on windows pc
+- Improved handling of player data while loading
 ]]>
 		</en>	
 		<de>
@@ -56,6 +57,7 @@ Funktionsweise:
 Changelog V1.0.1.0
 - Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
 - Standard-Tastenbelegung überarbeitet, um Probleme auf Windows-PC zu beseitigen
+- Ladevorgang der Spielerdaten verbessert
 ]]>
 		</de>
 		<fr>
@@ -81,6 +83,7 @@ Comment cela fonctionne :
 Changelog V1.0.1.0
 - Augmentation du nombre d'emplacements mémoire pour les véhicules de 3 à 5
 - Révision du mappage des touches par défaut pour résoudre les problèmes sur les PC Windows
+- Amélioration du chargement des données des joueurs
 ]]>
 	</fr>
  	</description>	

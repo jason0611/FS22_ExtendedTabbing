@@ -96,13 +96,7 @@ function ExtendedTabbing:loadMap(name)
 				local xmlFile = loadXMLFile("dataBase", dataBaseFile)
 				local xmlPlayerKey = ""	
 				
-				local loadedEntry = {}	
-				loadedEntry.playerID = ""
-				loadedEntry.playerName = ""
-				loadedEntry.showSlots = true
-				loadedEntry.slot = {0, 0, 0, 0, 0}
-				loadedEntry.slotName = {"", "", "", "", ""}
-					
+				local loadedEntry
 				local xmlPlayerID
 				local xmlPlayerName
 				local xmlShowSlots
@@ -111,6 +105,13 @@ function ExtendedTabbing:loadMap(name)
 				
 				local pkey = 0
 				while (true) do
+					loadedEntry = {}	
+					loadedEntry.playerID = ""
+					loadedEntry.playerName = ""
+					loadedEntry.showSlots = true
+					loadedEntry.slot = {0, 0, 0, 0, 0}
+					loadedEntry.slotName = {"", "", "", "", ""}
+					
 					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)#", pkey)
 					
 					xmlPlayerID  	= xmlPlayerKey .. "playerID"
