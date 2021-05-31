@@ -16,8 +16,18 @@
         <text name="l10n_XTB_FAV3_FREE" text="Sauter à l'emplacement 3 (vierge)" />
         <text name="l10n_XTB_FAV4_FREE" text="Sauter à l'emplacement 4 (vierge)" />
         <text name="l10n_XTB_FAV5_FREE" text="Sauter à l'emplacement 5 (vierge)" />
-        <text name="l10n_XTB_FAV_SET" text="Sauter à " />
+        <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV4_LOCKED" text="Slot 4: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV5_LOCKED" text="Slot 5: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV_SET1" text="Slot 1: " />
+        <text name="l10n_XTB_FAV_SET2" text="Slot 2: " />
+        <text name="l10n_XTB_FAV_SET3" text="Slot 3: " />
+        <text name="l10n_XTB_FAV_SET4" text="Slot 4: " />
+        <text name="l10n_XTB_FAV_SET5" text="Slot 5: " />
         <text name="l10n_XTB_SAVED" text="Sauvegardé : Slot " />
+        <text name="l10n_XTB_NOVEHICLES" text="Diese Farm besitzt keine Fahrzeuge, in die das Einsteigen erlaubt ist" />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Liste des véhicules réinitialisée" />
 		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="La liste des véhicules du jeu a changé. Par conséquent, toutes les assignations sauvegardées n'ont pas pu être restaurées.
 		
