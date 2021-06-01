@@ -27,7 +27,7 @@
         <text name="l10n_XTB_FAV_SET4" text="Slot 4: " />
         <text name="l10n_XTB_FAV_SET5" text="Slot 5: " />
         <text name="l10n_XTB_SAVED" text="Saved: Slot " />
-        <text name="l10n_XTB_NOVEHICLES" text="This farm has no enterable vehicles" />
+        <text name="l10n_XTB_NOVEHICLES" text="This farm has no other selectable vehicles" />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Vehicle list new initialized" />
 		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="The list of ingame-vehicles has changed, therefore not all slots for direct tabbing could be restored.
 		

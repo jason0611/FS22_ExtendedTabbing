@@ -27,7 +27,7 @@
         <text name="l10n_XTB_FAV_SET4" text="Slot 4: " />
         <text name="l10n_XTB_FAV_SET5" text="Slot 5: " />
         <text name="l10n_XTB_SAVED" text="Sauvegardé : Slot " />
-        <text name="l10n_XTB_NOVEHICLES" text="Diese Farm besitzt keine Fahrzeuge, in die das Einsteigen erlaubt ist" />
+        <text name="l10n_XTB_NOVEHICLES" text="Cette ferme n'a pas d'autres véhicules sélectionnables" />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Liste des véhicules réinitialisée" />
 		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="La liste des véhicules du jeu a changé. Par conséquent, toutes les assignations sauvegardées n'ont pas pu être restaurées.
 		
