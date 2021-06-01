@@ -16,7 +16,7 @@ ExtendedTabbing.indexTable = {}
 ExtendedTabbing.vehicleTable = {}
 ExtendedTabbing.selectedVehicle = {}
 ExtendedTabbing.selectedDistance = 0
-ExtendedTabbing.changingPossible = false
+ExtendedTabbing.changingImpossible = false
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
 ExtendedTabbing.needsDBUpdate = false
@@ -507,7 +507,7 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 	end
 	
 	local vehicleAnz = table.maxn(ExtendedTabbing.indexTable)
-	ExtendedTabbing.changingPossible = (vehicleAnz == 0 or (vehicleAnz == 1 and insideVehicle))
+	ExtendedTabbing.changingImpossible = (vehicleAnz <= 1)
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
@@ -635,8 +635,8 @@ function ExtendedTabbing:update(dt)
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
 		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
-		if not ExtendedTabbing.changingPossible then
-			renderText(0.5, 0.65, 0.03, g_il8n:getText("l10n_XTB_NOVEHICLES"))
+		if ExtendedTabbing.changingImpossible then
+			renderText(0.5, 0.65, 0.03, g_i18n:getText("l10n_XTB_NOVEHICLES"))
 		end
 	end
 	if ExtendedTabbing.needsDBUpdate then

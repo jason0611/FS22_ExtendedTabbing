@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.0.0.6</version>
+	<version>1.0.0.7</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -106,19 +106,19 @@ Changelog V1.0.1.0
 	</actions>
 	<inputBinding>	
 		<actionBinding action="XTB_EXECTAB">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
-		</actionBinding>
-		<actionBinding action="XTB_FASTTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
+		<actionBinding action="XTB_FASTTAB">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
 		<actionBinding action="XTB_TOGGLEHELP">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_rctrl KEY_tab" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lalt KEY_x" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_PREV">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_left" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_left" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_NEXT">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_right" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_right" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_FAV1">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lalt KEY_1" neutralInput="0" index="1" />
