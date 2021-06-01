@@ -15,18 +15,19 @@
 Features:
 - Shows the target before tab execution
 - Possibility to change target before tabbing, vehicles are sorted by distance
-- Tab key (Ctrl left + TAB): Activate the function, choose your target by pressing 'Ctrl left + Arrow left or right', press the tab-key again to enter target
+- Tab key (Ctrl left + TAB): Activate the function, choose your target by pressing 'Shift left + Arrow left or right', press the tab-key again to enter target
 - Quick-Tab key (Ctrl left + Shift left + TAB): Instantly tab into nearest vehicle, change target with arrow-keys while holding the keys down
-- Save up to five vehicles for direct access (Alt left + 1, Alt left + 2, Alt left + 3, Alt left + 4, Alt left + 5)
+- Save up to five vehicles into direct access slots (Alt left + 1, Alt left + 2, Alt left + 3, Alt left + 4, Alt left + 5)
+- Use Ctrl left + F1 to show or hide the direct access slot overview
 - All key bindings can be changed
 - Full multiplayer support
 
 How it works:
 - Activate ExtendedTabbing with Ctrl left + Tab
-- Use Ctrl left with arrow left or right to choose a vehicle
+- Use Shift left with arrow left or right to choose a vehicle
 - If you like, save the selected vehicle with Alt-1, Alt-2, Alt-3, Alt-4, or Alt-5 for direct access
 - Press Ctrl left + Tab again to enter the selected vehicle
-- QuickTab: Press Ctrl left + Shift left + Tab to enter the nearest vehicle immediately. Alter the target with Ctrl left + Arrow left or right before releasing the keys.
+- QuickTab: Press Ctrl left + Shift left + Tab to enter the nearest vehicle immediately. Alter the target with Arrow left or right before releasing the keys.
 
 Changelog V1.0.1.0
 - Vehicle-Slots increased from 3 to 5
@@ -41,18 +42,19 @@ Schnelles "tabben" in das jeweils nächstgelegene Fahrzeug oder in alternative Z
 Features:
 - Anzeige des "Tab"-Ziels vor Ausführung
 - Möglichkeit, das Ziel zu wechseln, die Reihenfolge entspricht der Entfernung von der aktuellen Position des Spielers
-- Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'Strg links und Pfeil rechts / Pfeil links' geändert werden kann. Erneuter Tastendruck löst dann den Wechsel aus.
+- Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'Shift links und Pfeil rechts / Pfeil links' geändert werden kann. Erneuter Tastendruck (Strg links + TAB) löst dann den Wechsel aus.
 - QuickTab-Taste (Strg links + Shift links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltenen Tasten kann auch hier das Ziel mit den Pfeiltasten geändert werden.
 - Bis zu fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3, Alt links + 4, Alt links + 5)
+- Die Übersicht der belegten Speicherplätze kann mit Strg links + F1 ein- und ausgeblendet werden
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
 
 Funktionsweise:
 - Aktiviere ExtendedTabbing mit Strg links + Tab
-- Wähle mit Strg + Pfeil links oder Strg + Pfeil rechts das gewünschte Fahrzeug
+- Wähle mit Shift + Pfeil links oder Shift + Pfeil rechts das gewünschte Fahrzeug
 - Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2, Alt-3, Alt-4, oder Alt-5 für den Schnellzugriff
 - Drücke erneut Strg links + Tab, um in das ausgewählte Fahrzeug zu springen
-- QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit Strg + Pfeiltasten ein anderes Fahrzeug auszuwählen
+- QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit den Pfeiltasten ein anderes Fahrzeug auszuwählen
 
 Changelog V1.0.1.0
 - Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
@@ -67,18 +69,19 @@ Accédez rapidement au véhicule le plus proche ou à d'autres destinations, tri
 Caractéristiques :
 - Affichage de la cible "tab" avant l'exécution.
 - Possibilité de changer de cible, l'ordre correspondant à la distance de la position actuelle du joueur
-- Touche d'activation/déclenchement (Ctrl gauche + TAB) : active la fonction et affiche le véhicule sélectionné, qui peut être modifié avec 'Ctrl gauche et flèche droite/flèche gauche'. Une nouvelle pression sur la touche déclenchera alors le changement.
+- Touche d'activation/déclenchement (Ctrl gauche + TAB) : active la fonction et affiche le véhicule sélectionné, qui peut être modifié avec 'Shift gauche et flèche droite/flèche gauche'. Une nouvelle pression sur la touche déclenchera alors le changement.
 - Touche QuickTab (Ctrl gauche + Shift gauche + TAB) : passe immédiatement au véhicule le plus proche, si les touches sont maintenues enfoncées, la destination peut également être modifiée ici avec les touches fléchées.
 - Il est possible de mémoriser jusqu'à cinq véhicules pour un accès direct rapide, puis d'y accéder directement en appuyant sur une touche (Alt gauche + 1, Alt gauche + 2, Alt gauche + 3, Alt gauche + 4, Alt gauche + 5).
+- L'aperçu des emplacements mémoire occupés peut être affiché et masqué en appuyant sur Ctrl gauche + F1.
 - Toutes les affectations de touches peuvent être modifiées
 - Support multijoueur complet
 
 Comment cela fonctionne :
 - Activez la fonction ExtendedTabbing avec Ctrl gauche + Tab.
-- Sélectionnez le véhicule souhaité avec Ctrl + Flèche gauche ou Ctrl + Flèche droite.
+- Sélectionnez le véhicule souhaité avec Shift + Flèche gauche ou Shift + Flèche droite.
 - Sauvegarder le véhicule sélectionné avec Alt-1, Alt-2, Alt-3, Alt-4 ou Alt-5 pour un accès rapide en cas de besoin.
 - Appuyez à nouveau sur Ctrl gauche + Tab pour passer au véhicule sélectionné.
-- QuickTab : Appuyez sur les touches Ctrl gauche + Shift gauche + Tab pour sauter directement dans le véhicule le plus proche, maintenez les touches enfoncées pour sélectionner un autre véhicule avec les touches Ctrl + Flèches.
+- QuickTab : Appuyez sur Ctrl gauche + Shift gauche + Tab pour passer directement au véhicule le plus proche, maintenez les touches enfoncées pour sélectionner un autre véhicule avec les touches fléchées.
 
 Changelog V1.0.1.0
 - Augmentation du nombre d'emplacements mémoire pour les véhicules de 3 à 5
@@ -106,13 +109,13 @@ Changelog V1.0.1.0
 	</actions>
 	<inputBinding>	
 		<actionBinding action="XTB_EXECTAB">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
-		</actionBinding>
-		<actionBinding action="XTB_FASTTAB">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
+		<actionBinding action="XTB_FASTTAB">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
+		</actionBinding>
 		<actionBinding action="XTB_TOGGLEHELP">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lalt KEY_x" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_f1" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_PREV">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_left" neutralInput="0" index="1" />
