@@ -16,11 +16,14 @@ ExtendedTabbing.indexTable = {}
 ExtendedTabbing.vehicleTable = {}
 ExtendedTabbing.selectedVehicle = {}
 ExtendedTabbing.selectedDistance = 0
+ExtendedTabbing.changingImpossible = false
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
 ExtendedTabbing.needsDBUpdate = false
+ExtendedTabbing.initSlotKeys = true
 ExtendedTabbing.vehiclesHaveChanged = false
 ExtendedTabbing.selfID = 0
+ExtendedTabbing.farmID = 0
 
 ExtendedTabbing.actionEvents = {}
 
@@ -63,15 +66,8 @@ function ExtendedTabbing:registerActionEvents()
 		
 	for slot=1,5 do
 		_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
-		g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
-		local visible
-		if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then 
-			visible = true
-		else
-			visible = ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots
-		end
-   		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], visible)
    		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
+   		ExtendedTabbing:updateSlots()
 	end
 end
 
@@ -261,7 +257,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 					loadEntry.slotName[i] = ""
 					ExtendedTabbing.vehiclesHaveChanged = true
 				elseif found then
-					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..loadEntry.slotName[i]
+					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..loadEntry.slotName[i]
 					if ExtendedTabbing.actionEvents[i] ~= nil then
 						g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
 						g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[i], loadEntry.showSlots)
@@ -352,7 +348,7 @@ function ExtendedTabbing:readStream(streamId, connection)
 					ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i] = ""
 					ExtendedTabbing.vehiclesHaveChanged = true
 				else
-					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i]
+					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i]
 				end	
 			end
 		else
@@ -489,8 +485,6 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 		return
 	end
 	
-	ExtendedTabbing.isActive = true
-	
 	local rootNode
 
 	-- Find player's position first
@@ -512,8 +506,13 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 		ExtendedTabbing.tabIndex = 1
 	end
 	
+	local vehicleAnz = table.maxn(ExtendedTabbing.indexTable)
+	ExtendedTabbing.changingImpossible = (vehicleAnz <= 1)
+	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
-	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance] 
+	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
+	
+	ExtendedTabbing.isActive = true
 end
 
 function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5)
@@ -569,11 +568,11 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 		if ExtendedTabbing.selectedVehicle ~= nil then
 			ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot] = ExtendedTabbing.selectedVehicle.id
 			ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[slot] = ExtendedTabbing.selectedVehicle:getName()
-			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET")..ExtendedTabbing.selectedVehicle:getName()
+			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(slot))..ExtendedTabbing.selectedVehicle:getName()
 			g_currentMission:showBlinkingWarning(g_i18n:getText("l10n_XTB_SAVED")..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
     		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot] ~= nil and ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots)
-    		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_NORMAL)
+    		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
 			ExtendedTabbing.needsDBUpdate = true
 		end
 	end
@@ -586,6 +585,26 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 		ExtendedTabbing.isActive = false
 	end
 end	
+
+function ExtendedTabbing:updateSlots()
+	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then return; end
+	local visible = ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots
+	for slot=1,5 do
+		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot]
+		local vehicle = ExtendedTabbing:getVehicleById(id)
+		if vehicle ~= nil and vehicle.getIsEnterable ~= nil and (vehicle:getIsEnterable() or vehicle == g_currentMission.controlledVehicle) then
+			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
+		elseif vehicle ~= nil then
+			local vehicleFarm = vehicle.ownerFarmId
+			if vehicleFarm == nil then vehicleFarm = 0; end
+			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], g_i18n:getText("l10n_XTB_FAV"..tostring(slot).."_LOCKED")..tostring(vehicleFarm))
+		else
+			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], g_i18n:getText("l10n_XTB_FAV"..tostring(slot).."_FREE"))
+		end
+   		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], visible)
+   		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
+	end
+end
             
 function ExtendedTabbing:update(dt)
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
@@ -603,9 +622,22 @@ function ExtendedTabbing:update(dt)
 		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot1, slot2, slot3, slot4, slot5), -1, nil, nil, nil)
 		ExtendedTabbing.vehiclesHaveChanged = false
 	end
+	-- if g_currentMission.isMissionStarted and ExtendedTabbing.data[ExtendedTabbing.selfID] ~= nil and ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
+	if g_currentMission.isMissionStarted and ExtendedTabbing.initSlotKeys and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
+		ExtendedTabbing:updateSlots()
+		ExtendedTabbing.initSlotKeys = false
+	end
+	if g_currentMission.isMissionStarted and ExtendedTabbing.farmID ~= g_currentMission.player.farmId and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
+		dbgprint("update : farm changed from "..tostring(ExtendedTabbing.farmID).." to "..tostring(g_currentMission.player.farmId))
+		ExtendedTabbing.farmID = g_currentMission.player.farmId
+		ExtendedTabbing:updateSlots()
+	end	
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
 		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
+		if ExtendedTabbing.changingImpossible then
+			renderText(0.5, 0.65, 0.03, g_i18n:getText("l10n_XTB_NOVEHICLES"))
+		end
 	end
 	if ExtendedTabbing.needsDBUpdate then
 		if g_currentMission:getIsServer() then 

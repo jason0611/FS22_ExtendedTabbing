@@ -16,8 +16,18 @@
         <text name="l10n_XTB_FAV3_FREE" text="Tab into Slot 3 (empty)" />
         <text name="l10n_XTB_FAV4_FREE" text="Tab into Slot 4 (empty)" />
         <text name="l10n_XTB_FAV5_FREE" text="Tab into Slot 5 (empty)" />
-        <text name="l10n_XTB_FAV_SET" text="Tab into " />
+        <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Vehicle of Farm " />
+        <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Vehicle of Farm " />
+        <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Vehicle of Farm " />
+        <text name="l10n_XTB_FAV4_LOCKED" text="Slot 4: Vehicle of Farm " />
+        <text name="l10n_XTB_FAV5_LOCKED" text="Slot 5: Vehicle of Farm " />
+        <text name="l10n_XTB_FAV_SET1" text="Slot 1: " />
+        <text name="l10n_XTB_FAV_SET2" text="Slot 2: " />
+        <text name="l10n_XTB_FAV_SET3" text="Slot 3: " />
+        <text name="l10n_XTB_FAV_SET4" text="Slot 4: " />
+        <text name="l10n_XTB_FAV_SET5" text="Slot 5: " />
         <text name="l10n_XTB_SAVED" text="Saved: Slot " />
+        <text name="l10n_XTB_NOVEHICLES" text="This farm has no other selectable vehicles" />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Vehicle list new initialized" />
 		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="The list of ingame-vehicles has changed, therefore not all slots for direct tabbing could be restored.
 		

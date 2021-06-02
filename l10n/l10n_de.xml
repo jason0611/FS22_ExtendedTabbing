@@ -11,13 +11,23 @@
         <text name="input_XTB_FAV3" text="ExtTab: Springe zu Slot 3" />
         <text name="input_XTB_FAV4" text="ExtTab: Springe zu Slot 4" />
         <text name="input_XTB_FAV5" text="ExtTab: Springe zu Slot 5" />
-        <text name="l10n_XTB_FAV1_FREE" text="Springe zu Slot 1 (leer)" />
-        <text name="l10n_XTB_FAV2_FREE" text="Springe zu Slot 2 (leer)" />
-        <text name="l10n_XTB_FAV3_FREE" text="Springe zu Slot 3 (leer)" />
-        <text name="l10n_XTB_FAV4_FREE" text="Springe zu Slot 4 (leer)" />
-        <text name="l10n_XTB_FAV5_FREE" text="Springe zu Slot 5 (leer)" />
-        <text name="l10n_XTB_FAV_SET" text="Springe zu " />
+        <text name="l10n_XTB_FAV1_FREE" text="Slot 1: frei" />
+        <text name="l10n_XTB_FAV2_FREE" text="Slot 2: frei" />
+        <text name="l10n_XTB_FAV3_FREE" text="Slot 3: frei" />
+        <text name="l10n_XTB_FAV4_FREE" text="Slot 4: frei" />
+        <text name="l10n_XTB_FAV5_FREE" text="Slot 5: frei" />
+        <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV4_LOCKED" text="Slot 4: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV5_LOCKED" text="Slot 5: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV_SET1" text="Slot 1: " />
+        <text name="l10n_XTB_FAV_SET2" text="Slot 2: " />
+        <text name="l10n_XTB_FAV_SET3" text="Slot 3: " />
+        <text name="l10n_XTB_FAV_SET4" text="Slot 4: " />
+        <text name="l10n_XTB_FAV_SET5" text="Slot 5: " />
         <text name="l10n_XTB_SAVED" text="Gespeichert: Slot " />
+        <text name="l10n_XTB_NOVEHICLES" text="Diese Farm besitzt keine weiteren anwählbaren Fahrzeuge" />
         <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Fahrzeugliste neu initialisiert" />
 		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="Die Liste der Fahrzeuge im Spiel hat sich geändert. Daher konnten nicht alle gespeicherten Zuweisungen wiederhergestellt werden.
 		
