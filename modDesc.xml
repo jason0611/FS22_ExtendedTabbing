@@ -18,7 +18,7 @@ Features:
 - Tab key (Ctrl left + TAB): Activate the function, choose your target by pressing 'Shift left + Arrow left or right', press the tab-key again to enter target
 - Quick-Tab key (Ctrl left + Shift left + TAB): Instantly tab into nearest vehicle, change target with arrow-keys while holding the keys down
 - Save up to five vehicles into direct access slots (Alt left + 1, Alt left + 2, Alt left + 3, Alt left + 4, Alt left + 5)
-- Use Ctrl left + F3 to show or hide the direct access slot overview
+- Use Ctrl left + X to show or hide the direct access slot overview
 - All key bindings can be changed
 - Full multiplayer support
 
@@ -45,7 +45,7 @@ Features:
 - Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'Shift links und Pfeil rechts / Pfeil links' geändert werden kann. Erneuter Tastendruck (Strg links + TAB) löst dann den Wechsel aus.
 - QuickTab-Taste (Strg links + Shift links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltenen Tasten kann auch hier das Ziel mit den Pfeiltasten geändert werden.
 - Bis zu fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3, Alt links + 4, Alt links + 5)
-- Die Übersicht der belegten Speicherplätze kann mit Strg links + F3 ein- und ausgeblendet werden
+- Die Übersicht der belegten Speicherplätze kann mit Strg links + X ein- und ausgeblendet werden
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
 
@@ -72,7 +72,7 @@ Caractéristiques :
 - Touche d'activation/déclenchement (Ctrl gauche + TAB) : active la fonction et affiche le véhicule sélectionné, qui peut être modifié avec 'Shift gauche et flèche droite/flèche gauche'. Une nouvelle pression sur la touche déclenchera alors le changement.
 - Touche QuickTab (Ctrl gauche + Shift gauche + TAB) : passe immédiatement au véhicule le plus proche, si les touches sont maintenues enfoncées, la destination peut également être modifiée ici avec les touches fléchées.
 - Il est possible de mémoriser jusqu'à cinq véhicules pour un accès direct rapide, puis d'y accéder directement en appuyant sur une touche (Alt gauche + 1, Alt gauche + 2, Alt gauche + 3, Alt gauche + 4, Alt gauche + 5).
-- L'aperçu des emplacements mémoire occupés peut être affiché et masqué en appuyant sur Ctrl gauche + F3.
+- L'aperçu des emplacements mémoire occupés peut être affiché et masqué en appuyant sur Ctrl gauche + X.
 - Toutes les affectations de touches peuvent être modifiées
 - Support multijoueur complet
 
@@ -115,7 +115,7 @@ Changelog V1.0.1.0
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lshift KEY_tab" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_TOGGLEHELP">
-			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_f3" neutralInput="0" index="1" />
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_x" neutralInput="0" index="1" />
 		</actionBinding>
 		<actionBinding action="XTB_PREV">
 			<binding device="KB_MOUSE_DEFAULT" input="KEY_lshift KEY_left" neutralInput="0" index="1" />
