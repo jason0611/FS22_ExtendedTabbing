@@ -11,16 +11,16 @@
         <text name="input_XTB_FAV3" text="ExtTab: Sauter à l'emplacement 3" />
         <text name="input_XTB_FAV4" text="ExtTab: Sauter à l'emplacement 4" />
         <text name="input_XTB_FAV5" text="ExtTab: Sauter à l'emplacement 5" />
-        <text name="l10n_XTB_FAV1_FREE" text="Sauter à l'emplacement 1 (vierge)" />
-        <text name="l10n_XTB_FAV2_FREE" text="Sauter à l'emplacement 2 (vierge)" />
-        <text name="l10n_XTB_FAV3_FREE" text="Sauter à l'emplacement 3 (vierge)" />
-        <text name="l10n_XTB_FAV4_FREE" text="Sauter à l'emplacement 4 (vierge)" />
-        <text name="l10n_XTB_FAV5_FREE" text="Sauter à l'emplacement 5 (vierge)" />
-        <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Fahrzeug von Farm " />
-        <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Fahrzeug von Farm " />
-        <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Fahrzeug von Farm " />
-        <text name="l10n_XTB_FAV4_LOCKED" text="Slot 4: Fahrzeug von Farm " />
-        <text name="l10n_XTB_FAV5_LOCKED" text="Slot 5: Fahrzeug von Farm " />
+        <text name="l10n_XTB_FAV1_FREE" text="Slot 1: disponible" />
+        <text name="l10n_XTB_FAV2_FREE" text="Slot 2: disponible" />
+        <text name="l10n_XTB_FAV3_FREE" text="Slot 3: disponible" />
+        <text name="l10n_XTB_FAV4_FREE" text="Slot 4: disponible" />
+        <text name="l10n_XTB_FAV5_FREE" text="Slot 5: disponible" />
+        <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Véhicule ferme " />
+        <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Véhicule ferme " />
+        <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Véhicule ferme " />
+        <text name="l10n_XTB_FAV4_LOCKED" text="Slot 4: Véhicule ferme " />
+        <text name="l10n_XTB_FAV5_LOCKED" text="Slot 5: Véhicule ferme " />
         <text name="l10n_XTB_FAV_SET1" text="Slot 1: " />
         <text name="l10n_XTB_FAV_SET2" text="Slot 2: " />
         <text name="l10n_XTB_FAV_SET3" text="Slot 3: " />

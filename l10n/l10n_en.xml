@@ -11,11 +11,11 @@
         <text name="input_XTB_FAV3" text="ExtTab: Tab/Save into Slot 3" />
         <text name="input_XTB_FAV4" text="ExtTab: Tab/Save into Slot 4" />
         <text name="input_XTB_FAV5" text="ExtTab: Tab/Save into Slot 5" />
-        <text name="l10n_XTB_FAV1_FREE" text="Tab into Slot 1 (empty)" />
-        <text name="l10n_XTB_FAV2_FREE" text="Tab into Slot 2 (empty)" />
-        <text name="l10n_XTB_FAV3_FREE" text="Tab into Slot 3 (empty)" />
-        <text name="l10n_XTB_FAV4_FREE" text="Tab into Slot 4 (empty)" />
-        <text name="l10n_XTB_FAV5_FREE" text="Tab into Slot 5 (empty)" />
+        <text name="l10n_XTB_FAV1_FREE" text="Slot 1: free" />
+        <text name="l10n_XTB_FAV2_FREE" text="Slot 2: free" />
+        <text name="l10n_XTB_FAV3_FREE" text="Slot 3: free" />
+        <text name="l10n_XTB_FAV4_FREE" text="Slot 4: free" />
+        <text name="l10n_XTB_FAV5_FREE" text="Slot 5: free" />
         <text name="l10n_XTB_FAV1_LOCKED" text="Slot 1: Vehicle of Farm " />
         <text name="l10n_XTB_FAV2_LOCKED" text="Slot 2: Vehicle of Farm " />
         <text name="l10n_XTB_FAV3_LOCKED" text="Slot 3: Vehicle of Farm " />
