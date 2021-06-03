@@ -33,11 +33,11 @@
 		
 		Les affectations suivantes sont disponibles :
 		
-		Emplacement 1 : %s
-		Emplacement 2 : %s
-		Emplacement 3 : %s
-		Emplacement 4 : %s
-		Emplacement 5 : %s" />
+		Slot 1 : %s
+		Slot 2 : %s
+		Slot 3 : %s
+		Slot 4 : %s
+		Slot 5 : %s" />
     </texts>
 </l10n>
         
