@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<l10n>
+	<texts>
+        <text name="input_XTB_EXECTAB" text="ExtTab: Активировать/Выполнить" />
+        <text name="input_XTB_FASTTAB" text="ExtTab: Перейти в ближайший транспорт" />
+        <text name="input_XTB_TOGGLEHELP" text="ExtTab: Показать/Скрыть распределение слотов" />
+        <text name="input_XTB_PREV" text="ExtTab: Предыдущее транспортное средство" />
+        <text name="input_XTB_NEXT" text="ExtTab: Следующее транспортное средство" />
+        <text name="input_XTB_FAV1" text="ExtTab: Перейти/Сохранить в слот 1" />
+        <text name="input_XTB_FAV2" text="ExtTab: Перейти/Сохранить в слот 2" />
+        <text name="input_XTB_FAV3" text="ExtTab: Перейти/Сохранить в слот 3" />
+        <text name="input_XTB_FAV4" text="ExtTab: Перейти/Сохранить в слот 4" />
+        <text name="input_XTB_FAV5" text="ExtTab: Перейти/Сохранить в слот 5" />
+        <text name="l10n_XTB_FAV1_FREE" text="Слот 1: пусто" />
+        <text name="l10n_XTB_FAV2_FREE" text="Слот 2: пусто" />
+        <text name="l10n_XTB_FAV3_FREE" text="Слот 3: пусто" />
+        <text name="l10n_XTB_FAV4_FREE" text="Слот 4: пусто" />
+        <text name="l10n_XTB_FAV5_FREE" text="Слот 5: пусто" />
+        <text name="l10n_XTB_FAV1_LOCKED" text="Слот 1: Транспорт фермы " />
+        <text name="l10n_XTB_FAV2_LOCKED" text="Слот 2: Транспорт фермы " />
+        <text name="l10n_XTB_FAV3_LOCKED" text="Слот 3: Транспорт фермы " />
+        <text name="l10n_XTB_FAV4_LOCKED" text="Слот 4: Транспорт фермы " />
+        <text name="l10n_XTB_FAV5_LOCKED" text="Слот 5: Транспорт фермы " />
+        <text name="l10n_XTB_FAV_SET1" text="Слот 1: " />
+        <text name="l10n_XTB_FAV_SET2" text="Слот 2: " />
+        <text name="l10n_XTB_FAV_SET3" text="Слот 3: " />
+        <text name="l10n_XTB_FAV_SET4" text="Слот 4: " />
+        <text name="l10n_XTB_FAV_SET5" text="Слот 5: " />
+        <text name="l10n_XTB_SAVED" text="Сохранено: Слот " />
+        <text name="l10n_XTB_NOVEHICLES" text="На этой ферме нет других доступных транспортных средств" />
+        <text name="l10n_XTB_VEHICLELIST_HEADLINE" text="Extended Tabbing: Новый список транспортных средств инициализирован" />
+		<text name="l10n_XTB_VEHICLELIST_CHANGED" text="Список игровых транспортных средств изменился, поэтому не все слоты для перехода могут быть восстановлены.
+		
+		Назначенные слоты для быстрого перехода:
+		
+		Слот 1: %s
+		Слот 2: %s
+		Слот 3: %s
+		Слот 4: %s
+		Слот 5: %s" />
+    </texts>
+</l10n>
