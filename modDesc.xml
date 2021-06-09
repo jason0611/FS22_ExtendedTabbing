@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.0.1.0</version>
+	<version>1.0.1.1</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -33,6 +33,9 @@ Changelog V1.0.1.0
 - Vehicle-Slots increased from 3 to 5
 - Reworked the default key bindings to resolve issues on windows pc
 - Improved handling of player data while loading
+
+Changelog V1.0.1.1
+- Russian translation added, thanks to Nagor
 ]]>
 		</en>	
 		<de>
@@ -60,6 +63,9 @@ Changelog V1.0.1.0
 - Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
 - Standard-Tastenbelegung überarbeitet, um Probleme auf Windows-PC zu beseitigen
 - Ladevorgang der Spielerdaten verbessert
+
+Changelog V1.0.1.1
+- Russische Übersetzung ergänzt, vielen Dank an Nagor
 ]]>
 		</de>
 		<fr>
@@ -87,6 +93,9 @@ Changelog V1.0.1.0
 - Augmentation du nombre d'emplacements mémoire pour les véhicules de 3 à 5
 - Révision du mappage des touches par défaut pour résoudre les problèmes sur les PC Windows
 - Amélioration du chargement des données des joueurs
+
+Changelog V1.0.1.1
+- Traduction russe ajoutée, merci à nagor
 ]]>
 	</fr>
  	</description>	
