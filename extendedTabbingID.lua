@@ -3,7 +3,7 @@
 -- Specialization for vehicles to create and store a unique ID
 --
 -- Jason06 / Glowins Mod-Schmiede
--- Version 0.0.0.1
+-- Version 0.0.0.2
 --
 
 function ExtendedTabbingID.prerequisitesPresent(specializations)
@@ -19,18 +19,24 @@ function ExtendedTabbingID.registerEventListeners(vehicleType)
 	SpecializationUtil.registerEventListener(vehicleType, "onWriteUpdateStream", ExtendedTabbingID)
 end
 
-function ExtendedTabbingID:onPostLoad(savegame)
+function ExtendedTabbingID:onLoad(savegame)
 	local spec = self.spec_ExtendedTabbingID
 	if spec == nil then return end
 	
 	spec.dirtyFlag = self:getNextDirtyFlag()
 	
+	math.randomSeed(g_currentMission.environment.dayTime)
+	spec.ID = self:getName()..tostring(math.random(10000))
+	dbgprint("onLoad : vehicleID = "..spec.ID)
+	
+function ExtendedTabbingID:onPostLoad(savegame)
+	local spec = self.spec_ExtendedTabbingID
+	if spec == nil then return end
+	
 	if savegame ~= nil then	
-		math.randomSeed(g_currentMission.environment.dayTime)
-		local newID = self:getName()..tostring(math.random(10000))
 		local xmlFile = savegame.xmlFile
-		local key = savegame.key .. ".ExtendedTabbing"
-		spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), newID)
+		local key = savegame.key .. ".ExtendedTabbingID"
+		spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), spec.ID)
 		dbgprint("onPostLoad : vehicleID = "..spec.ID)
 	end
 end
