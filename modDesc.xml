@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.0.1.1</version>
+	<version>9.1.0.0</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -36,6 +36,9 @@ Changelog V1.0.1.0
 
 Changelog V1.0.1.1
 - Russian translation added, thanks to Nagor
+
+Changelog V1.1.0.0
+- Slot-recovery at game start improved
 ]]>
 		</en>	
 		<de>
@@ -66,6 +69,9 @@ Changelog V1.0.1.0
 
 Changelog V1.0.1.1
 - Russische Übersetzung ergänzt, vielen Dank an Nagor
+
+Changelog V1.1.0.0
+- Slot-Wiederherstellung bei Spielstart verbessert
 ]]>
 		</de>
 		<fr>
@@ -96,6 +102,9 @@ Changelog V1.0.1.0
 
 Changelog V1.0.1.1
 - Traduction russe ajoutée, merci à nagor
+
+Changelog V1.1.0.0
+- Amélioration de la récupération des slots au début du jeu
 ]]>
 	</fr>
  	</description>	

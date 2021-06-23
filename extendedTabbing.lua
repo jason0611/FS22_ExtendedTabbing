@@ -1,12 +1,18 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.0.1.0
-
+-- Version: 9.1.0.0
+--
+-- Goal 1: Create and save unique vehicle-ID created by this mod instead of vehicles's name, thus improving the identification of stored vehicles
+-- Goal 2: Save unique vehicle-ID as specialization
+--
+-- only save if slots are assigned
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName)
-GMSDebug:enableConsoleCommands()
+GMSDebug:init(g_currentModName, true)
+GMSDebug:enableConsoleCommands(true)
+
+source(g_currentModDirectory.."ExtendedTabbingID.lua")
 
 ExtendedTabbing = {}
 
@@ -177,20 +183,25 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
 		if dbEntry.slot ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
+			local toBeSaved = false
 			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
 			xmlPlayerID  	= xmlPlayerKey .. "playerID"
 			xmlPlayerName = xmlPlayerKey .. "playerName"
 			xmlShowSlots	= xmlPlayerKey .. "showSlots"
-			setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
-			setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
-			setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
 			for s=1,5 do
 				xmlSlot[s] = xmlPlayerKey.."slot"..tostring(s)
 				xmlSlotName[s] = xmlPlayerKey.."slot"..tostring(s).."name"
-				if dbEntry.slot[s] ~= nil then setXMLInt(xmlFile, xmlSlot[s], dbEntry.slot[s]); end
-				if dbEntry.slotName[s] ~= nil then setXMLString(xmlFile, xmlSlotName[s], dbEntry.slotName[s]); end
+				if dbEntry.slot[s] ~= nil and dbEntry.slot[s] ~= 0 then setXMLInt(xmlFile, xmlSlot[s], dbEntry.slot[s]); toBeSaved = true; end
+				if toBeSaved and dbEntry.slotName[s] ~= nil and dbEntry.slotName[s] ~= "" then setXMLString(xmlFile, xmlSlotName[s], dbEntry.slotName[s]); end
 			end
-			print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
+			if toBeSaved then
+				setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
+				setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
+				setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
+				print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
+			else
+				print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
+			end
 		else
 			print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
 		end
@@ -667,6 +678,17 @@ Player.writeUpdateStream = Utils.appendedFunction(Player.writeUpdateStream, Exte
 
 -- Include database-information while saving gamedata
 FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.saveToXMLFile, ExtendedTabbing.saveDataBase)
+
+-- Include specialization into enterable vehicles
+if g_specializationManager:getSpecializationByName("extendedTabbingID") == nil then
+  g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."ExtendedTabbingID.lua", true, nil)
+  for typeName, typeEntry in pairs(g_vehicleTypeManager:getVehicleTypes()) do
+    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) then
+      	g_vehicleTypeManager:addSpecialization(typeName, "extendedTabbingID")
+		dbgprint("extendedTabbingID registered for "..typeName)
+    end
+  end
+end
 
 -- make localizations available
 local i18nTable = getfenv(0).g_i18n
