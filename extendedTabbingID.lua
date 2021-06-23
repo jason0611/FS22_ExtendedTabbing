@@ -1,16 +1,22 @@
---
 -- ExtendedTabbingID
 -- Specialization for vehicles to create and store a unique ID
 --
--- Jason06 / Glowins Mod-Schmiede
--- Version 0.0.0.2
+-- Author: Jason06 / Glowins Mod-Schmiede
+-- Version 1.1.0.0
 --
+
+source(g_currentModDirectory.."tools/gmsDebug.lua")
+GMSDebug:init(g_currentModName, true)
+GMSDebug:enableConsoleCommands()
+
+ExtendedTabbingID = {}
 
 function ExtendedTabbingID.prerequisitesPresent(specializations)
   return true
 end
 
 function ExtendedTabbingID.registerEventListeners(vehicleType)
+	SpecializationUtil.registerEventListener(vehicleType, "onLoad", ExtendedTabbingID)
 	SpecializationUtil.registerEventListener(vehicleType, "onPostLoad", ExtendedTabbingID)
 	SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", ExtendedTabbingID)
  	SpecializationUtil.registerEventListener(vehicleType, "onReadStream", ExtendedTabbingID)
@@ -24,10 +30,9 @@ function ExtendedTabbingID:onLoad(savegame)
 	if spec == nil then return end
 	
 	spec.dirtyFlag = self:getNextDirtyFlag()
-	
-	math.randomSeed(g_currentMission.environment.dayTime)
 	spec.ID = self:getName()..tostring(math.random(10000))
-	dbgprint("onLoad : vehicleID = "..spec.ID)
+	dbgprint("onLoad : created vehicleID = "..spec.ID)
+end
 	
 function ExtendedTabbingID:onPostLoad(savegame)
 	local spec = self.spec_ExtendedTabbingID
@@ -37,7 +42,7 @@ function ExtendedTabbingID:onPostLoad(savegame)
 		local xmlFile = savegame.xmlFile
 		local key = savegame.key .. ".ExtendedTabbingID"
 		spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), spec.ID)
-		dbgprint("onPostLoad : vehicleID = "..spec.ID)
+		dbgprint("onPostLoad : loaded vehicleID = "..spec.ID)
 	end
 end
 
