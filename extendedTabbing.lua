@@ -1,14 +1,14 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 9.1.1.0
+-- Version: 9.1.1.1
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName, true)
 GMSDebug:enableConsoleCommands("extDebug")
 
-source(g_currentModDirectory.."ExtendedTabbingID.lua")
+--source(g_currentModDirectory.."extendedTabbingID.lua")
 
 ExtendedTabbing = {}
 
@@ -653,7 +653,7 @@ FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.s
 
 -- Include specialization into enterable vehicles
 if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil then
-  g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."ExtendedTabbingID.lua", true, nil)
+  g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", true, nil)
   for typeName, typeEntry in pairs(g_vehicleTypeManager:getVehicleTypes()) do
     if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) and SpecializationUtil.hasSpecialization(Motorized, typeEntry.specializations) then
       	g_vehicleTypeManager:addSpecialization(typeName, "ExtendedTabbingID")
