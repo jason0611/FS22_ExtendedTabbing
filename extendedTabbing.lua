@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 9.1.1.1
+-- Version: 9.1.1.2
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -190,13 +190,13 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 				setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
 				setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
 				print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
+				pkey = pkey + 1
 			else
 				print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
 			end
 		else
 			print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
 		end
-		pkey = pkey + 1
 	end
 	saveXMLFile(xmlFile)
 	delete(xmlFile)
