@@ -13,9 +13,6 @@ Features:
 - Full multiplayer support
 - Identifying vehicles by a generated unique id instead of it's temporary id from vehicles-list, because this list may change during game
 
-Work in progress:
-- 
-
 ======================
 
 # FS19_ExtendedTabbing 
@@ -32,9 +29,6 @@ Mod für LS19 zum "tabben" in das jeweils nächstgelegene Fahrzeug
  - Fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden (3 Slots), anschließend kann direkt über eine eigene Taste hineingesprungen werden
  - Voller Multiplayer-Support
  - Identifikation der Fahrzeuge über eine generierte unique ID an Stelle der Identifikation über die ID der Fahrzeugliste, weil diese sich im Spiel ändern kann
- 
- In Arbeit:
- -
  
  =====================
  

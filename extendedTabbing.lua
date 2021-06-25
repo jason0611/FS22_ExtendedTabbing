@@ -1,14 +1,12 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.1.0.0b
--- BETA-Version
+-- Version: 1.1.0.0
+-- Release Candidate RC1
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true)
+GMSDebug:init(g_currentModName)
 GMSDebug:enableConsoleCommands("extDebug")
-
---source(g_currentModDirectory.."extendedTabbingID.lua")
 
 ExtendedTabbing = {}
 
