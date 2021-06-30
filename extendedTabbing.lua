@@ -564,7 +564,8 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 
 	-- tab-key pressed für fastTab or tab-key pressed to end extended tabbing mode
 	if not ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
-		g_currentMission:requestToEnterVehicle(ExtendedTabbing.selectedVehicle)
+		local spec = ExtendedTabbing.selectedVehicle.spec_ExtendedTabbingID
+		g_currentMission:requestToEnterVehicle(ExtendedTabbing:getVehicleByID(spec.ID))
 		ExtendedTabbing.selectedVehicle = nil
 		ExtendedTabbing.selectedDistance = 0
 		ExtendedTabbing.isActive = false
