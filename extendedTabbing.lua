@@ -2,11 +2,11 @@
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
 -- Version: 1.1.0.0
--- Release Candidate RC2
+--
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName)
-GMSDebug:enableConsoleCommands("extDebug")
+GMSDebug:enableConsoleCommands()
 
 ExtendedTabbing = {}
 
