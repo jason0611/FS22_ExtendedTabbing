@@ -1,8 +1,8 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.0.1.0
-
+-- Version: 1.1.0.0
+--
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(g_currentModName)
@@ -83,6 +83,8 @@ function ExtendedTabbing:loadMap(name)
 	ExtendedTabbing.selfID = g_currentMission.playerUserId
 	dbgprint("loadMap : selfID :"..tostring(ExtendedTabbing.selfID))
 	
+	math.randomseed(g_currentMission.environment.dayTime)
+	
 	-- Load Database if MP-Server or SP
 	if g_currentMission:getIsServer() then
 		print("ExtendedTabbing :: loadMap : Gameserver: Loading DB")
@@ -96,8 +98,7 @@ function ExtendedTabbing:loadMap(name)
 				local xmlPlayerID
 				local xmlPlayerName
 				local xmlShowSlots
-				local xmlSlot={}
-				local xmlSlotName={}
+				local xmlSlotID={}
 				
 				local pkey = 0
 				while (true) do
@@ -105,8 +106,7 @@ function ExtendedTabbing:loadMap(name)
 					loadedEntry.playerID = ""
 					loadedEntry.playerName = ""
 					loadedEntry.showSlots = true
-					loadedEntry.slot = {0, 0, 0, 0, 0}
-					loadedEntry.slotName = {"", "", "", "", ""}
+					loadedEntry.slotID = {"", "", "", "", ""}
 					
 					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)#", pkey)
 					
@@ -114,8 +114,7 @@ function ExtendedTabbing:loadMap(name)
 					xmlPlayerName 	= xmlPlayerKey .. "playerName"
 					xmlShowSlots	= xmlPlayerKey .. "showSlots"
 					for s=1,5 do
-					    xmlSlot[s] = xmlPlayerKey .. "slot"..tostring(s)
-					    xmlSlotName[s] = xmlPlayerKey .. "slot"..tostring(s).."name"
+					    xmlSlotID[s] = xmlPlayerKey .. "slot"..tostring(s).."ID"
 					end
 					
 					if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
@@ -130,8 +129,7 @@ function ExtendedTabbing:loadMap(name)
 					end
 					
 					for s=1,5 do
-					    if hasXMLProperty(xmlFile, xmlSlot[s]) then loadedEntry.slot[s] = getXMLInt(xmlFile, xmlSlot[s]); end
-					    if hasXMLProperty(xmlFile, xmlSlotName[s]) then loadedEntry.slotName[s] = getXMLString(xmlFile, xmlSlotName[s]); end
+					    if hasXMLProperty(xmlFile, xmlSlotID[s]) then loadedEntry.slotID[s] = getXMLString(xmlFile, xmlSlotID[s]); end
 					end	
 					ExtendedTabbing:updateDataBase(loadedEntry)
 					pkey = pkey + 1												
@@ -171,30 +169,32 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	local xmlPlayerID
 	local xmlPlayerName
 	local xmlShowSlots
-	local xmlSlot={}
-	local xmlSlotName={}
+	local xmlSlotID={}
 	
 	local pkey = 0
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
-		if dbEntry.slot ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
+		if dbEntry.slotID ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
+			local toBeSaved = false
 			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
 			xmlPlayerID  	= xmlPlayerKey .. "playerID"
 			xmlPlayerName = xmlPlayerKey .. "playerName"
 			xmlShowSlots	= xmlPlayerKey .. "showSlots"
-			setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
-			setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
-			setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
 			for s=1,5 do
-				xmlSlot[s] = xmlPlayerKey.."slot"..tostring(s)
-				xmlSlotName[s] = xmlPlayerKey.."slot"..tostring(s).."name"
-				if dbEntry.slot[s] ~= nil then setXMLInt(xmlFile, xmlSlot[s], dbEntry.slot[s]); end
-				if dbEntry.slotName[s] ~= nil then setXMLString(xmlFile, xmlSlotName[s], dbEntry.slotName[s]); end
+				xmlSlotID[s] = xmlPlayerKey.."slot"..tostring(s).."ID"
+				if dbEntry.slotID[s] ~= nil and dbEntry.slotID[s] ~= "" then setXMLString(xmlFile, xmlSlotID[s], dbEntry.slotID[s]); toBeSaved = true; end
 			end
-			print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
+			if toBeSaved then
+				setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
+				setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
+				setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
+				print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
+				pkey = pkey + 1
+			else
+				print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
+			end
 		else
 			print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
 		end
-		pkey = pkey + 1
 	end
 	saveXMLFile(xmlFile)
 	delete(xmlFile)
@@ -218,8 +218,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		loadEntry.playerID = user.uniqueUserId
 		loadEntry.playerName = user.nickname
 		loadEntry.showSlots = true
-		loadEntry.slot = {0, 0, 0, 0, 0}
-		loadEntry.slotName = {"", "", "", "", ""}
+		loadEntry.slotID = {"", "", "", "", ""}
 
 		dbgprint("loadPlayer : Player: "..tostring(loadEntry.playerName))
 		dbgprint("loadPlayer : PlayerID: "..tostring(loadEntry.playerID))
@@ -232,10 +231,8 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			if ExtendedTabbing.dataBase[n].playerID == loadEntry.playerID then
 				loadEntry.showSlots = ExtendedTabbing.dataBase[n].showSlots
 				for i = 1, 5 do
-					loadEntry.slot[i] = ExtendedTabbing.dataBase[n].slot[i]
-					loadEntry.slotName[i] = ExtendedTabbing.dataBase[n].slotName[i]
-					if loadEntry.slot[i] == nil then loadEntry.slot[i] = 0; end
-					if loadEntry.slotName[i] == nil then loadEntry.slotName[i] = ""; end
+					loadEntry.slotID[i] = ExtendedTabbing.dataBase[n].slotID[i]
+					if loadEntry.slotID[i] == nil then loadEntry.slotID[i] = ""; end
 				end
 				found = true
 				dbgprint("loadPlayer : found in dataBase")
@@ -251,16 +248,20 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 		
 		if localUser then
 			for i=1,5 do
-				local vehicle = ExtendedTabbing:getVehicleById(loadEntry.slot[i])
-				if vehicle == nil or loadEntry.slotName[i] ~= vehicle:getName() then
-					loadEntry.slot[i] = 0
-					loadEntry.slotName[i] = ""
-					ExtendedTabbing.vehiclesHaveChanged = true
-				elseif found then
-					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..loadEntry.slotName[i]
-					if ExtendedTabbing.actionEvents[i] ~= nil then
-						g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
-						g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[i], loadEntry.showSlots)
+				if loadEntry.slotID[i] == nil then
+					loadEntry.slotID[i] = ""
+				end
+				if loadEntry.slotID[i] ~= "" then
+					local vehicle = ExtendedTabbing:getVehicleByID(loadEntry.slotID[i])
+					if vehicle == nil then
+						loadEntry.slotID[i] = ""
+						ExtendedTabbing.vehiclesHaveChanged = true
+					elseif found then
+						ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
+						if ExtendedTabbing.actionEvents[i] ~= nil then
+							g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[i], ExtendedTabbing.actionEventText[i])
+							g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[i], loadEntry.showSlots)
+						end
 					end
 				end
 			end
@@ -303,11 +304,10 @@ function ExtendedTabbing:writeStream(streamId, connection)
 		streamWriteString(streamId, ExtendedTabbing.data[userId].playerName)
 		streamWriteBool(streamId, ExtendedTabbing.data[userId].showSlots)
 		for i = 1, 5 do
-			streamWriteInt16(streamId, ExtendedTabbing.data[userId].slot[i])
-			if ExtendedTabbing.data[userId].slotName[i] == nil then
-				ExtendedTabbing.data[userId].slotName[i] = ""
+			if ExtendedTabbing.data[userId].slotID[i] == nil then
+				ExtendedTabbing.data[userId].slotID[i] = ""
 			end
-			streamWriteString(streamId, ExtendedTabbing.data[userId].slotName[i])
+			streamWriteString(streamId, ExtendedTabbing.data[userId].slotID[i])
 		end
 	end
 end
@@ -324,31 +324,28 @@ function ExtendedTabbing:readStream(streamId, connection)
 		
 		dbgprint("readStream : reading data for "..loadEntry.playerName)
 		
-		loadEntry.slot = {0, 0, 0, 0, 0}
-		loadEntry.slotName = {"", "", "", "", ""}
+		loadEntry.slotID = {"", "", "", "", ""}
 		for i = 1, 5 do
-			loadEntry.slot[i] = streamReadInt16(streamId)
-			loadEntry.slotName[i] = streamReadString(streamId)
+			loadEntry.slotID[i] = streamReadString(streamId)
 		end
 		
 		if loadedUserId == ExtendedTabbing.selfID then
 			dbgprint("readStream : accepting data for "..loadEntry.playerName)
 			ExtendedTabbing.data[ExtendedTabbing.selfID] = {}
-			ExtendedTabbing.data[ExtendedTabbing.selfID].slot = {0, 0, 0, 0, 0}
-			ExtendedTabbing.data[ExtendedTabbing.selfID].slotName = {"", "", "", "", ""}
+			ExtendedTabbing.data[ExtendedTabbing.selfID].slotID = {"", "", "", "", ""}
 			ExtendedTabbing.data[ExtendedTabbing.selfID].playerID = loadEntry.playerID
 			ExtendedTabbing.data[ExtendedTabbing.selfID].playerName = loadEntry.playerName
 			ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots = loadEntry.showSlots
 			for i = 1, 5 do
-				ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i] = loadEntry.slot[i]
-				ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i] = loadEntry.slotName[i]
-				local vehicle = ExtendedTabbing:getVehicleById(ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i])
-				if vehicle == nil or ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i] ~= vehicle:getName() then
-					ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i] = 0
-					ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i] = ""
-					ExtendedTabbing.vehiclesHaveChanged = true
-				else
-					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i]
+				ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = loadEntry.slotID[i]
+				if ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] ~= "" then
+					local vehicle = ExtendedTabbing:getVehicleByID(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i])
+					if vehicle == nil then
+						ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = ""
+						ExtendedTabbing.vehiclesHaveChanged = true
+					else
+						ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
+					end
 				end	
 			end
 		else
@@ -367,15 +364,7 @@ function ExtendedTabbing:writeUpdateStream(streamId, connection, dirtyMask)
 			streamWriteString(streamId, ExtendedTabbing.data[ExtendedTabbing.selfID].playerName)
 			streamWriteBool(streamId, ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots)
 			for i = 1, 5 do
-				streamWriteInt16(streamId, ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i])
-				local vehicleName
-				if ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i] == 0 or ExtendedTabbing:getVehicleById(ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i]) == nil then
-					vehicleName = ""
-				else
-					vehicleName = ExtendedTabbing:getVehicleById(ExtendedTabbing.data[ExtendedTabbing.selfID].slot[i]):getName()
-				end
-				streamWriteString(streamId, vehicleName)
-				ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[i] = vehicleName
+				streamWriteString(streamId, ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i])
 			end
 			ExtendedTabbing.needsServerUpdate = false
 			dbgprint("writeUpdateStream : Data transmitted")
@@ -388,8 +377,7 @@ function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 	if not connection:getIsServer() then
 		if streamReadBool(streamId) then
 			local loadEntry = {}
-			loadEntry.slot = {0, 0, 0, 0, 0}
-			loadEntry.slotName={"", "", "", "", ""}
+			loadEntry.slotID={"", "", "", "", ""}
 
 			dbgprint("readUpdateStream : Starting")
 			
@@ -397,8 +385,7 @@ function ExtendedTabbing:readUpdateStream(streamId, timestamp, connection)
 			loadEntry.playerName = streamReadString(streamId)
 			loadEntry.showSlots = streamReadBool(streamId)
 			for i = 1, 5 do
-				loadEntry.slot[i] = streamReadInt16(streamId)
-				loadEntry.slotName[i] = streamReadString(streamId)
+				loadEntry.slotID[i] = streamReadString(streamId)
 			end
 			dbgprint("readUpdateStream : Data transmitted")
 			ExtendedTabbing:updateDataBase(loadEntry)	
@@ -416,11 +403,9 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 		if ExtendedTabbing.dataBase[i].playerID == updateEntry.playerID then
 			ExtendedTabbing.dataBase[i].playerName = updateEntry.playerName
 			ExtendedTabbing.dataBase[i].showSlots = updateEntry.showSlots
-			ExtendedTabbing.dataBase[i].slot = {0, 0, 0, 0, 0}
-			ExtendedTabbing.dataBase[i].slotName = {"", "", "", "", ""}
+			ExtendedTabbing.dataBase[i].slotID = {"", "", "", "", ""}
 			for slot=1,5 do
-				ExtendedTabbing.dataBase[i].slot[slot] = updateEntry.slot[slot]
-				ExtendedTabbing.dataBase[i].slotName[slot] = updateEntry.slotName[slot]
+				ExtendedTabbing.dataBase[i].slotID[slot] = updateEntry.slotID[slot]
 			end
 			dbgprint("updateDataBase : database entry replaced : "..updateEntry.playerID)
 			found = true
@@ -434,11 +419,9 @@ function ExtendedTabbing:updateDataBase(updateEntry)
 		ExtendedTabbing.dataBase[newPos].playerID = updateEntry.playerID
 		ExtendedTabbing.dataBase[newPos].playerName = updateEntry.playerName
 		ExtendedTabbing.dataBase[newPos].showSlots = updateEntry.showSlots
-		ExtendedTabbing.dataBase[newPos].slot = {0, 0, 0, 0, 0}
-		ExtendedTabbing.dataBase[newPos].slotName = {"", "", "", "", ""}
+		ExtendedTabbing.dataBase[newPos].slotID = {"", "", "", "", ""}
 		for slot=1,5 do
-			ExtendedTabbing.dataBase[newPos].slot[slot] = updateEntry.slot[slot]
-			ExtendedTabbing.dataBase[newPos].slotName[slot] = updateEntry.slotName[slot]
+			ExtendedTabbing.dataBase[newPos].slotID[slot] = updateEntry.slotID[slot]
 		end
 		dbgprint("updateDataBase : database entry inserted : "..updateEntry.playerID)
 	end
@@ -537,9 +520,10 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
 end
 
-function ExtendedTabbing:getVehicleById(vehicleId)
+function ExtendedTabbing:getVehicleByID(vehicleId)
 	for _, vehicle in pairs(g_currentMission.vehicles) do
-		if vehicle.id == vehicleId then
+		local spec = vehicle.spec_ExtendedTabbingID
+		if spec ~= nil and spec.ID == vehicleId then
 			return vehicle
 		end
 	end
@@ -558,20 +542,21 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 	
 	-- slot-key pressed to tab into vehicle
 	if not ExtendedTabbing.isActive and slot ~= 0 then
-		local selectedId = ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot]
-		ExtendedTabbing.selectedVehicle = ExtendedTabbing:getVehicleById(selectedId)
+		local selectedId = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot]
+		ExtendedTabbing.selectedVehicle = ExtendedTabbing:getVehicleByID(selectedId)
 		ExtendedTabbing.selectedDistance = 0
+		if ExtendedTabbing.selectedVehicle == nil then ExtendedTabbing.updateSlots(); end
 	end
 	
 	-- slot-key pressed to store vehicle into slot
 	if ExtendedTabbing.isActive and slot ~= 0 then
 		if ExtendedTabbing.selectedVehicle ~= nil then
-			ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot] = ExtendedTabbing.selectedVehicle.id
-			ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[slot] = ExtendedTabbing.selectedVehicle:getName()
+			local spec = ExtendedTabbing.selectedVehicle.spec_ExtendedTabbingID
+			ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot] = spec.ID
 			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(slot))..ExtendedTabbing.selectedVehicle:getName()
 			g_currentMission:showBlinkingWarning(g_i18n:getText("l10n_XTB_SAVED")..tostring(slot).." ("..ExtendedTabbing.selectedVehicle:getName()..")", 2000)
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
-    		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot] ~= nil and ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots)
+    		g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot] ~= nil and ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots)
     		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
 			ExtendedTabbing.needsDBUpdate = true
 		end
@@ -590,9 +575,10 @@ function ExtendedTabbing:updateSlots()
 	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then return; end
 	local visible = ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots
 	for slot=1,5 do
-		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slot[slot]
-		local vehicle = ExtendedTabbing:getVehicleById(id)
+		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot]
+		local vehicle = ExtendedTabbing:getVehicleByID(id)
 		if vehicle ~= nil and vehicle.getIsEnterable ~= nil and (vehicle:getIsEnterable() or vehicle == g_currentMission.controlledVehicle) then
+			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(slot))..vehicle:getName()
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
 		elseif vehicle ~= nil then
 			local vehicleFarm = vehicle.ownerFarmId
@@ -609,20 +595,16 @@ end
 function ExtendedTabbing:update(dt)
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
-		local slot1 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[1]
-		if slot1 == nil or slot1 == "" then slot1 = "---"; end
-		local slot2 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[2]
-		if slot2 == nil or slot2 == "" then slot2 = "---"; end
-		local slot3 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[3]
-		if slot3 == nil or slot3 == "" then slot3 = "---"; end
-		local slot4 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[4]
-		if slot4 == nil or slot4 == "" then slot4 = "---"; end
-		local slot5 = ExtendedTabbing.data[ExtendedTabbing.selfID].slotName[5]
-		if slot5 == nil or slot5 == "" then slot5 = "---"; end
-		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot1, slot2, slot3, slot4, slot5), -1, nil, nil, nil)
+		local slot = {}
+		for i=1,5 do
+			local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]
+			local vehicle = ExtendedTabbing:getVehicleByID(id)
+			if vehicle ~= nil then slot[i] = vehicle:getName() else slot[i] = nil; end
+			if slot[i] == nil or slot[i] == "" then slot[i] = "---"; end
+		end
+		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot[1], slot[2], slot[3], slot[4], slot[5]), -1, nil, nil, nil)
 		ExtendedTabbing.vehiclesHaveChanged = false
 	end
-	-- if g_currentMission.isMissionStarted and ExtendedTabbing.data[ExtendedTabbing.selfID] ~= nil and ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 	if g_currentMission.isMissionStarted and ExtendedTabbing.initSlotKeys and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		ExtendedTabbing:updateSlots()
 		ExtendedTabbing.initSlotKeys = false
@@ -667,6 +649,17 @@ Player.writeUpdateStream = Utils.appendedFunction(Player.writeUpdateStream, Exte
 
 -- Include database-information while saving gamedata
 FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.saveToXMLFile, ExtendedTabbing.saveDataBase)
+
+-- Include specialization into enterable vehicles
+if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil then
+  g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", true, nil)
+  for typeName, typeEntry in pairs(g_vehicleTypeManager:getVehicleTypes()) do
+    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) and SpecializationUtil.hasSpecialization(Motorized, typeEntry.specializations) then
+      	g_vehicleTypeManager:addSpecialization(typeName, "ExtendedTabbingID")
+		dbgprint("ExtendedTabbingID registered for "..typeName)
+    end
+  end
+end
 
 -- make localizations available
 local i18nTable = getfenv(0).g_i18n

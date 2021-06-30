@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.0.1.1</version>
+	<version>1.1.0.0</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -34,8 +34,10 @@ Changelog V1.0.1.0
 - Reworked the default key bindings to resolve issues on windows pc
 - Improved handling of player data while loading
 
-Changelog V1.0.1.1
+Changelog V1.1.0.0
 - Russian translation added, thanks to Nagor
+- Vehicle identification reworked for more reliable recovery of assigned slots at game start or game joining
+  Note: Saved slots from previous versions must be reassigned once
 ]]>
 		</en>	
 		<de>
@@ -66,6 +68,11 @@ Changelog V1.0.1.0
 
 Changelog V1.0.1.1
 - Russische Übersetzung ergänzt, vielen Dank an Nagor
+
+Changelog V1.1.0.0
+- Russische Übersetzung ergänzt, vielen Dank an Nagor
+- Fahrzeugidentifizierung überarbeitet, für eine zuverlässigere Wiederherstellung zugewiesener Slots bei Spielstart oder Spielbeitritt
+  Hinweis: Gespeicherte Slots aus früheren Versionen müssen einmalig neu zugewiesen werden
 ]]>
 		</de>
 		<fr>
@@ -94,8 +101,10 @@ Changelog V1.0.1.0
 - Révision du mappage des touches par défaut pour résoudre les problèmes sur les PC Windows
 - Amélioration du chargement des données des joueurs
 
-Changelog V1.0.1.1
+Changelog V1.1.0.0
 - Traduction russe ajoutée, merci à nagor
+- Révision de l'identification des véhicules pour une récupération plus fiable des emplacements attribués au début ou à la fin du jeu
+  Remarque : les créneaux sauvegardés des versions précédentes doivent être réaffectés une fois
 ]]>
 	</fr>
  	</description>	
