@@ -578,7 +578,7 @@ function ExtendedTabbing:updateSlots()
 		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot]
 		local vehicle = ExtendedTabbing:getVehicleByID(id)
 		if vehicle ~= nil and vehicle.getIsEnterable ~= nil and (vehicle:getIsEnterable() or vehicle == g_currentMission.controlledVehicle) then
-			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(slot))..ExtendedTabbing.selectedVehicle:getName()
+			ExtendedTabbing.actionEventText[slot] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(slot))..vehicle:getName()
 			g_inputBinding:setActionEventText(ExtendedTabbing.actionEvents[slot], ExtendedTabbing.actionEventText[slot])
 		elseif vehicle ~= nil then
 			local vehicleFarm = vehicle.ownerFarmId
