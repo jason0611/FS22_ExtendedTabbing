@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.1.0.0
+-- Version: 9.1.0.1
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -16,6 +16,7 @@ ExtendedTabbing.indexTable = {}
 ExtendedTabbing.vehicleTable = {}
 ExtendedTabbing.selectedVehicle = {}
 ExtendedTabbing.selectedDistance = 0
+ExtendedTabbing.previewTable = {}
 ExtendedTabbing.changingImpossible = false
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
@@ -462,6 +463,27 @@ function ExtendedTabbing:getSortedTables(rootNode)
 	return indexTable, vehicleTable, selfVehicle ~= nil
 end
 
+function ExtendedTabbing:getPreviewTable()
+	local previewTable = {}
+	local vehicleAnz = table.maxn(ExtendedTabbing.indexTable)
+	local previewRange = 0
+	local dummyNeeded = 0
+	if (vehicleAnz == 2) or (vehicleAnz == 4) then dummyNeeded = 1; end
+
+	if vehicleAnz > 1 then previewRange = 1; end
+	if vehicleAnz > 3 then previewRange = 2; end
+	
+	for n = -previewRange+dummyNeeded,previewRange do
+		if dummyNeeded and n == -previewRange then
+			
+		local index = ExtendedTabbing.selectedIndex + n
+		if index < 1 then index = index + vehicleAnz; end
+		if index > vehicleAnz then index = index - vehicleAnz; end
+		previewTable[n] = ExtendedTabbing.indexTable[index]
+	end
+	return previewTable
+end
+
 function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, arg5)
 	if ExtendedTabbing.isActive and actionName == "XTB_EXECTAB" then
 		ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4, arg5)
@@ -494,6 +516,7 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
+	ExtendedTabbing.previewTable = ExtendedTabbing:getPreviewTable()
 	
 	ExtendedTabbing.isActive = true
 end
@@ -518,6 +541,7 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
+	ExtendedTabbing.previewTable = ExtendedTabbing:getPreviewTable()
 end
 
 function ExtendedTabbing:getVehicleByID(vehicleId)
@@ -568,6 +592,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 		g_currentMission:requestToEnterVehicle(ExtendedTabbing:getVehicleByID(spec.ID))
 		ExtendedTabbing.selectedVehicle = nil
 		ExtendedTabbing.selectedDistance = 0
+		ExtendedTabbing.previewTable = {}
 		ExtendedTabbing.isActive = false
 	end
 end	
@@ -617,7 +642,20 @@ function ExtendedTabbing:update(dt)
 	end	
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
-		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
+		for n = -2,2 do
+			local arrow
+			if n == 0 then arrow = "--> "; else arrow = "    "; end
+			local previewIndex = ExtendedTabbing.previewTable[n]
+			if previewIndex ~= nil then 
+				local previewDistance = ExtendedTabbing.indexTable[previewIndex]
+				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
+				local spec = previewVehicle.spec_ExtendedTabbingID
+				local vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
+				local vehicleName = vehicleObject:getName()
+				renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.01, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+				--renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
+			end
+		end
 		if ExtendedTabbing.changingImpossible then
 			renderText(0.5, 0.65, 0.03, g_i18n:getText("l10n_XTB_NOVEHICLES"))
 		end
