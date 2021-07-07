@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>9.1.0.1</version>
+	<version>1.1.0.0</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -28,6 +28,7 @@ How it works:
 - If you like, save the selected vehicle with Alt-1, Alt-2, Alt-3, Alt-4, or Alt-5 for direct access
 - Press Ctrl left + Tab again to enter the selected vehicle
 - QuickTab: Press Ctrl left + Shift left + Tab to enter the nearest vehicle immediately. Alter the target with Arrow left or right before releasing the keys.
+- In multiplayer, the client has to press RIGHT CTRL + TAB to access the extendedTabbing
 
 Changelog V1.0.1.0
 - Vehicle-Slots increased from 3 to 5
@@ -38,10 +39,6 @@ Changelog V1.1.0.0
 - Russian translation added, thanks to Nagor
 - Vehicle identification reworked for more reliable recovery of assigned slots at game start or game joining
   Note: Saved slots from previous versions must be reassigned once
-  
-Changelog V1.1.1.0
-- Display of the "Tab" destination extended by up to two vehicles following and preceding in the list 
-
 ]]>
 		</en>	
 		<de>
@@ -64,20 +61,20 @@ Funktionsweise:
 - Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2, Alt-3, Alt-4, oder Alt-5 für den Schnellzugriff
 - Drücke erneut Strg links + Tab, um in das ausgewählte Fahrzeug zu springen
 - QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit den Pfeiltasten ein anderes Fahrzeug auszuwählen
+- Im Multiplayer müssen Clients STRG RECHTS + TAB drücken, um extendedTabbing korrekt nutzen zu können
 
 Changelog V1.0.1.0
 - Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
 - Standard-Tastenbelegung überarbeitet, um Probleme auf Windows-PC zu beseitigen
 - Ladevorgang der Spielerdaten verbessert
 
+Changelog V1.0.1.1
+- Russische Übersetzung ergänzt, vielen Dank an Nagor
+
 Changelog V1.1.0.0
 - Russische Übersetzung ergänzt, vielen Dank an Nagor
 - Fahrzeugidentifizierung überarbeitet, für eine zuverlässigere Wiederherstellung zugewiesener Slots bei Spielstart oder Spielbeitritt
   Hinweis: Gespeicherte Slots aus früheren Versionen müssen einmalig neu zugewiesen werden
-  
-Changelog V1.1.1.0
-- Anzeige des "Tab"-Ziels um bis zu zwei in der Liste folgende und vorhergehende Fahrzeuge erweitert
-
 ]]>
 		</de>
 		<fr>
@@ -100,6 +97,7 @@ Comment cela fonctionne :
 - Sauvegarder le véhicule sélectionné avec Alt-1, Alt-2, Alt-3, Alt-4 ou Alt-5 pour un accès rapide en cas de besoin.
 - Appuyez à nouveau sur Ctrl gauche + Tab pour passer au véhicule sélectionné.
 - QuickTab : Appuyez sur Ctrl gauche + Shift gauche + Tab pour passer directement au véhicule le plus proche, maintenez les touches enfoncées pour sélectionner un autre véhicule avec les touches fléchées.
+- In multiplayer, the client has to press RIGHT CTRL + TAB to access the extendedTabbing
 
 Changelog V1.0.1.0
 - Augmentation du nombre d'emplacements mémoire pour les véhicules de 3 à 5
@@ -110,10 +108,6 @@ Changelog V1.1.0.0
 - Traduction russe ajoutée, merci à nagor
 - Révision de l'identification des véhicules pour une récupération plus fiable des emplacements attribués au début ou à la fin du jeu
   Remarque : les créneaux sauvegardés des versions précédentes doivent être réaffectés une fois
-  
-Changelog V1.1.1.0
-- Affichage de la destination "Tab" prolongée par un maximum de deux véhicules suivants et précédents dans la liste
-
 ]]>
 	</fr>
  	</description>	
