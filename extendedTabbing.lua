@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 9.1.0.1
+-- Version: 9.1.0.2
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -474,8 +474,6 @@ function ExtendedTabbing:getPreviewTable()
 	if vehicleAnz > 3 then previewRange = 2; end
 	
 	for n = -previewRange+dummyNeeded,previewRange do
-		if dummyNeeded and n == -previewRange then
-			
 		local index = ExtendedTabbing.selectedIndex + n
 		if index < 1 then index = index + vehicleAnz; end
 		if index > vehicleAnz then index = index - vehicleAnz; end
