@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 9.1.0.2
+-- Version: 1.2.0.0 BETA
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -474,7 +474,7 @@ function ExtendedTabbing:getPreviewTable()
 	if vehicleAnz > 3 then previewRange = 2; end
 	
 	for n = -previewRange+dummyNeeded,previewRange do
-		local index = ExtendedTabbing.selectedIndex + n
+		local index = ExtendedTabbing.tabIndex + n
 		if index < 1 then index = index + vehicleAnz; end
 		if index > vehicleAnz then index = index - vehicleAnz; end
 		previewTable[n] = ExtendedTabbing.indexTable[index]
@@ -640,18 +640,18 @@ function ExtendedTabbing:update(dt)
 	end	
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
+		dbgprint("onUpdate : previewTable")
+		dbgprint_r(ExtendedTabbing.previewTable)
 		for n = -2,2 do
 			local arrow
 			if n == 0 then arrow = "--> "; else arrow = "    "; end
-			local previewIndex = ExtendedTabbing.previewTable[n]
-			if previewIndex ~= nil then 
-				local previewDistance = ExtendedTabbing.indexTable[previewIndex]
+			local previewDistance = ExtendedTabbing.previewTable[n]
+			if previewDistance ~= nil then 
 				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
 				local spec = previewVehicle.spec_ExtendedTabbingID
 				local vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
 				local vehicleName = vehicleObject:getName()
-				renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.01, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
-				--renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
+				renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
 			end
 		end
 		if ExtendedTabbing.changingImpossible then
