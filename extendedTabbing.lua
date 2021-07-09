@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.2.0.0 BETA
+-- Version: 1.2.0.0 BETA 2
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -650,7 +650,12 @@ function ExtendedTabbing:update(dt)
 				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
 				local spec = previewVehicle.spec_ExtendedTabbingID
 				local vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
-				local vehicleName = vehicleObject:getName()
+				local vehicleName
+				if vehicleObject ~= nil then
+					vehicleName = vehicleObject:getName()
+				else 
+					vehicleName = "---"
+				end
 				renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
 			end
 		end
