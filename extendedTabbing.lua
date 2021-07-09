@@ -653,10 +653,10 @@ function ExtendedTabbing:update(dt)
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
-				else 
-					vehicleName = "---"
+					renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+				else
+					print("FS9_ExtendedTabbing : ERROR : Vehicle reference missing - Maybe some mod-vehicle is broken?")
 				end
-				renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
 			end
 		end
 		if ExtendedTabbing.changingImpossible then
