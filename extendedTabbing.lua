@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.2.0.0 BETA 2
+-- Version: 1.2.0.0 BETA 3
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -617,6 +617,7 @@ function ExtendedTabbing:updateSlots()
 end
             
 function ExtendedTabbing:update(dt)
+	-- Show information if vehicles couldn't reassigned completely
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
 		local slot = {}
@@ -629,15 +630,18 @@ function ExtendedTabbing:update(dt)
 		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot[1], slot[2], slot[3], slot[4], slot[5]), -1, nil, nil, nil)
 		ExtendedTabbing.vehiclesHaveChanged = false
 	end
+	-- Update ActionEventTexts
 	if g_currentMission.isMissionStarted and ExtendedTabbing.initSlotKeys and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		ExtendedTabbing:updateSlots()
 		ExtendedTabbing.initSlotKeys = false
 	end
+	-- Show info if assigned farm has changed
 	if g_currentMission.isMissionStarted and ExtendedTabbing.farmID ~= g_currentMission.player.farmId and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : farm changed from "..tostring(ExtendedTabbing.farmID).." to "..tostring(g_currentMission.player.farmId))
 		ExtendedTabbing.farmID = g_currentMission.player.farmId
 		ExtendedTabbing:updateSlots()
 	end	
+	-- Show vehicle list to tab into
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
 		dbgprint("onUpdate : previewTable")
@@ -661,6 +665,7 @@ function ExtendedTabbing:update(dt)
 			renderText(0.5, 0.65, 0.03, g_i18n:getText("l10n_XTB_NOVEHICLES"))
 		end
 	end
+	-- Update dataBase
 	if ExtendedTabbing.needsDBUpdate then
 		if g_currentMission:getIsServer() then 
 			ExtendedTabbing:updateDataBase(ExtendedTabbing.data[ExtendedTabbing.selfID])
