@@ -641,23 +641,33 @@ function ExtendedTabbing:update(dt)
 		ExtendedTabbing.farmID = g_currentMission.player.farmId
 		ExtendedTabbing:updateSlots()
 	end	
-	-- Show vehicle list to tab into
+	-- Show tab-selection list
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
+		setTextColor(1,1,1,1)
 		dbgprint("onUpdate : previewTable")
 		dbgprint_r(ExtendedTabbing.previewTable)
 		for n = -2,2 do
-			local arrow
-			if n == 0 then arrow = "--> "; else arrow = "    "; end
+			if n == 0 then setTextColor(1,1,1,1) else setTextColor(1,1,1,0.5) end
 			local previewDistance = ExtendedTabbing.previewTable[n]
 			if previewDistance ~= nil then 
+				local showLine = false
+				local lastDistance = 0
+				if n > -2 then lastDistance = Utils.getNoNil(ExtendedTabbing.previewTable[n-1], 0); end
+				if previewDistance < lastDistance then showLine = true; end
 				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
 				local spec = previewVehicle.spec_ExtendedTabbingID
 				local vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
-					renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, arrow..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+					renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+					if showLine then 
+						setTextBold(true)
+						setTextColor(0,0,1,1)
+						renderText(0.5, 0.685 + (-0.05 * n) + 0.05, 0.01, "____________________________________________________________________________________________________________")
+						setTextBold(false)
+					end
 				end
 			end
 		end
