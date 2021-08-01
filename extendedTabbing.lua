@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.2.0.0 BETA 3
+-- Version: 1.2.0.0 RC
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -661,11 +661,11 @@ function ExtendedTabbing:update(dt)
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
-					renderText(0.5, 0.7 + (-0.05 * n), 0.03 - math.abs(n) * 0.007, vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+					renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.007, vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
 					if showLine then 
 						setTextBold(true)
 						setTextColor(0,0,1,1)
-						renderText(0.5, 0.685 + (-0.05 * n) + 0.05, 0.01, "____________________________________________________________________________________________________________")
+						renderText(0.5, 0.635 + (0.05 * n) + 0.05, 0.01, "____________________________________________________________________________________________________________")
 						setTextBold(false)
 					end
 				end
