@@ -17,6 +17,7 @@ ExtendedTabbing.vehicleTable = {}
 ExtendedTabbing.selectedVehicle = {}
 ExtendedTabbing.selectedDistance = 0
 ExtendedTabbing.previewTable = {}
+ExtendedTabbing.previewIndexTable = {}
 ExtendedTabbing.changingImpossible = false
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
@@ -465,6 +466,7 @@ end
 
 function ExtendedTabbing:getPreviewTable()
 	local previewTable = {}
+	local previewIndexTable = {}
 	local vehicleAnz = table.maxn(ExtendedTabbing.indexTable)
 	local previewRange = 0
 	local dummyNeeded = 0
@@ -478,8 +480,9 @@ function ExtendedTabbing:getPreviewTable()
 		if index < 1 then index = index + vehicleAnz; end
 		if index > vehicleAnz then index = index - vehicleAnz; end
 		previewTable[n] = ExtendedTabbing.indexTable[index]
+		previewIndexTable[n] = index
 	end
-	return previewTable
+	return previewTable, previewIndexTable
 end
 
 function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, arg5)
@@ -514,7 +517,7 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
-	ExtendedTabbing.previewTable = ExtendedTabbing:getPreviewTable()
+	ExtendedTabbing.previewTable, ExtendedTabbing.previewIndexTable = ExtendedTabbing:getPreviewTable()
 	
 	ExtendedTabbing.isActive = true
 end
@@ -539,7 +542,7 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
-	ExtendedTabbing.previewTable = ExtendedTabbing:getPreviewTable()
+	ExtendedTabbing.previewTable, ExtendedTabbing.previewIndexTable = ExtendedTabbing:getPreviewTable()
 end
 
 function ExtendedTabbing:getVehicleByID(vehicleId)
@@ -650,6 +653,7 @@ function ExtendedTabbing:update(dt)
 		for n = -2,2 do
 			if n == 0 then setTextColor(1,1,1,1) else setTextColor(1,1,1,0.5) end
 			local previewDistance = ExtendedTabbing.previewTable[n]
+			local previewIndex = ExtendedTabbing.previewIndexTable[n]
 			if previewDistance ~= nil then 
 				local showLine = false
 				local lastDistance = 0
@@ -661,7 +665,7 @@ function ExtendedTabbing:update(dt)
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
-					renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.007, vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+					renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.007, string.format("%.0f",previewIndex).." - "..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
 					if showLine then 
 						setTextBold(true)
 						setTextColor(0,0,1,1)
