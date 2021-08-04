@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.2.0.0 RC
+-- Version: 1.2.0.0 RC2
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -661,7 +661,8 @@ function ExtendedTabbing:update(dt)
 				if previewDistance < lastDistance then showLine = true; end
 				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
 				local spec = previewVehicle.spec_ExtendedTabbingID
-				local vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
+				local vehicleObject
+				if spec ~= nil then vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
@@ -713,7 +714,7 @@ FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.s
 if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil then
   g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", true, nil)
   for typeName, typeEntry in pairs(g_vehicleTypeManager:getVehicleTypes()) do
-    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) and SpecializationUtil.hasSpecialization(Motorized, typeEntry.specializations) then
+    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) then
       	g_vehicleTypeManager:addSpecialization(typeName, "ExtendedTabbingID")
 		dbgprint("ExtendedTabbingID registered for "..typeName)
     end
