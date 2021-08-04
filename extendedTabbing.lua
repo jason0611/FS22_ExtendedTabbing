@@ -662,7 +662,7 @@ function ExtendedTabbing:update(dt)
 				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
 				local spec = previewVehicle.spec_ExtendedTabbingID
 				local vehicleObject
-				if spec ~= nil then vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID)
+				if spec ~= nil then vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID); end
 				local vehicleName
 				if vehicleObject ~= nil then
 					vehicleName = vehicleObject:getName()
