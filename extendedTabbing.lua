@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.1.0.0
+-- Version: 1.2.0.0
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -16,6 +16,8 @@ ExtendedTabbing.indexTable = {}
 ExtendedTabbing.vehicleTable = {}
 ExtendedTabbing.selectedVehicle = {}
 ExtendedTabbing.selectedDistance = 0
+ExtendedTabbing.previewTable = {}
+ExtendedTabbing.previewIndexTable = {}
 ExtendedTabbing.changingImpossible = false
 ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
@@ -462,6 +464,27 @@ function ExtendedTabbing:getSortedTables(rootNode)
 	return indexTable, vehicleTable, selfVehicle ~= nil
 end
 
+function ExtendedTabbing:getPreviewTable()
+	local previewTable = {}
+	local previewIndexTable = {}
+	local vehicleAnz = table.maxn(ExtendedTabbing.indexTable)
+	local previewRange = 0
+	local dummyNeeded = 0
+	if (vehicleAnz == 2) or (vehicleAnz == 4) then dummyNeeded = 1; end
+
+	if vehicleAnz > 1 then previewRange = 1; end
+	if vehicleAnz > 3 then previewRange = 2; end
+	
+	for n = -previewRange+dummyNeeded,previewRange do
+		local index = ExtendedTabbing.tabIndex + n
+		if index < 1 then index = index + vehicleAnz; end
+		if index > vehicleAnz then index = index - vehicleAnz; end
+		previewTable[n] = ExtendedTabbing.indexTable[index]
+		previewIndexTable[n] = index
+	end
+	return previewTable, previewIndexTable
+end
+
 function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, arg5)
 	if ExtendedTabbing.isActive and actionName == "XTB_EXECTAB" then
 		ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4, arg5)
@@ -494,6 +517,7 @@ function ExtendedTabbing:findNearestVehicle(actionName, keyStatus, arg3, arg4, a
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
+	ExtendedTabbing.previewTable, ExtendedTabbing.previewIndexTable = ExtendedTabbing:getPreviewTable()
 	
 	ExtendedTabbing.isActive = true
 end
@@ -518,6 +542,7 @@ function ExtendedTabbing:findNextVehicle(actionName, keyStatus, arg3, arg4, arg5
 	
 	ExtendedTabbing.selectedDistance = ExtendedTabbing.indexTable[ExtendedTabbing.tabIndex]
 	ExtendedTabbing.selectedVehicle = ExtendedTabbing.vehicleTable[ExtendedTabbing.selectedDistance]
+	ExtendedTabbing.previewTable, ExtendedTabbing.previewIndexTable = ExtendedTabbing:getPreviewTable()
 end
 
 function ExtendedTabbing:getVehicleByID(vehicleId)
@@ -568,6 +593,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 		g_currentMission:requestToEnterVehicle(ExtendedTabbing:getVehicleByID(spec.ID))
 		ExtendedTabbing.selectedVehicle = nil
 		ExtendedTabbing.selectedDistance = 0
+		ExtendedTabbing.previewTable = {}
 		ExtendedTabbing.isActive = false
 	end
 end	
@@ -594,6 +620,7 @@ function ExtendedTabbing:updateSlots()
 end
             
 function ExtendedTabbing:update(dt)
+	-- Show information if vehicles couldn't reassigned completely
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message")
 		local slot = {}
@@ -606,22 +633,54 @@ function ExtendedTabbing:update(dt)
 		g_currentMission.hud:showInGameMessage(g_i18n:getText("l10n_XTB_VEHICLELIST_HEADLINE"), string.format(g_i18n:getText("l10n_XTB_VEHICLELIST_CHANGED"), slot[1], slot[2], slot[3], slot[4], slot[5]), -1, nil, nil, nil)
 		ExtendedTabbing.vehiclesHaveChanged = false
 	end
+	-- Update ActionEventTexts
 	if g_currentMission.isMissionStarted and ExtendedTabbing.initSlotKeys and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		ExtendedTabbing:updateSlots()
 		ExtendedTabbing.initSlotKeys = false
 	end
+	-- Show info if assigned farm has changed
 	if g_currentMission.isMissionStarted and ExtendedTabbing.farmID ~= g_currentMission.player.farmId and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : farm changed from "..tostring(ExtendedTabbing.farmID).." to "..tostring(g_currentMission.player.farmId))
 		ExtendedTabbing.farmID = g_currentMission.player.farmId
 		ExtendedTabbing:updateSlots()
 	end	
+	-- Show tab-selection list
 	if ExtendedTabbing.isActive and ExtendedTabbing.selectedVehicle ~= nil then
 		setTextAlignment(RenderText.ALIGN_CENTER)
-		renderText(0.5, 0.7, 0.03, "--> "..ExtendedTabbing.selectedVehicle:getName().." ("..string.format("%.1f",ExtendedTabbing.selectedDistance).." m)")
+		setTextColor(1,1,1,1)
+		dbgprint("onUpdate : previewTable")
+		dbgprint_r(ExtendedTabbing.previewTable)
+		for n = -2,2 do
+			if n == 0 then setTextColor(1,1,1,1) else setTextColor(1,1,1,0.5) end
+			local previewDistance = ExtendedTabbing.previewTable[n]
+			local previewIndex = ExtendedTabbing.previewIndexTable[n]
+			if previewDistance ~= nil then 
+				local showLine = false
+				local lastDistance = 0
+				if n > -2 then lastDistance = Utils.getNoNil(ExtendedTabbing.previewTable[n-1], 0); end
+				if previewDistance < lastDistance then showLine = true; end
+				local previewVehicle = ExtendedTabbing.vehicleTable[previewDistance]
+				local spec = previewVehicle.spec_ExtendedTabbingID
+				local vehicleObject
+				if spec ~= nil then vehicleObject = ExtendedTabbing:getVehicleByID(spec.ID); end
+				local vehicleName
+				if vehicleObject ~= nil then
+					vehicleName = vehicleObject:getName()
+					renderText(0.5, 0.7 + (0.05 * n), 0.03 - math.abs(n) * 0.007, string.format("%.0f",previewIndex).." - "..vehicleName.." ("..string.format("%.1f",previewDistance).." m)")
+					if showLine then 
+						setTextBold(true)
+						setTextColor(0,0,1,1)
+						renderText(0.5, 0.635 + (0.05 * n) + 0.05, 0.01, "____________________________________________________________________________________________________________")
+						setTextBold(false)
+					end
+				end
+			end
+		end
 		if ExtendedTabbing.changingImpossible then
 			renderText(0.5, 0.65, 0.03, g_i18n:getText("l10n_XTB_NOVEHICLES"))
 		end
 	end
+	-- Update dataBase
 	if ExtendedTabbing.needsDBUpdate then
 		if g_currentMission:getIsServer() then 
 			ExtendedTabbing:updateDataBase(ExtendedTabbing.data[ExtendedTabbing.selfID])
@@ -655,7 +714,7 @@ FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.s
 if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil then
   g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", true, nil)
   for typeName, typeEntry in pairs(g_vehicleTypeManager:getVehicleTypes()) do
-    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) and SpecializationUtil.hasSpecialization(Motorized, typeEntry.specializations) then
+    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) then
       	g_vehicleTypeManager:addSpecialization(typeName, "ExtendedTabbingID")
 		dbgprint("ExtendedTabbingID registered for "..typeName)
     end
