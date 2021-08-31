@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="53">
 	<author>Jason06</author>
-	<version>1.2.0.0 RC2</version>
+	<version>1.2.0.0</version>
     <title>
 		<en>Extended Tabbing</en>
 		<de>Erweitertes Tabbing</de>
@@ -11,6 +11,11 @@
 		<en>
 <![CDATA[
 "Tab" into nearest vehicles, or choose another target, all sorted by distance 
+
+Who hasn't experienced this: You are playing alone, the seeder is empty and the truck at the edge of the field is supposed to unload into the auger of the seeder. So you "tab" through the vehicles until you eventually arrive at the truck. 
+The unloading process is started, then you "tab" back until you are sitting in the tractor again. 
+
+Wouldn't it be nicer if you could "tab" directly to the nearest vehicle or directly enter vehicles via hotkey?
 
 Features:
 - Shows the target before tab execution
@@ -40,20 +45,26 @@ Changelog V1.1.0.0
   Note: Saved slots from previous versions must be reassigned once
   
 Changelog V1.2.0.0
-- Display of the "Tab" destination extended by up to two vehicles following and preceding in the list 
-
+- Display of the "Tab" targets extended by the two following and two preceding vehicles
+- Mod description updated
+- Minor bug fixes
 ]]>
 		</en>	
 		<de>
 <![CDATA[
 Schnelles "tabben" in das jeweils nächstgelegene Fahrzeug oder in alternative Ziele, sortiert nach Entfernung
 
+Wer kennt das nicht: Du spielst gerade alleine, die Sähmaschine ist leer und der LKW am Feldrand soll in die Überladeschnecke der Sähmaschine entladen. Also "tabbst" Du durch die Fahrzeuge, bis Du irgendwann im LKW ankommt. 
+Der Entladevorgang wird gestartet, dann "tabbst" Du so lange zurück, bis Du wieder im Schlepper sitzt. 
+
+Wäre es da nicht schöner, wenn Du direkt ins jeweils nächstgelegene Fahrzeug "tabben" oder Fahrzeuge per Hotkey direkt ansteuern könntest?
+
 Features:
-- Anzeige des "Tab"-Ziels vor Ausführung
+- Anzeige des "Tab"-Ziele vor Ausführung
 - Möglichkeit, das Ziel zu wechseln, die Reihenfolge entspricht der Entfernung von der aktuellen Position des Spielers
-- Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, das mit 'Shift links und Pfeil rechts / Pfeil links' geändert werden kann. Erneuter Tastendruck (Strg links + TAB) löst dann den Wechsel aus.
+- Aktivieren/Auslösen-Taste (Strg links + TAB): Aktiviert die Funktion und zeigt das ausgewählte Fahrzeug an, sowie die beiden nächsten und die beiden vorhergehenden in der Liste. Mit 'Shift links und Pfeil rechts / Pfeil links' kann die Auswahl geändert werden, ein erneuter Tastendruck (Strg links + TAB) löst dann den Wechsel aus.
 - QuickTab-Taste (Strg links + Shift links + TAB): Wechselt sofort zum nächstgelegenen Fahrzeug, bei gehaltenen Tasten kann auch hier das Ziel mit den Pfeiltasten geändert werden.
-- Bis zu fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3, Alt links + 4, Alt links + 5)
+- Hotkeys: Bis zu fünf Fahrzeuge können für den schnellen Direktzugriff gespeichert werden, anschließend kann direkt per Tastendruck hineingesprungen werden (Alt link + 1, Alt links + 2, Alt links + 3, Alt links + 4, Alt links + 5)
 - Die Übersicht der belegten Speicherplätze kann mit Strg links + X ein- und ausgeblendet werden
 - Alle Tastenbelegungen können geändert werden
 - Voller Multiplayer-Support
@@ -63,7 +74,7 @@ Funktionsweise:
 - Wähle mit Shift + Pfeil links oder Shift + Pfeil rechts das gewünschte Fahrzeug
 - Speichere das ausgewählte Fahrzeug bei Bedarf mit Alt-1, Alt-2, Alt-3, Alt-4, oder Alt-5 für den Schnellzugriff
 - Drücke erneut Strg links + Tab, um in das ausgewählte Fahrzeug zu springen
-- QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, um mit den Pfeiltasten ein anderes Fahrzeug auszuwählen
+- QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, während Du mit den Pfeiltasten ein anderes Fahrzeug auszuwählst
 
 Changelog V1.0.1.0
 - Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
@@ -72,17 +83,23 @@ Changelog V1.0.1.0
 
 Changelog V1.1.0.0
 - Russische Übersetzung ergänzt, vielen Dank an Nagor
-- Fahrzeugidentifizierung überarbeitet, für eine zuverlässigere Wiederherstellung zugewiesener Slots bei Spielstart oder Spielbeitritt
+- Fahrzeugidentifizierung überarbeitet, für eine zuverlässige Wiederherstellung zugewiesener Slots bei Spielstart oder Spielbeitritt
   Hinweis: Gespeicherte Slots aus früheren Versionen müssen einmalig neu zugewiesen werden
   
 Changelog V1.2.0.0
-- Anzeige des "Tab"-Ziels um bis zu zwei in der Liste folgende und vorhergehende Fahrzeuge erweitert
-
+- Anzeige der "Tab"-Ziele um die zwei folgenden und zwei vorhergehenden Fahrzeuge erweitert
+- Modbeschreibung aktualisiert
+- Kleinere Fehlerkorrekturen
 ]]>
 		</de>
 		<fr>
 <![CDATA[
 Accédez rapidement au véhicule le plus proche ou à d'autres destinations, triées par distance.
+
+Qui n'a pas vécu cette expérience : vous jouez seul, le semoir est vide et le camion au bord du champ est censé décharger dans la vis sans fin surchargée du semoir. Donc vous "tabulez" les véhicules jusqu'à ce que vous arriviez au camion. 
+Le processus de déchargement est lancé, puis vous "tabulez" jusqu'à ce que vous soyez à nouveau assis dans le tracteur. 
+
+Ne serait-il pas plus agréable de pouvoir "tabuler" directement vers le véhicule le plus proche ou de contrôler directement les véhicules par le biais d'un raccourci clavier ?
 
 Caractéristiques :
 - Affichage de la cible "tab" avant l'exécution.
@@ -112,8 +129,9 @@ Changelog V1.1.0.0
   Remarque : les créneaux sauvegardés des versions précédentes doivent être réaffectés une fois
   
 Changelog V1.2.0.0
-- Affichage de la destination "Tab" prolongée par un maximum de deux véhicules suivants et précédents dans la liste
-
+- Affichage des cibles "Tab" prolongées par les deux véhicules suivants et les deux véhicules précédents.
+- Mise à jour de la description du mod
+- Correction de bogues mineurs
 ]]>
 	</fr>
  	</description>	
