@@ -2,7 +2,7 @@
 -- Specialization for vehicles to create and store a unique ID
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version 1.1.0.0
+-- Version 1.2.0.0
 -- 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
