@@ -713,7 +713,7 @@ FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(FSCareerMissionInfo.s
 -- Include specialization into enterable vehicles
 if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil then
   g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", true, nil)
-  for typeName, typeEntry in pairs(g_vehicleTypeManager:getTypes()) do
+  for typeName, typeEntry in pairs(g_vehicleTypeManager.types()) do
     if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) then
       	g_vehicleTypeManager:addSpecialization(typeName, "ExtendedTabbingID")
 		dbgprint("ExtendedTabbingID registered for "..typeName)
