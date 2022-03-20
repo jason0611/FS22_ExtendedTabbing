@@ -33,21 +33,6 @@ How it works:
 - If you like, save the selected vehicle with Alt-1, Alt-2, Alt-3, Alt-4, or Alt-5 for direct access
 - Press Ctrl left + Tab again to enter the selected vehicle
 - QuickTab: Press Ctrl left + Shift left + Tab to enter the nearest vehicle immediately. Alter the target with Arrow left or right before releasing the keys.
-
-Changelog V1.0.1.0
-- Vehicle-Slots increased from 3 to 5
-- Reworked the default key bindings to resolve issues on windows pc
-- Improved handling of player data while loading
-
-Changelog V1.1.0.0
-- Russian translation added, thanks to Nagor
-- Vehicle identification reworked for more reliable recovery of assigned slots at game start or game joining
-  Note: Saved slots from previous versions must be reassigned once
-  
-Changelog V1.2.0.0
-- Display of the "Tab" targets extended by the two following and two preceding vehicles
-- Mod description updated
-- Minor bug fixes
 ]]>
 		</en>	
 		<de>
@@ -76,23 +61,6 @@ Funktionsweise:
 - Drücke erneut Strg links + Tab, um in das ausgewählte Fahrzeug zu springen
 - QuickTab: Drücke Strg links + Shift links + Tab um direkt in das nächstgelegene Fahrzeug zu springen, halte die Tasten gedrückt, während Du mit den Pfeiltasten ein anderes Fahrzeug auszuwählst
 
-Changelog V1.0.1.0
-- Speicherplätze für Fahrzeuge von 3 auf 5 erhöht
-- Standard-Tastenbelegung überarbeitet, um Probleme auf Windows-PC zu beseitigen
-- Ladevorgang der Spielerdaten verbessert
-
-Changelog V1.0.1.1
-- Russische Übersetzung ergänzt, vielen Dank an Nagor
-
-Changelog V1.1.0.0
-- Russische Übersetzung ergänzt, vielen Dank an Nagor
-- Fahrzeugidentifizierung überarbeitet, für eine zuverlässige Wiederherstellung zugewiesener Slots bei Spielstart oder Spielbeitritt
-  Hinweis: Gespeicherte Slots aus früheren Versionen müssen einmalig neu zugewiesen werden
-  
-Changelog V1.2.0.0
-- Anzeige der "Tab"-Ziele um die zwei folgenden und zwei vorhergehenden Fahrzeuge erweitert
-- Modbeschreibung aktualisiert
-- Kleinere Fehlerkorrekturen
 ]]>
 		</de>
 		<fr>
@@ -121,20 +89,6 @@ Comment cela fonctionne :
 - Appuyez à nouveau sur Ctrl gauche + Tab pour passer au véhicule sélectionné.
 - QuickTab : Appuyez sur Ctrl gauche + Shift gauche + Tab pour passer directement au véhicule le plus proche, maintenez les touches enfoncées pour sélectionner un autre véhicule avec les touches fléchées.
 
-Changelog V1.0.1.0
-- Augmentation du nombre d'emplacements mémoire pour les véhicules de 3 à 5
-- Révision du mappage des touches par défaut pour résoudre les problèmes sur les PC Windows
-- Amélioration du chargement des données des joueurs
-
-Changelog V1.1.0.0
-- Traduction russe ajoutée, merci à nagor
-- Révision de l'identification des véhicules pour une récupération plus fiable des emplacements attribués au début ou à la fin du jeu
-  Remarque : les créneaux sauvegardés des versions précédentes doivent être réaffectés une fois
-  
-Changelog V1.2.0.0
-- Affichage des cibles "Tab" prolongées par les deux véhicules suivants et les deux véhicules précédents.
-- Mise à jour de la description du mod
-- Correction de bogues mineurs
 ]]>
 	</fr>
  	</description>	
