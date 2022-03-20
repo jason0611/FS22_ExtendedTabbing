@@ -1,5 +1,7 @@
-# FS19_ExtendedTabbing 
-https://farming-simulator.com/mod.php?mod_id=209247
+# FS22_ExtendedTabbing 
+WORK IN PROGRESS! Not ready for FS22 yet!
+
+---
 
 Mod für FS19 to "tab" into next vehicles, sorted by distance
 
