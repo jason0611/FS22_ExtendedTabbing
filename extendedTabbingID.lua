@@ -27,7 +27,7 @@ function ExtendedTabbingID.registerEventListeners(vehicleType)
 end
 
 function ExtendedTabbingID:onLoad(savegame)
-	self.spec = self["spec_"..ExtendedTabbingID.MODNAME..".ExtendedTabbingID"]
+	self.spec_ExtendedTabbingID = self["spec_"..ExtendedTabbingID.MODNAME..".ExtendedTabbingID"]
 	local spec = self.spec_ExtendedTabbingID
 	if spec == nil then return end
 	
