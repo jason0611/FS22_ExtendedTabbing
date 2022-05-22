@@ -43,14 +43,16 @@ function ExtendedTabbingID:onPostLoad(savegame)
 	if savegame ~= nil then	
 		local xmlFile = savegame.xmlFile
 		local key = savegame.key .. ".ExtendedTabbingID"
-		spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), spec.ID)
+		--spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), spec.ID)
+		spec.ID = Utils.getNoNil(xmlFile:getString(key.."#ID"), spec.ID)
 		dbgprint("onPostLoad : loaded vehicleID = "..spec.ID)
 	end
 end
 
 function ExtendedTabbingID:saveToXMLFile(xmlFile, key)
 	local spec = self.spec_ExtendedTabbingID
-	setXMLString(xmlFile, key.."#ID", spec.ID)
+	--setXMLString(xmlFile, key.."#ID", spec.ID)
+	xmlFile:setString(key.."#ID", spec.ID)
 end
 
 function ExtendedTabbingID:onReadStream(streamId, connection)

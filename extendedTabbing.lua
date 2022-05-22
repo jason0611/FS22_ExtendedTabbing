@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.9.0.1
+-- Version: 1.9.0.2
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -93,7 +93,8 @@ function ExtendedTabbing:loadMap(name)
 		if  g_currentMission.missionInfo.savegameDirectory ~= nil then
 			local dataBaseFile = g_currentMission.missionInfo.savegameDirectory .. "/extendedtabbing.xml"
 			if fileExists(dataBaseFile) then
-				local xmlFile = loadXMLFile("dataBase", dataBaseFile)
+				--local xmlFile = loadXMLFile("dataBase", dataBaseFile)
+				local xmlFile = XMLFile.loadIfExists("dataBase", dataBaseFile, "ExtendedTabbing")
 				local xmlPlayerKey = ""	
 				
 				local loadedEntry
@@ -119,19 +120,20 @@ function ExtendedTabbing:loadMap(name)
 					    xmlSlotID[s] = xmlPlayerKey .. "slot"..tostring(s).."ID"
 					end
 					
-					if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
+					--if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
+					if not xmlFile:hasProperty(xmlPlayerID) then break; end;
 					
-					loadedEntry.playerID 	= getXMLString(xmlFile, xmlPlayerID)
-					loadedEntry.playerName 	= getXMLString(xmlFile, xmlPlayerName)
+					loadedEntry.playerID 	= xmlFile:getString(xmlPlayerID)
+					loadedEntry.playerName 	= xmlFile:getString(xmlPlayerName)
 					
-					if hasXMLProperty(xmlFile, xmlShowSlots) then 
-						loadedEntry.showSlots = getXMLBool(xmlFile, xmlShowSlots)
+					if xmlFile:hasProperty(xmlShowSlots) then 
+						loadedEntry.showSlots = xmlFile:getBool(xmlShowSlots)
 					else	
 						loadedEntry.showSlots = true
 					end
 					
 					for s=1,5 do
-					    if hasXMLProperty(xmlFile, xmlSlotID[s]) then loadedEntry.slotID[s] = getXMLString(xmlFile, xmlSlotID[s]); end
+					    if xmlFile:hasProperty(xmlSlotID[s]) then loadedEntry.slotID[s] = xmlFile:getString(xmlSlotID[s]); end
 					end	
 					ExtendedTabbing:updateDataBase(loadedEntry)
 					pkey = pkey + 1												
@@ -160,7 +162,7 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	dbgprint_r(ExtendedTabbing.dataBase)
 
 	local dataBaseFile = missionInfo.savegameDirectory .. "/extendedtabbing.xml"
-	local xmlFile = createXMLFile("dataBase", dataBaseFile, "ExtendedTabbing")
+	local xmlFile = XMLFile.create("dataBase", dataBaseFile, "ExtendedTabbing")
 	
 	if xmlFile == nil then 
 		print("ExtendedTabbing :: saveDataBase : Error: Couldn't save dataBase")
@@ -183,12 +185,12 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 			xmlShowSlots	= xmlPlayerKey .. "showSlots"
 			for s=1,5 do
 				xmlSlotID[s] = xmlPlayerKey.."slot"..tostring(s).."ID"
-				if dbEntry.slotID[s] ~= nil and dbEntry.slotID[s] ~= "" then setXMLString(xmlFile, xmlSlotID[s], dbEntry.slotID[s]); toBeSaved = true; end
+				if dbEntry.slotID[s] ~= nil and dbEntry.slotID[s] ~= "" then xmlFile:setString(xmlSlotID[s], dbEntry.slotID[s]); toBeSaved = true; end
 			end
 			if toBeSaved then
-				setXMLString(xmlFile, xmlPlayerID, dbEntry.playerID)
-				setXMLString(xmlFile, xmlPlayerName, dbEntry.playerName)
-				setXMLBool(xmlFile, xmlShowSlots, dbEntry.showSlots)
+				xmlFile:setString(xmlPlayerID, dbEntry.playerID)
+				xmlFile:setString(xmlPlayerName, dbEntry.playerName)
+				xmlFile:setBool(xmlShowSlots, dbEntry.showSlots)
 				print("ExtendedTabbing :: saveDataBase : saved entry for "..tostring(dbEntry.playerName))
 				pkey = pkey + 1
 			else
@@ -198,8 +200,8 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 			print("ExtendedTabbing :: saveDataBase : nothing to save for "..tostring(dbEntry.playerName))
 		end
 	end
-	saveXMLFile(xmlFile)
-	delete(xmlFile)
+	xmlFile:save()
+	xmlFile:delete()
 	dbgprint("saveDataBase : ending")
 end 
 
