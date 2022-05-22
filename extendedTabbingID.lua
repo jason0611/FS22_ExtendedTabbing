@@ -2,7 +2,7 @@
 -- Specialization for vehicles to create and store a unique ID
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version 1.2.0.0
+-- Version 1.9.0.3
 -- 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -42,7 +42,7 @@ function ExtendedTabbingID:onPostLoad(savegame)
 	
 	if savegame ~= nil then	
 		local xmlFile = savegame.xmlFile
-		local key = savegame.key .. ".ExtendedTabbingID"
+		local key = savegame.key .. "." .. ExtendedTabbingID.MODNAME .. ".ExtendedTabbingID"
 		--spec.ID = Utils.getNoNil(getXMLString(xmlFile, key.."#ID"), spec.ID)
 		spec.ID = Utils.getNoNil(xmlFile:getString(key.."#ID"), spec.ID)
 		dbgprint("onPostLoad : loaded vehicleID = "..spec.ID)

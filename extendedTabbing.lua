@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.9.0.2
+-- Version: 1.9.0.3
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -94,8 +94,8 @@ function ExtendedTabbing:loadMap(name)
 			local dataBaseFile = g_currentMission.missionInfo.savegameDirectory .. "/extendedtabbing.xml"
 			if fileExists(dataBaseFile) then
 				--local xmlFile = loadXMLFile("dataBase", dataBaseFile)
-				local xmlFile = XMLFile.loadIfExists("dataBase", dataBaseFile, "ExtendedTabbing")
-				local xmlPlayerKey = ""	
+				local xmlPlayerKey = "ExtendedTabbing"	
+				local xmlFile = XMLFile.loadIfExists("dataBase", dataBaseFile, xmlPlayerKey)
 				
 				local loadedEntry
 				local xmlPlayerID
@@ -111,13 +111,13 @@ function ExtendedTabbing:loadMap(name)
 					loadedEntry.showSlots = true
 					loadedEntry.slotID = {"", "", "", "", ""}
 					
-					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)#", pkey)
+					xmlPlayerKey = string.format("ExtendedTabbing.player(%d)", pkey)
 					
-					xmlPlayerID  	= xmlPlayerKey .. "playerID"
-					xmlPlayerName 	= xmlPlayerKey .. "playerName"
-					xmlShowSlots	= xmlPlayerKey .. "showSlots"
+					xmlPlayerID  	= xmlPlayerKey .. "#playerID"
+					xmlPlayerName 	= xmlPlayerKey .. "#playerName"
+					xmlShowSlots	= xmlPlayerKey .. "#showSlots"
 					for s=1,5 do
-					    xmlSlotID[s] = xmlPlayerKey .. "slot"..tostring(s).."ID"
+					    xmlSlotID[s] = xmlPlayerKey .. "#slot"..tostring(s).."ID"
 					end
 					
 					--if not hasXMLProperty(xmlFile, xmlPlayerID) then break; end;
@@ -161,15 +161,15 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	dbgprint("saveDataBase : starting")
 	dbgprint_r(ExtendedTabbing.dataBase)
 
+	local xmlPlayerKey = "ExtendedTabbing"
 	local dataBaseFile = missionInfo.savegameDirectory .. "/extendedtabbing.xml"
-	local xmlFile = XMLFile.create("dataBase", dataBaseFile, "ExtendedTabbing")
+	local xmlFile = XMLFile.create("dataBase", dataBaseFile, xmlPlayerKey)
 	
 	if xmlFile == nil then 
 		print("ExtendedTabbing :: saveDataBase : Error: Couldn't save dataBase")
 		return false; 
 	end;
 	
-	local xmlPlayerKey
 	local xmlPlayerID
 	local xmlPlayerName
 	local xmlShowSlots
@@ -179,12 +179,12 @@ function ExtendedTabbing.saveDataBase(missionInfo)
 	for _, dbEntry in pairs(ExtendedTabbing.dataBase) do
 		if dbEntry.slotID ~= nil and dbEntry.playerID ~= nil and dbEntry.playerID ~= "" then
 			local toBeSaved = false
-			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)#",pkey)
-			xmlPlayerID  	= xmlPlayerKey .. "playerID"
-			xmlPlayerName = xmlPlayerKey .. "playerName"
-			xmlShowSlots	= xmlPlayerKey .. "showSlots"
+			xmlPlayerKey 	= string.format("ExtendedTabbing.player(%d)",pkey)
+			xmlPlayerID  	= xmlPlayerKey .. "#playerID"
+			xmlPlayerName = xmlPlayerKey .. "#playerName"
+			xmlShowSlots	= xmlPlayerKey .. "#showSlots"
 			for s=1,5 do
-				xmlSlotID[s] = xmlPlayerKey.."slot"..tostring(s).."ID"
+				xmlSlotID[s] = xmlPlayerKey.."#slot"..tostring(s).."ID"
 				if dbEntry.slotID[s] ~= nil and dbEntry.slotID[s] ~= "" then xmlFile:setString(xmlSlotID[s], dbEntry.slotID[s]); toBeSaved = true; end
 			end
 			if toBeSaved then
