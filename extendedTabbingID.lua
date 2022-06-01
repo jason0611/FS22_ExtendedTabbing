@@ -2,7 +2,7 @@
 -- Specialization for vehicles to create and store a unique ID
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version 1.9.0.4
+-- Version 1.9.0.5
 -- 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -58,11 +58,13 @@ end
 function ExtendedTabbingID:onReadStream(streamId, connection)
 	local spec = self.spec_ExtendedTabbingID
 	spec.ID = streamReadString(streamId)
+	dbgprint("onReadStream : read ID: "..tostring(spec.ID), 4)
 end
 
 function ExtendedTabbingID:onWriteStream(streamId, connection)
 	local spec = self.spec_ExtendedTabbingID
 	streamWriteString(streamId, spec.ID)
+	dbgprint("onWriteStream : send ID: "..tostring(spec.ID), 4)
 end
 	
 function ExtendedTabbingID:onReadUpdateStream(streamId, timestamp, connection)

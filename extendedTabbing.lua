@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.9.0.4
+-- Version: 1.9.0.5
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
@@ -345,9 +345,11 @@ function ExtendedTabbing:readStream(streamId, connection)
 				if ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] ~= "" then
 					local vehicle = ExtendedTabbing:getVehicleByID(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i])
 					if vehicle == nil then
+						dbgprint("readStream : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." is unknown", 1)
 						ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = ""
 						ExtendedTabbing.vehiclesHaveChanged = true
 					else
+						dbgprint("readStream : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." got assigned", 2)
 						ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
 					end
 				end	
