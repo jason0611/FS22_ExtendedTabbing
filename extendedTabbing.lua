@@ -1,11 +1,11 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.9.0.5
+-- Version: 1.9.0.6
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true, 4)
+GMSDebug:init(g_currentModName, true, 2)
 GMSDebug:enableConsoleCommands()
 
 ExtendedTabbing = {}
@@ -342,17 +342,6 @@ function ExtendedTabbing:readStream(streamId, connection)
 			ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots = loadEntry.showSlots
 			for i = 1, 5 do
 				ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = loadEntry.slotID[i]
-				if ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] ~= "" then
-					local vehicle = ExtendedTabbing:getVehicleByID(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i])
-					if vehicle == nil then
-						dbgprint("readStream : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." is unknown", 1)
-						ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = ""
-						ExtendedTabbing.vehiclesHaveChanged = true
-					else
-						dbgprint("readStream : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." got assigned", 2)
-						ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
-					end
-				end	
 			end
 		else
 			dbgprint("readStream : ignoring data for "..loadEntry.playerName, 2)
@@ -624,6 +613,26 @@ function ExtendedTabbing:updateSlots()
 end
             
 function ExtendedTabbing:update(dt)
+	-- On first run: check if all vehicles are assigned correctly
+	if g_currentMission.isMissionStarted and ExtendedTabbing.checkedEntries == nil then	
+		for i = 1, 5 do
+			if ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] ~= "" then
+				local vehicle = ExtendedTabbing:getVehicleByID(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i])
+				if vehicle == nil then
+					dbgprint("update : checkEntries : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." is unknown", 1)
+					ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i] = ""
+					ExtendedTabbing.vehiclesHaveChanged = true
+				else
+					dbgprint("update : checkEntries : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." got assigned", 2)
+					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
+				end
+			end	
+		end
+		ExtendedTabbing.checkedEntries = true
+	end
+
+	if not ExtendedTabbing.checkedEntries ~= nil then return end
+	 
 	-- Show information if vehicles couldn't reassigned completely
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
 		dbgprint("update : show info message", 2)

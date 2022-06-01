@@ -2,11 +2,11 @@
 -- Specialization for vehicles to create and store a unique ID
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version 1.9.0.5
+-- Version 1.9.0.6
 -- 
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(g_currentModName, true, 4)
+GMSDebug:init(g_currentModName, true, 2)
 GMSDebug:enableConsoleCommands()
 
 ExtendedTabbingID = {}
