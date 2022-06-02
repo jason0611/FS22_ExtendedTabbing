@@ -594,7 +594,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 end	
 
 function ExtendedTabbing:updateSlots()
-	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then print("nil"); return; else print("not nil"); end
+	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then return end
 	local visible = ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots
 	for slot=1,5 do
 		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot]
