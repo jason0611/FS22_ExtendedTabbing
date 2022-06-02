@@ -23,6 +23,7 @@ ExtendedTabbing.isActive = false
 ExtendedTabbing.needsServerUpdate = false
 ExtendedTabbing.needsDBUpdate = false
 ExtendedTabbing.initSlotKeys = true
+ExtendedTabbing.checkedEntries = false
 ExtendedTabbing.vehiclesHaveChanged = false
 ExtendedTabbing.selfID = 0
 ExtendedTabbing.farmID = 0
@@ -630,9 +631,10 @@ function ExtendedTabbing:update(dt)
 			end	
 		end
 		ExtendedTabbing.checkedEntries = true
+		ExtendedTabbing.initSlotKeys = true
 	end
 
-	if not ExtendedTabbing.checkedEntries ~= nil then return end
+	if not ExtendedTabbing.checkedEntries then return end
 	 
 	-- Show information if vehicles couldn't reassigned completely
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
