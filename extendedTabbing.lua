@@ -254,6 +254,7 @@ function ExtendedTabbing:loadPlayer(xmlFilename, playerStyle, creatorConnection,
 			for i=1,5 do
 				if loadEntry.slotID[i] == nil then
 					loadEntry.slotID[i] = ""
+					g_inputBinding:setActionEventTextVisibility(ExtendedTabbing.actionEvents[i], loadEntry.showSlots)
 				end
 				if loadEntry.slotID[i] ~= "" then
 					local vehicle = ExtendedTabbing:getVehicleByID(loadEntry.slotID[i])
