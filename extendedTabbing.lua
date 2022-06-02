@@ -70,8 +70,8 @@ function ExtendedTabbing:registerActionEvents()
 	for slot=1,5 do
 		_, ExtendedTabbing.actionEvents[slot] = g_inputBinding:registerActionEvent('XTB_FAV'..tostring(slot), self, ExtendedTabbing.tabToSelectedVehicle, false, true, false, true, nil)
    		g_inputBinding:setActionEventTextPriority(ExtendedTabbing.actionEvents[slot], GS_PRIO_HIGH)
-   		ExtendedTabbing:updateSlots()
 	end
+	ExtendedTabbing:updateSlots()
 end
 
 function ExtendedTabbing:loadMap(name)
@@ -594,7 +594,7 @@ function ExtendedTabbing:tabToSelectedVehicle(actionName, keyStatus, arg3, arg4,
 end	
 
 function ExtendedTabbing:updateSlots()
-	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then return; end
+	if ExtendedTabbing.data[ExtendedTabbing.selfID] == nil then print("nil"); return; else print("not nil"); end
 	local visible = ExtendedTabbing.data[ExtendedTabbing.selfID].showSlots
 	for slot=1,5 do
 		local id = ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[slot]
@@ -630,11 +630,11 @@ function ExtendedTabbing:update(dt)
 				end
 			end	
 		end
+		ExtendedTabbing:updateSlots()
 		ExtendedTabbing.checkedEntries = true
-		ExtendedTabbing.initSlotKeys = true
 	end
 
-	if not ExtendedTabbing.checkedEntries then return end
+	--if not ExtendedTabbing.checkedEntries then return end
 	 
 	-- Show information if vehicles couldn't reassigned completely
 	if g_currentMission.isMissionStarted and ExtendedTabbing.vehiclesHaveChanged and g_currentMission.hud ~= nil and g_dedicatedServerInfo == nil then
