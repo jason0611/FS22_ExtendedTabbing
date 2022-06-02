@@ -624,7 +624,7 @@ function ExtendedTabbing:update(dt)
 					ExtendedTabbing.vehiclesHaveChanged = true
 				else
 					dbgprint("update : checkEntries : "..tostring(ExtendedTabbing.data[ExtendedTabbing.selfID].slotID[i]).." got assigned", 2)
-					ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
+					--ExtendedTabbing.actionEventText[i] = g_i18n:getText("l10n_XTB_FAV_SET"..tostring(i))..vehicle:getName()
 				end
 			end	
 		end
