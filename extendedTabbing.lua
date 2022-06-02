@@ -1,7 +1,7 @@
 -- Extended Tabbing for LS 19
 --
 -- Author: Jason06 / Glowins Mod-Schmiede
--- Version: 1.9.0.6
+-- Version: 1.9.0.7
 --
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
