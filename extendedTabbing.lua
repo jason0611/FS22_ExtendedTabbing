@@ -731,7 +731,7 @@ if g_specializationManager:getSpecializationByName("ExtendedTabbingID") == nil t
   local specName = g_currentModName
   g_specializationManager:addSpecialization("ExtendedTabbingID", "ExtendedTabbingID", g_currentModDirectory.."extendedTabbingID.lua", nil)
   for typeName, typeEntry in pairs(g_vehicleTypeManager.types) do
-    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) then
+    if SpecializationUtil.hasSpecialization(Enterable, typeEntry.specializations) and not SpecializationUtil.hasSpecialization(Rideable, typeEntry.specializations) then
       	g_vehicleTypeManager:addSpecialization(typeName, specName..".ExtendedTabbingID")
 		dbgprint("ExtendedTabbingID registered for "..typeName, 1)
     end
