@@ -17,7 +17,6 @@ Features:
 ======================
 
 # FS22_ExtendedTabbing 
-https://farming-simulator.com/mod.php?mod_id=209247
 
 Mod für LS22 zum "tabben" in das jeweils nächstgelegene Fahrzeug
  
